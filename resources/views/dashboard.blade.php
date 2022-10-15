@@ -127,32 +127,7 @@
                     {{-- @endif --}}
                 </div>
             </form>
-        
-        <!-- Dashboard Analytics Start -->
-        <section id="dashboard-analytics" style="background-color: white; padding: 25px;border-radius: 10px;display: none">
-              <!-- Modal -->
-              {{-- <div class="btn float-right"><button class="btn btn-primary" id="filter_btn">Filter</button></div> --}}
-              <div id="full_calendar_events" style="margin-left: 1%;margin-right: 2%;" ></div>
-             
-                <div class="modal rounded hide fade" id="pracavailable" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header" style="background-color: #07d1e3;">
-                                <h5 class="modal-title" id="exampleModalLabel" style="color: white;">Task information</h5>
-                            </div>
-                            <div class="modal-body" id="calander_tasks">
-                            
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-        </section>
-        
-        <!-- Dashboard Analytics end -->
-        {{-- <div id="all_tasks"></div> --}}
+
     </div>
 </div>
 @endsection
