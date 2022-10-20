@@ -1,6 +1,15 @@
-jQuery(document).ready(function() {
+$(window).on('load', function () {
+    if (feather) {
+        feather.replace({
+            width: 14,
+            height: 14
+        });
+    }
+});
 
-    $("#theme_layout").click(function(event) {
+jQuery(document).ready(function () {
+
+    $("#theme_layout").click(function (event) {
         $.ajax({
             method: "post",
             url: "{{ URL::to('theme_mode') }}",
@@ -8,18 +17,18 @@ jQuery(document).ready(function() {
                 _token: "{{ csrf_token() }}"
             },
 
-            success: function(data) {},
-            error: function(e) {}
+            success: function (data) { },
+            error: function (e) { }
         });
 
     });
-    
-    setTimeout(function() {
+
+    setTimeout(function () {
         $('.alert-success').hide();
     }, 4000);
 
     // Add email Shortcodes
-    $("#emaiil_short_codes").change(function(e) {
+    $("#emaiil_short_codes").change(function (e) {
         var email_message = $('#email_message').val();
         $("#email_message").val(email_message + " " + e.target.value).focus();
     });
@@ -31,13 +40,13 @@ jQuery(document).ready(function() {
         theme: 'snow'
     });
 
-    $(document).on('submit', '#email_msg_form', function(event) {
+    $(document).on('submit', '#email_msg_form', function (event) {
         // $("#editorClone").val($(".editor").html());
         $("#editorClone").val($('.ql-editor').html());
-        
+
     });
 
-    $(document).on('click', '#delButton, #block_user', function(event) {
+    $(document).on('click', '#delButton, #block_user', function (event) {
         var btn_txt = $(this).text();
         var form = $(this).closest("form");
         var name = $(this).data("name");
@@ -48,11 +57,11 @@ jQuery(document).ready(function() {
             buttons: ["No", "Yes"],
             dangerMode: true,
         })
-        .then((willDelete) => {
-            if (willDelete) {
-                form.submit();
-            }
-        });
+            .then((willDelete) => {
+                if (willDelete) {
+                    form.submit();
+                }
+            });
 
         if (btn_txt == 'Block' || btn_txt == 'Unblock') {
             swal({
@@ -61,11 +70,11 @@ jQuery(document).ready(function() {
                 buttons: ["No", "Yes"],
                 dangerMode: true,
             })
-            .then((willDelete) => {
-                if (willDelete) {
-                    form.submit();
-                }
-            });
+                .then((willDelete) => {
+                    if (willDelete) {
+                        form.submit();
+                    }
+                });
         }
     });
 
@@ -83,30 +92,22 @@ jQuery(document).ready(function() {
     //         e.preventDefault();
     //     }
     // });
-    
+
     // $("button").click(function(e) {
     //     var par = $(this).parent();
     //     setCursorPos(par.find(":input.getPos")[0], +par.find(".posStart").val(), +par.find(".posEnd").val());
     // });
-        
+
     // $('.ql-editor').keyup(function() {
-        // var keyed = $(this).val().replace(/\n/g, '<br/>');
-        // console.log($(this).val().indexOf('*'));
-        
-        // console.log(keyed);
-        // var keyed = $(this).val().replace(/\n/g, '<br/>');
-        // $("#target").html(keyed);
+    // var keyed = $(this).val().replace(/\n/g, '<br/>');
+    // console.log($(this).val().indexOf('*'));
+
+    // console.log(keyed);
+    // var keyed = $(this).val().replace(/\n/g, '<br/>');
+    // $("#target").html(keyed);
     // }); 
-    
-    $(window).on('load', function() {
-        if (feather) {
-            feather.replace({
-                width: 14,
-                height: 14
-            });
-        }
-    });
-    
+
+
 });
 
 

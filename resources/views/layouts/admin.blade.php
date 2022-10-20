@@ -554,6 +554,7 @@
 
     <script src="{{ asset('app-assets/js/scripts/sweetalert/sweetalert.min.js') }}"></script>
     <!-- END: Page JS-->
+    <script src="{{ asset('js/main.js') }}"></script>
 
     {{-- /\b<find_string>\b/ --}}
     @if (preg_match('/\bcategory\b/', Request::path() ))
@@ -572,8 +573,7 @@
         <!-- Sub Category Script -->
         <script src="{{ asset('js/sub_menu.js') }}"></script>
     @endif
-
-    <script src="{{ asset('js/main.js') }}"></script>
+   
     @yield('scripts')
     @yield('notificationScript')
 
