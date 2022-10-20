@@ -412,6 +412,24 @@
                         </li>
                     </ul>
                 </li>
+                <li class="nav-item">
+                    <a class="d-flex align-items-center" href="#"><i data-feather="list"></i><span class="menu-title text-truncate" data-i18n="Task">Menu</span></a>
+                    <ul class="menu-content">
+                        <li class="{{ Request::path() == 'menu' ? 'active' : '' }}"><a class="d-flex align-items-center" href="{{ url('menu') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="List">List</span></a>
+                        </li>
+                        <li class="{{ Request::path() == 'menu/create' ? 'active' : '' }}"><a class="d-flex align-items-center" href="{{ url('menu/create') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Add">Add</span></a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="d-flex align-items-center" href="#"><i data-feather="list"></i><span class="menu-title text-truncate" data-i18n="Task">Sub Menu</span></a>
+                    <ul class="menu-content">
+                        <li class="{{ Request::path() == 'sub_menu' ? 'active' : '' }}"><a class="d-flex align-items-center" href="{{ url('sub_menu') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="List">List</span></a>
+                        </li>
+                        <li class="{{ Request::path() == 'sub_menu/create' ? 'active' : '' }}"><a class="d-flex align-items-center" href="{{ url('sub_menu/create') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Add">Add</span></a>
+                        </li>
+                    </ul>
+                </li>
             @endif
 
             </ul>
@@ -547,6 +565,12 @@
     @elseif (preg_match('/\buser\b/', Request::path() ))
         <!-- Sub Category Script -->
         <script src="{{ asset('js/user.js') }}"></script>
+    @elseif (preg_match('/\bmenu\b/', Request::path() ))
+        <!-- Sub Category Script -->
+        <script src="{{ asset('js/menu.js') }}"></script>
+    @elseif (preg_match('/\bsub_menu\b/', Request::path() ))
+        <!-- Sub Category Script -->
+        <script src="{{ asset('js/sub_menu.js') }}"></script>
     @endif
 
     <script src="{{ asset('js/main.js') }}"></script>

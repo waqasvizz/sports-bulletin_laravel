@@ -1,6 +1,9 @@
 jQuery(document).ready(function() {
 
-    getCategoryAjaxData();
+    var path = $(location).attr("pathname");
+    if (path === '/category'){
+        getCategoryAjaxData();
+    }
 
     //Categories Links 
     $(document).on('click', '.cat_links .pagination a', function(event) {

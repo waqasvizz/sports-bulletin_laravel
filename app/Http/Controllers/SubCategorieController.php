@@ -83,7 +83,7 @@ class SubCategorieController extends Controller
                     $data['image'] = $file_path;
                 } else {
                     return back()->withErrors([
-                        'image' => 'The Profile image format is not correct you can only upload (jpg, jpeg, png).',
+                        'image' => 'The image format is not correct you can only upload (jpg, jpeg, png).',
                     ])->withInput();
                 }
             }
@@ -218,7 +218,7 @@ class SubCategorieController extends Controller
                 $requested_data['image'] = $file_path;
             } else {
                 return back()->withErrors([
-                    'image' => 'The Profile image format is not correct you can only upload (jpg, jpeg, png).',
+                    'image' => 'The image format is not correct you can only upload (jpg, jpeg, png).',
                 ])->withInput();
             }
         }

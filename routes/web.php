@@ -7,6 +7,8 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\EmailShortCodeController;
 use App\Http\Controllers\EmailMessageController;
 use App\Http\Controllers\CategorieController;
+use App\Http\Controllers\MenuController;
+use App\Http\Controllers\SubMenuController;
 use App\Http\Controllers\SubCategorieController;
 
 //
@@ -24,7 +26,7 @@ use App\Http\Controllers\SubCategorieController;
 Route::get('/clear-cache', function() {
     Artisan::call('optimize');
     Artisan::call('cache:clear');
-    Artisan::call('view:clear');    
+    Artisan::call('view:clear');
     //Artisan::call('route:cache');
     //Artisan::call('route:clear');
     //Artisan::call('config:cache');
@@ -113,7 +115,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/theme_mode', [UserController::class, 'theme_layout']);
     Route::post('/get_users', [UserController::class, 'ajax_get_users']);
     Route::post('/get_categories', [CategorieController::class, 'ajax_get_categories']);
+    Route::post('/get_menus', [MenuController::class, 'ajax_get_menus']);
     Route::post('/get_sub_categories', [SubCategorieController::class, 'ajax_get_sub_categories']);
+    Route::post('/get_sub_menus', [SubMenuController::class, 'ajax_get_sub_menus']);
     Route::post('/notification_token', [NotificationController::class, 'get_notificatiion_token']);
 
     Route::get('/admin', [UserController::class, 'dashboard']);
@@ -127,6 +131,8 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('user', UserController::class);
     Route::resource('category', CategorieController::class);
     Route::resource('sub_category', SubCategorieController::class);
+    Route::resource('menu', MenuController::class);
+    Route::resource('sub_menu', SubMenuController::class);
     Route::resource('notification', NotificationController::class);
     Route::resource('emailMessage', EmailMessageController::class);
     Route::resource('short_codes', EmailShortCodeController::class);

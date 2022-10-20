@@ -23,6 +23,8 @@ use App\Models\ShortCode;
 use App\Models\Product;
 use App\Models\Categorie;
 use App\Models\SubCategorie;
+use App\Models\Menu;
+use App\Models\SubMenu;
 
 use DB;
 use Validator;
@@ -47,6 +49,8 @@ class Controller extends BaseController
     public $EmailShortCodeObj;
     public $CategorieObj;
     public $SubCategorieObj;
+    public $MenuObj;
+    public $SubMenuObj;
 
 
     public function __construct() {
@@ -61,6 +65,8 @@ class Controller extends BaseController
         $this->EmailShortCodeObj = new ShortCode();
         $this->CategorieObj = new Categorie();
         $this->SubCategorieObj = new SubCategorie();
+        $this->MenuObj = new Menu();
+        $this->SubMenuObj = new SubMenu();
     }
 
     /**

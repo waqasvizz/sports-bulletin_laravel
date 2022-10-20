@@ -1,7 +1,11 @@
 
 jQuery(document).ready(function() {
 
-    getUserAjaxData();
+    var path = $(location).attr("pathname");
+    if (path === '/user'){
+        getUserAjaxData();
+    }
+    
 
     $(document).on('click', '#delButton, #block_user', function(event) {
         var btn_txt = $(this).text();

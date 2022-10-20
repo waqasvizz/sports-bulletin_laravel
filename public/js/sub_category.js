@@ -1,6 +1,9 @@
 jQuery(document).ready(function() {
 
-    getSubCategoryAjaxData();
+    var path = $(location).attr("pathname");
+    if (path === '/sub_category'){
+        getSubCategoryAjaxData();
+    }
 
     //Sub Categories Links 
     $(document).on('click', '.sub_cat_links .pagination a', function(event) {

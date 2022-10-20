@@ -37,6 +37,38 @@ jQuery(document).ready(function() {
         
     });
 
+    $(document).on('click', '#delButton, #block_user', function(event) {
+        var btn_txt = $(this).text();
+        var form = $(this).closest("form");
+        var name = $(this).data("name");
+        event.preventDefault();
+        swal({
+            title: `Are you sure you want to delete this record?`,
+            icon: "warning",
+            buttons: ["No", "Yes"],
+            dangerMode: true,
+        })
+        .then((willDelete) => {
+            if (willDelete) {
+                form.submit();
+            }
+        });
+
+        if (btn_txt == 'Block' || btn_txt == 'Unblock') {
+            swal({
+                title: `Are you sure you want to update this record?`,
+                icon: "warning",
+                buttons: ["No", "Yes"],
+                dangerMode: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    form.submit();
+                }
+            });
+        }
+    });
+
     // $(":textarea.getPos").on("keyup click", function(e) {
     //     var pos = getCursorPos(this);
 
