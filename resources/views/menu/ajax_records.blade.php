@@ -45,7 +45,9 @@
                                     </div>
                                 </td>
                             @else
-                                <td>{{ $item['asset_value'] }}</td>
+                            <td>
+                                {{ $item['asset_value'] }}
+                            </td>
                             @endif
                             <td>
                                 <button type="button" class="btn btn-sm dropdown-toggle hide-arrow waves-effect waves-float waves-light" data-toggle="dropdown">

@@ -66,17 +66,6 @@
                                 <div class="row">
 
                                     @if (isset($data->id))
-                                    <div class="col-md-6 col-12">
-                                        <div class="form-group">
-                                            <label for="first_name">Menu Slug</label>
-                                            <input value="{{old('slug', isset($data->slug)? $data->slug: '')}}" type="text" id="slug" class="form-control @error('slug') is-invalid @enderror" placeholder="Menu Slug" name="slug">
-                                            @error('slug')
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                            @enderror
-                                        </div>
-                                    </div>
                                     
                                     <div class="col-md-6 col-12">
                                         <div class="form-group">
@@ -96,12 +85,6 @@
                                             @enderror
                                         </div>
                                     </div>
-                                    @endif
-
-                                </div>                                                                
-                                <div class="row">
-
-                                    @if (isset($data->id))
                                     <div class="col-md-6 col-12">
                                         <div class="form-group">
                                             <label for="status">Status</label>
@@ -122,6 +105,9 @@
                                     </div>
                                     @endif
 
+                                </div>                                                                
+                                <div class="row">
+
                                     <div class="col-md-6 col-12">
                                         <div class="form-group">
                                             <label for="asset_type">Icon Type</label>
@@ -141,14 +127,26 @@
                                         </div>
                                     </div>
 
-                                </div>
-                                <div class="row">
+                                    @php
+                                        $icon_display = 'none';
+                                        $image_display = 'none';
+                                    @endphp
 
-                                    <div class="col-md-6 col-12 icon_div" style="display: {{ old('asset_type') == 'Icon' ? 'block' : 'none' }};">
+                                    @if ( (old('asset_type') == 'Icon') || ( isset($data->asset_type) && $data->asset_type == 'Icon') )
+                                        @php $icon_display = 'block'; @endphp
+                                    @endif
+                                    @if ( (old('asset_type') == 'Image') || ( isset($data->asset_type) && $data->asset_type == 'Image') )
+                                        @php $image_display = 'block'; @endphp
+                                    @endif
+
+                                    <div class="col-md-6 col-12 icon_div" style="display: {{ $icon_display }};">
                                         <div class="form-group">
                                             <label for="first_name">Icon</label>
-                                            <input value="{{old('icon', isset($data->icon)? $data->icon: '')}}" type="text" id="icon" class="form-control @error('icon') is-invalid @enderror" placeholder="Icon Name" name="icon">
-                                            @error('icon')
+                                            
+                                            {{--<input value="{{old('asset_value', isset($data->asset_value)? $data->asset_value: '', $icon_display != 'none' ? $data->asset_value: '')}}" type="text" id="icon" class="form-control @error('asset_value') is-invalid @enderror" placeholder="Icon Name" name="asset_value">--}}
+                                            <!-- <input value="{{ isset($value) ? $value : ''}}" type="text" id="icon" class="form-control @error('asset_value') is-invalid @enderror" placeholder="Icon Name" name="asset_value"> -->
+                                            <input value="{{ old('icon', isset($data->asset_type) && $data->asset_type == 'Icon' ? $data->asset_value: '')}}" type="text" id="icon" class="form-control @error('asset_value') is-invalid @enderror" placeholder="Icon Name" name="asset_value">
+                                            @error('asset_value')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
                                                 </span>
@@ -156,20 +154,20 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-6 col-12 image_div mb-1" style="display: {{ old('asset_type') == 'Image' ? 'block' : 'none' }};">
+                                    <div class="col-md-6 col-12 image_div mb-1" style="display: {{ $image_display }};">
                                         <label for="image">Image</label>
                                         <div class="input-group">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text basic-addon">
                                                     <div class="display_images">
-                                                        @if (isset($data->image) && !empty($data->image))
-                                                        <a data-fancybox="demo" data-src="{{ is_image_exist($data->image) }}"><img title="{{ $data->name }}" src="{{ is_image_exist($data->image) }}" height="100"></a>
+                                                        @if (isset($data->asset_value) && !empty($data->asset_value && $image_display != 'none' ))
+                                                        <a data-fancybox="demo" data-src="{{ is_image_exist($data->asset_value) }}"><img title="{{ $data->name }}" src="{{ is_image_exist($data->asset_value) }}" height="100"></a>
                                                         @endif
                                                     </div>
                                                 </span>
                                             </div>
-                                            <input type="file" id="image" data-img-val="" class="form-control @error('image') is-invalid @enderror" placeholder="Profile Image" name="image">
-                                            @error('image')
+                                            <input type="file" id="image" data-img-val="" class="form-control @error('asset_value') is-invalid @enderror" placeholder="Profile Image" name="asset_value">
+                                            @error('asset_value')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
                                                 </span>
@@ -179,11 +177,20 @@
 
                                 </div>
 
-                                <div class="row">
 
-                                    
-
-                                </div>
+                                {{-- <div class="row">
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group">
+                                            <label for="first_name">Menu Slug</label>
+                                            <input value="{{old('slug', isset($data->slug)? $data->slug: '')}}" type="text" id="slug" class="form-control @error('slug') is-invalid @enderror" placeholder="Menu Slug" name="slug">
+                                            @error('slug')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div> --}}
 
                                 <div class="row">
                                     <div class="col-12">

@@ -104,8 +104,11 @@ class SubMenu extends Model
         if (isset($posted_data['status'])) {
             $data->status = $posted_data['status'];
         }
-        if (isset($posted_data['image'])) {
-            $data->image = $posted_data['image'];
+        if (isset($posted_data['asset_type'])) {
+            $data->asset_type = $posted_data['asset_type'];
+        }
+        if (isset($posted_data['asset_value'])) {
+            $data->asset_value = $posted_data['asset_value'];
         }
 
         $data->save();

@@ -56,13 +56,19 @@ class MenuController extends Controller
             'title' => 'required',
             'url' => 'required',
             'asset_type' => 'required|in:Icon,Image',
-            'icon' => ($posted_data['asset_type'] == 'Icon') ? 'required' : '',
-            'image' => ($posted_data['asset_type'] == 'Image') ? 'required' : '',
+            'asset_value' => 'required',
         );
 
         $validator = \Validator::make($posted_data, $rules);
 
         if ($validator->fails()) {
+
+            // echo "<pre>";
+            // echo "0000"."<br>";
+            // print_r($validator->errors());
+            // echo "</pre>";
+            // exit("@@@@");
+
             return redirect()->back()->withErrors($validator)->withInput();
             // ->withInput($request->except('password'));
         } else {
@@ -79,19 +85,19 @@ class MenuController extends Controller
             $data['slug'] = $slug;
             $data['sort_order'] = ++$count;
             $data['asset_type'] = $posted_data['asset_type'];
-            $data['asset_value'] = ($posted_data['asset_type'] == 'Icon') ? $posted_data['icon'] : '';
+            $data['asset_value'] = $posted_data['asset_value'];
 
             $base_url = public_path();
-            if( $request->file('image') && $posted_data['asset_type'] == 'Image' ) {
-                $extension = $request->image->getClientOriginalExtension();
+            if( $request->file('asset_value') && $posted_data['asset_type'] == 'Image' ) {
+                $extension = $request->asset_value->getClientOriginalExtension();
                 if($extension == 'jpg' || $extension == 'jpeg' || $extension == 'png'){
                     
-                    $file_name = time().'_'.$request->image->getClientOriginalName();
-                    $file_path = $request->file('image')->storeAs('other_images', $file_name, 'public');
+                    $file_name = time().'_'.$request->asset_value->getClientOriginalName();
+                    $file_path = $request->file('asset_value')->storeAs('other_images', $file_name, 'public');
                     $data['asset_value'] = $file_path;
                 } else {
                     return back()->withErrors([
-                        'image' => 'The image format is not correct you can only upload (jpg, jpeg, png).',
+                        'asset_value' => 'The image format is not correct you can only upload (jpg, jpeg, png).',
                     ])->withInput();
                 }
             }
@@ -140,12 +146,6 @@ class MenuController extends Controller
         $data['statuses'] = $this->MenuObj::Menu_Status_Constants;
         $data['asset_types'] = $this->MenuObj::Menu_Asset_Type_Constants;
 
-        // echo "Line no @"."<br>";
-        // echo "<pre>";
-        // print_r($data->toArray());
-        // echo "</pre>";
-        // exit("@@@@");
-
         return view('menu.add',compact('data'));
     }
     
@@ -163,7 +163,12 @@ class MenuController extends Controller
         $validator = \Validator::make($requested_data, [
             'update_id' => 'required',
             'title' => 'required',
-            'status' => 'required|in:Draft,Published'
+            'url' => 'required',
+            'ordering' => 'required',
+            'status' => 'required|in:Draft,Published',
+            'asset_type' => 'required|in:Icon,Image',
+            // 'asset_value' => 'required',
+            // 'asset_value' => $requested_data['asset_type'] == 'Icon' ? 'required' : '',
         ]);
    
         if($validator->fails()){
@@ -176,23 +181,23 @@ class MenuController extends Controller
         $update_rec = Menu::getMenus($posted_data)->toArray();
 
         $base_url = public_path();
-        if($request->file('image')) {
-            $extension = $request->image->getClientOriginalExtension();
+        if($request->file('asset_value')) {
+            $extension = $request->asset_value->getClientOriginalExtension();
             if($extension == 'jpg' || $extension == 'jpeg' || $extension == 'png'){
 
-                if (!is_null($update_rec['image'])) {
-                    $url = $base_url.'/'.$update_rec['image'];
+                if (!is_null($update_rec['asset_value'])) {
+                    $url = $base_url.'/'.$update_rec['asset_value'];
                     if (file_exists($url)) {
                         unlink($url);
                     }
                 }   
                 
-                $file_name = time().'_'.$request->image->getClientOriginalName();
-                $file_path = $request->file('image')->storeAs('other_images', $file_name, 'public');
-                $requested_data['image'] = $file_path;
+                $file_name = time().'_'.$request->asset_value->getClientOriginalName();
+                $file_path = $request->file('asset_value')->storeAs('other_images', $file_name, 'public');
+                $requested_data['asset_value'] = $file_path;
             } else {
                 return back()->withErrors([
-                    'image' => 'The image format is not correct you can only upload (jpg, jpeg, png).',
+                    'asset_value' => 'The image format is not correct you can only upload (jpg, jpeg, png).',
                 ])->withInput();
             }
         }

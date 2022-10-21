@@ -135,7 +135,7 @@ class SubMenuController extends Controller
         }
 
         $data['all_opts'] = $arr;
-        $data['statuses'] = $this->SubMenuObj::SubMenu_Constants;
+        $data['statuses'] = $this->SubMenuObj::SubMenu_Status_Constants;
 
         return view('sub_menus.add',compact('data'));
     }
@@ -161,6 +161,8 @@ class SubMenuController extends Controller
         if($validator->fails()){
             return redirect()->back()->withErrors($validator)->withInput();   
         }
+
+        // exit('okaa');
 
         $posted_data = array();
         $posted_data['without_with'] = true;
@@ -209,8 +211,8 @@ class SubMenuController extends Controller
             $extension = $request->image->getClientOriginalExtension();
             if($extension == 'jpg' || $extension == 'jpeg' || $extension == 'png'){
 
-                if (!is_null($update_rec['image'])) {
-                    $url = $base_url.'/'.$update_rec['image'];
+                if (!is_null($update_rec['asset_value'])) {
+                    $url = $base_url.'/'.$update_rec['asset_value'];
                     if (file_exists($url)) {
                         unlink($url);
                     }
@@ -218,7 +220,7 @@ class SubMenuController extends Controller
                 
                 $file_name = time().'_'.$request->image->getClientOriginalName();
                 $file_path = $request->file('image')->storeAs('other_images', $file_name, 'public');
-                $requested_data['image'] = $file_path;
+                $requested_data['asset_value'] = $file_path;
             } else {
                 return back()->withErrors([
                     'image' => 'The image format is not correct you can only upload (jpg, jpeg, png).',
