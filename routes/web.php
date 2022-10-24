@@ -8,6 +8,7 @@ use App\Http\Controllers\EmailShortCodeController;
 use App\Http\Controllers\EmailMessageController;
 use App\Http\Controllers\CategorieController;
 use App\Http\Controllers\MenuController;
+use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\SubMenuController;
 use App\Http\Controllers\SubCategorieController;
 
@@ -132,6 +133,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('category', CategorieController::class);
     Route::resource('sub_category', SubCategorieController::class);
     Route::resource('menu', MenuController::class);
+    Route::resource('permission', PermissionController::class);
     Route::resource('sub_menu', SubMenuController::class);
     Route::resource('notification', NotificationController::class);
     Route::resource('emailMessage', EmailMessageController::class);

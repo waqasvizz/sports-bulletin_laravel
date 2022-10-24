@@ -91,7 +91,7 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Role $role)
+    public function update(Request $request, $id = 0)
     {
         $input = $request->all();
    
@@ -102,9 +102,17 @@ class RoleController extends Controller
         if($validator->fails()){
             return redirect()->back()->withErrors($validator)->withInput();   
         }
-   
-        $role->name = $input['name'];
-        $role->save();
+
+        if ($id == 0) {
+            \Session::flash('error_message', 'Something went wrong. Please post correct role id.');
+            return redirect('/role');
+        }
+        
+        $data = array();
+        $data['update_id'] = $id;
+        $data['name'] = $input['name'];
+
+        $response = $this->RoleObj->saveUpdateRole($data);
 
         \Session::flash('message', 'Role updated successfully!');
         return redirect('/role');

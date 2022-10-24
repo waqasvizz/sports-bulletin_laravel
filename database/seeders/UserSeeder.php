@@ -25,7 +25,7 @@ class UserSeeder extends Seeder
                     DB::table('users')->insert([
 
                         [
-                            'role' => 1,
+                            // 'role' => 1,
                             'first_name' => 'Vizz',
                             'last_name' => 'Vizz Admin',
                             'email' => 'vizzadmin@gmail.com',
@@ -33,51 +33,6 @@ class UserSeeder extends Seeder
                             'created_at' => now(),
                             'updated_at' => now(),
                         ],
-                        [
-                            'role' => 2,
-                            'first_name' => 'Vizz',
-                            'last_name' => 'Client',
-                            'email' => 'vizzclient@gmail.com',
-                            'password' => bcrypt('12345678@w'),
-                            'created_at' => now(),
-                            'updated_at' => now(),
-                        ],
-                        [
-                            'role' => 3,
-                            'first_name' => 'Vizz',
-                            'last_name' => 'Staff',
-                            'email' => 'vizzstaff@gmail.com',
-                            'password' => bcrypt('12345678@w'),
-                            'created_at' => now(),
-                            'updated_at' => now(),
-                        ],
-                        [
-                            'role' => 3,
-                            'first_name' => 'Vizz',
-                            'last_name' => 'sales',
-                            'email' => 'sales@urbanpods.co.uk',
-                            'password' => bcrypt('12345678@w'),
-                            'created_at' => now(),
-                            'updated_at' => now(),
-                        ],
-                        [
-                            'role' => 3,
-                            'first_name' => 'Vizz',
-                            'last_name' => 'foreman',
-                            'email' => 'foreman@urbanpods.co.uk',
-                            'password' => bcrypt('12345678@w'),
-                            'created_at' => now(),
-                            'updated_at' => now(),
-                        ],
-                        [
-                            'role' => 3,
-                            'first_name' => 'Vizz',
-                            'last_name' => 'customercare',
-                            'email' => 'customercare@urbanpods.co.uk',
-                            'password' => bcrypt('12345678@w'),
-                            'created_at' => now(),
-                            'updated_at' => now(),
-                        ]
                     ]);
                 } else { echo "<br>[User Table is not empty] "; }
 

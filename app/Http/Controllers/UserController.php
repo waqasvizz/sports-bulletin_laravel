@@ -94,7 +94,7 @@ class UserController extends Controller
         echo "AFTER"."<br>";
         print_r($data_sources);
         echo "</pre>";
-        exit("@@@@");
+        // exit("@@@@");
     }
     
     public function welcome()
@@ -215,11 +215,12 @@ class UserController extends Controller
     public function index()
     {
         $data = array();
-        $data['roles'] = Role::getRoles();
-        
-        // $posted_data = array();
-        // $posted_data['paginate'] = 10;
-        // $data['users'] = User::getUser($posted_data);
+        $data['all_roles'] = Role::getRoles();
+        $data['assigned_roles'] = \Auth::user()->getRoleNames();
+
+        $posted_data = array();
+        $posted_data['paginate'] = 10;
+        $data['users'] = User::getUser($posted_data);
 
         return view('user.list', compact('data'));
     }
@@ -314,7 +315,9 @@ class UserController extends Controller
                     }
                 }
                 
-                $last_rec = User::saveUpdateUser($posted_data);
+                $latest_user = User::saveUpdateUser($posted_data);
+                
+                $latest_user->assignRole($posted_data['role']);
 
                 Session::flash('message', 'User Register Successfully!');
 
@@ -337,6 +340,7 @@ class UserController extends Controller
         $posted_data = $request->all();
         $posted_data['paginate'] = 10;
         $data['users'] = $this->UserObj->getUser($posted_data);
+
         return view('user.ajax_records', compact('data'));
     }
 
@@ -373,19 +377,17 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        
         $posted_data = array();
         $posted_data['id'] = $id;
         $posted_data['detail'] = true;
         $data = User::getUser($posted_data);
-
  
         $posted_data = array();
         $posted_data['orderBy_name'] = 'name';
         $posted_data['orderBy_value'] = 'Asc';
         $data['roles'] = Role::getRoles($posted_data);
+        $data['user_role'] = count(\Auth::user()->getRoleNames()) > 0 ? \Auth::user()->getRoleNames()[0] : '';
         
-
         return view('user.add',compact('data'));
     }
 
@@ -439,11 +441,19 @@ class UserController extends Controller
             // ->withInput($request->except('password'));
         } else {
 
+
+
             try{
                 $posted_data['update_id'] = $id;
                 $posted_data['role'] = $posted_data['user_role'];
 
+                $user = User::getUser(['id' => $id, 'detail' => true]);
 
+                if ($user) {
+                    $pre_role = count($user->getRoleNames()) > 0 ? $user->getRoleNames()[0] : '';
+                    $user->removeRole($pre_role);
+                    $user->assignRole($posted_data['user_role']);
+                }
 
                 // if($posted_data['role'] == 2 || $posted_data['role'] == 3){
 
@@ -556,13 +566,13 @@ class UserController extends Controller
         if (Auth::attempt($credentials)) {
 
 
-            if(Auth::user()->role == 1){
+            // if(Auth::user()->role == 1){
                 return redirect('/admin');
-            }else if(Auth::user()->role == 2){
-                return redirect('/client');
-            }else if(Auth::user()->role == 3){
-                return redirect('/staff');
-            }
+            // }else if(Auth::user()->role == 2){
+            //     return redirect('/client');
+            // }else if(Auth::user()->role == 3){
+            //     return redirect('/staff');
+            // }
         }else{
             return back()->withErrors([
                 'email' => 'The provided credentials do not match our records.',

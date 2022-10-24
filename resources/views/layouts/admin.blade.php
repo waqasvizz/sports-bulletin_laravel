@@ -260,19 +260,12 @@
                             <span class="user-name font-weight-bolder">
                                 {{ Auth::user()->first_name.' '.  Auth::user()->last_name }}
                             </span>
-                            <span class="user-status">
-                                @php
-                                if(Auth::user()->role == 1){
-                                echo 'Admin';
-
-                                }else if(Auth::user()->role == 2){
-                                echo 'Client';
-
-                                }else if(Auth::user()->role == 3){
-                                echo 'Staff';
-
-                                }
-                                @endphp
+                            <span class="user-status">                                
+                                @if (Auth::user()->hasRole('Admin'))
+                                    Admin
+                                @else
+                                    Quest
+                                @endif
                             </span>
                         </div>
                         <span class="avatar">
@@ -348,13 +341,8 @@
             {{-- @if(Cache::has('user-is-online' . Auth::user()->id)) --}}
             <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
 
-                @if (Auth::user()->role == 1)
                 <li class="{{ Request::path() == 'admin' ? 'active' : '' }} nav-item"><a class="d-flex align-items-center" href="{{ url('admin') }}"><i data-feather="home"></i><span class="menu-title text-truncate" data-i18n="Dashboards">Dashboard</span></a>
-                    @elseif (Auth::user()->role == 2)
-                <li class="{{ Request::path() == 'client' ? 'active' : '' }} nav-item"><a class="d-flex align-items-center" href="{{ url('client') }}"><i data-feather="home"></i><span class="menu-title text-truncate" data-i18n="Dashboards">Dashboard</span></a>
-                    @elseif (Auth::user()->role == 3)
-                <li class="{{ Request::path() == 'staff' ? 'active' : '' }} nav-item"><a class="d-flex align-items-center" href="{{ url('staff') }}"><i data-feather="home"></i><span class="menu-title text-truncate" data-i18n="Dashboards">Dashboard</span></a>
-                    @endif
+            
 
                 <li class=" navigation-header"><span data-i18n="Apps &amp; Pages">Apps &amp; Pages</span><i data-feather="more-horizontal"></i>
                 </li>
@@ -366,7 +354,8 @@
                 </li>
             </ul>
             </li>
-            @if (Auth::user()->role == 1)
+
+            
                 <li class=" nav-item">
                     <a class="d-flex align-items-center" href="#"><i data-feather="user"></i><span class="menu-title text-truncate" data-i18n="User">User</span></a>
                     <ul class="menu-content">
@@ -413,6 +402,15 @@
                     </ul>
                 </li>
                 <li class="nav-item">
+                    <a class="d-flex align-items-center" href="#"><i data-feather="list"></i><span class="menu-title text-truncate" data-i18n="Task">Permission</span></a>
+                    <ul class="menu-content">
+                        <li class="{{ Request::path() == 'permission' ? 'active' : '' }}"><a class="d-flex align-items-center" href="{{ url('permission') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="List">List</span></a>
+                        </li>
+                        <li class="{{ Request::path() == 'permission/create' ? 'active' : '' }}"><a class="d-flex align-items-center" href="{{ url('permission/create') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Add">Add</span></a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
                     <a class="d-flex align-items-center" href="#"><i data-feather="list"></i><span class="menu-title text-truncate" data-i18n="Task">Menu</span></a>
                     <ul class="menu-content">
                         <li class="{{ Request::path() == 'menu' ? 'active' : '' }}"><a class="d-flex align-items-center" href="{{ url('menu') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="List">List</span></a>
@@ -430,7 +428,7 @@
                         </li>
                     </ul>
                 </li>
-            @endif
+                
 
             </ul>
         </div>

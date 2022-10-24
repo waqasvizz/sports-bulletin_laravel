@@ -1,5 +1,3 @@
-
-
 @if (isset($data->id))
     @section('title', 'Update User')
 @else
@@ -68,7 +66,7 @@
                                                         <option value="">Choose an option</option>
                                                         @if (isset($data['roles']) && count($data['roles'])>0)
                                                             @foreach ($data['roles'] as $item)
-                                                                <option {{ old('user_role') == $item['id'] || (isset($data->role) && $data->role==$item['id'])? 'selected': '' }} value="{{ $item['id'] }}">{{ $item['name'] }}</option>
+                                                                <option {{ old('user_role') == $item['name'] || (isset($data->user_role) && $data->user_role==$item['name'])? 'selected': '' }} value="{{ $item['name'] }}">{{ $item['name'] }}</option>
                                                             @endforeach
                                                         @endif
                                                     </select>

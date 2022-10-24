@@ -11,10 +11,11 @@ use Illuminate\Support\Facades\Hash;
 use Carbon;
 use Laravel\Passport\HasApiTokens;
 use DB;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -51,11 +52,11 @@ class User extends Authenticatable
     ];
 
 
-    public function Role()
-    {
-        return $this->belongsTo(Role::class, 'role')
-            ->select(['id', 'name']);
-    }
+    // public function Role()
+    // {
+    //     return $this->belongsTo(Role::class, 'role')
+    //         ->select(['id', 'name']);
+    // }
     public function getUserStatusAttribute($value)
     {
         $status ='';
@@ -72,9 +73,9 @@ class User extends Authenticatable
     {
         $query = User::latest();
         
-        if (!isset($posted_data['comma_separated_ids'])) {
-            $query = $query->with('Role');
-        }
+        // if (!isset($posted_data['comma_separated_ids'])) {
+        //     $query = $query->with('Role');
+        // }
 
         if (isset($posted_data['id'])) {
             $query = $query->where('users.id', $posted_data['id']);
@@ -86,7 +87,9 @@ class User extends Authenticatable
             $query = $query->where('users.name', 'like', '%' . $posted_data['name'] . '%');
         }
         if (isset($posted_data['roles'])) {
-            $query = $query->where('users.role', $posted_data['roles']);
+            $query = $query->whereHas("roles", function($qry) use ($posted_data) {
+                        $qry->where("name", $posted_data['roles']);
+                    });
         }
 	    if (isset($posted_data['phone_number'])) {
             $query = $query->where('users.phone_number', $posted_data['phone_number']);
@@ -161,9 +164,9 @@ class User extends Authenticatable
         if (isset($posted_data['password'])) {
             $data->password = Hash::make($posted_data['password']);
         }
-        if (isset($posted_data['role'])) {
-            $data->role = $posted_data['role'];
-        }
+        // if (isset($posted_data['role'])) {
+        //     $data->role = $posted_data['role'];
+        // }
         
         if (isset($posted_data['profile_image'])) {
             $data->profile_image = $posted_data['profile_image'];

@@ -15,7 +15,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($data['users'] as $key=>$item)
+                @foreach ($data['users'] as $key => $item)
                     @php
                         $sr_no = $key + 1;
                         // $last_seen = $item->last_seen;  
@@ -33,14 +33,13 @@
                             $sr_no = $sr_no + $key + 1;
                         }
                         $user_role_color = '#6e6b7b';
-                        if($item['role'] == 1){
+                                               
+                        if ($item->hasRole('Admin')){
                             $user_role_color = '#44b6c0';
-                        }else if($item['role'] == 2){
-                            $user_role_color = '#b4b5af';
-                        }else if($item['role'] == 3){
-                            $user_role_color = '#455356';
                         }
                     @endphp
+                                <!-- {{-- $user_role_color = '#b4b5af';
+                                $user_role_color = '#455356'; --}} -->
                     <tr>
                         <td>{{ $sr_no }}</td>
                         {{-- <td>
@@ -73,13 +72,21 @@
 
                         <td>{{ $item->first_name }} {{ $item->last_name }}</td>
                         <td>{{ $item->email }}</td>
-                        <td><span class="role-badge" style="background-color: {{ $user_role_color }}">{{ $item->Role->name }}</span></td>
+                        {{--<td><span class="role-badge" style="background-color: {{ $user_role_color }}">{{ $item->role? $item->Role->name: 'Not Found' }} --}}
+
+                        <td>
+                        @foreach ($item->getRoleNames() as $role_key => $role_name)
+                            <span class="role-badge" style="background-color: {{ $user_role_color }}">{{ $role_name }} </span>
+                        @endforeach
+                        </td>
+
                         <td>{{ $item->user_status }}</td>
                         <td>{{ date('M d, Y H:i A', strtotime($item->created_at)) }}</td>
                         
                         <td>
                             <div class="dropdown">
-                                @if ( $item->role != 1 )
+                                @if ( $item->hasRole('Admin') )
+                                {{-- @if ( isset($item->role) && $item->role != 1 ) --}}
                                     <button type="button" class="btn btn-sm dropdown-toggle hide-arrow waves-effect waves-float waves-light" data-toggle="dropdown">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg>
                                     </button>

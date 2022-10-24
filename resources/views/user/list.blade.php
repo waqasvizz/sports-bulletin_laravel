@@ -28,8 +28,8 @@
                                         <label class="form-label" for="select2-basic">Roles</label>
                                         <select class="userfltr select2 form-select" name="roles" id="select2-roles">
                                             <option value=""> ---- Choose Role ---- </option>
-                                            @foreach ($data['roles'] as $key => $role_obj)
-                                                <option value="{{$role_obj['id']}}">{{$role_obj['name']}}</option>
+                                            @foreach ($data['all_roles'] as $key => $role_obj)
+                                                <option value="{{$role_obj['name']}}">{{$role_obj['name']}}</option>
                                             @endforeach
                                         </select>
 

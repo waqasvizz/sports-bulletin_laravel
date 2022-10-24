@@ -4,13 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+// use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Role extends Model
 {
     use HasFactory;
-    use SoftDeletes;
-    // protected $table = 'roles';
+    // use SoftDeletes;
+    protected $table = 'roles';
 
 
     public static function getRoles($posted_data = array())
@@ -55,6 +55,7 @@ class Role extends Model
             $data = Role::find($posted_data['update_id']);
         } else {
             $data = new Role;
+            $data->guard_name = 'web';
         }
 
         if (isset($posted_data['name'])) {

@@ -25,6 +25,8 @@ use App\Models\Categorie;
 use App\Models\SubCategorie;
 use App\Models\Menu;
 use App\Models\SubMenu;
+// use Spatie\Permission\Models\Permission;
+use App\Models\Permission;
 
 use DB;
 use Validator;
@@ -51,6 +53,7 @@ class Controller extends BaseController
     public $SubCategorieObj;
     public $MenuObj;
     public $SubMenuObj;
+    public $PermissionObj;
 
 
     public function __construct() {
@@ -67,6 +70,7 @@ class Controller extends BaseController
         $this->SubCategorieObj = new SubCategorie();
         $this->MenuObj = new Menu();
         $this->SubMenuObj = new SubMenu();
+        $this->PermissionObj = new Permission();
     }
 
     /**
