@@ -411,6 +411,15 @@
                     </ul>
                 </li>
                 <li class="nav-item">
+                    <a class="d-flex align-items-center" href="#"><i data-feather="list"></i><span class="menu-title text-truncate" data-i18n="Task">Assign Permission</span></a>
+                    <ul class="menu-content">
+                        <li class="{{ Request::path() == 'assign_permission' ? 'active' : '' }}"><a class="d-flex align-items-center" href="{{ url('assign_permission') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="List">List</span></a>
+                        </li>
+                        <li class="{{ Request::path() == 'assign_permission/create' ? 'active' : '' }}"><a class="d-flex align-items-center" href="{{ url('assign_permission/create') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Add">Add</span></a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
                     <a class="d-flex align-items-center" href="#"><i data-feather="list"></i><span class="menu-title text-truncate" data-i18n="Task">Menu</span></a>
                     <ul class="menu-content">
                         <li class="{{ Request::path() == 'menu' ? 'active' : '' }}"><a class="d-flex align-items-center" href="{{ url('menu') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="List">List</span></a>
@@ -570,6 +579,12 @@
     @elseif (preg_match('/\bsub_menu\b/', Request::path() ))
         <!-- Sub Category Script -->
         <script src="{{ asset('js/sub_menu.js') }}"></script>
+    @elseif (preg_match('/\bpermission\b/', Request::path() ))
+        <!-- Sub Category Script -->
+        <script src="{{ asset('js/permission.js') }}"></script>
+    @elseif (preg_match('/\bassign_permission\b/', Request::path() ))
+        <!-- Sub Category Script -->
+        <script src="{{ asset('js/assign_permission.js') }}"></script>
     @endif
    
     @yield('scripts')

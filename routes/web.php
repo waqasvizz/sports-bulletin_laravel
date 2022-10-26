@@ -9,6 +9,7 @@ use App\Http\Controllers\EmailMessageController;
 use App\Http\Controllers\CategorieController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\AssignPermissionController;
 use App\Http\Controllers\SubMenuController;
 use App\Http\Controllers\SubCategorieController;
 
@@ -119,6 +120,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/get_menus', [MenuController::class, 'ajax_get_menus']);
     Route::post('/get_sub_categories', [SubCategorieController::class, 'ajax_get_sub_categories']);
     Route::post('/get_sub_menus', [SubMenuController::class, 'ajax_get_sub_menus']);
+    Route::post('/get_permissions', [PermissionController::class, 'ajax_get_permissions']);
+    Route::post('/get_assign_permissions', [AssignPermissionController::class, 'ajax_get_assign_permissions']);
     Route::post('/notification_token', [NotificationController::class, 'get_notificatiion_token']);
 
     Route::get('/admin', [UserController::class, 'dashboard']);
@@ -134,6 +137,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('sub_category', SubCategorieController::class);
     Route::resource('menu', MenuController::class);
     Route::resource('permission', PermissionController::class);
+    Route::resource('assign_permission', AssignPermissionController::class);
     Route::resource('sub_menu', SubMenuController::class);
     Route::resource('notification', NotificationController::class);
     Route::resource('emailMessage', EmailMessageController::class);

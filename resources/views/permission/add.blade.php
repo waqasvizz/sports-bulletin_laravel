@@ -41,7 +41,7 @@
                                     <div class="col-md-6 col-12">
                                         <div class="form-group">
                                             <label for="first_name">Permission Title</label>
-                                            <input value="{{old('title', isset($data->title)? $data->title: '')}}" type="text" id="title" class="form-control @error('title') is-invalid @enderror" placeholder="Permission Title" name="title">
+                                            <input value="{{old('title', isset($data->name)? $data->name: '')}}" type="text" id="title" class="form-control @error('title') is-invalid @enderror" placeholder="Permission Title" name="name">
                                             @error('title')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
@@ -50,17 +50,19 @@
                                         </div>
                                     </div>
 
+                                    @if (!isset($data->id))
                                     <div class="col-md-6 col-12">
                                         <div class="form-group">
                                             <label for="first_name">Is CRUD?</label>
                                             <div class="demo-inline-spacing">
                                                 <div class="custom-control custom-control-primary custom-checkbox">
                                                     <input type="checkbox" class="custom-control-input" id="is_crud_opt" name="is_crud">
-                                                    <label class="custom-control-label" for="is_crud_opt">Create</label>
+                                                    <label class="custom-control-label" for="is_crud_opt">Yes</label>
                                                 </div>
                                             </div>                                            
                                         </div>
                                     </div>
+                                    @endif
                                 </div>
 
                                 <div class="row">

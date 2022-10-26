@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
 use PhpOffice\PhpSpreadsheet\Calculation\Category;
 
-class PermissionController extends Controller
+class AssignPermissionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -27,26 +27,36 @@ class PermissionController extends Controller
         // $posted_data['orderBy_value'] = 'ASC';
         // $posted_data['paginate'] = 10;
 
-        // $data['records'] = $this->PermissionObj->getPermissions($posted_data);
+        // $data['records'] = $this->AssignPermissionObj->getAssignPermissions($posted_data);
 
         // unset($posted_data['paginate']);
-        // $data['permissions'] = $this->PermissionObj->all();
+        // $data['permissions'] = $this->AssignPermissionObj->all();
 
-        // $data['statuses'] = $this->PermissionObj::Permission_Status_Constants;
+        // $data['statuses'] = $this->AssignPermissionObj::AssignPermission_Status_Constants;
 
-        $data['permissions'] = $this->PermissionObj->getPermissions();
-        $data['records'] = $this->PermissionObj->getPermissions([
+        // $data['permissions'] = $this->AssignPermissionObj->getAssignPermissions();
+
+        // exit('deeee');
+        // $data['user'] = $this->UserObj->getUser();
+
+        $data['records'] = $this->AssignPermissionObj->getAssignPermissions([
             'paginate' => 10,
         ]);
 
-        return view('permission.list', compact('data'));
+        return view('assign_permission.list', compact('data'));
     }
 
     public function create()
     {
-        // $data['asset_types'] = $this->PermissionObj::Permission_Asset_Type_Constants;
-        // return view('permission.add', compact('data'));
-        return view('permission.add');
+        // $data['asset_types'] = $this->AssignPermissionObj::AssignPermission_Asset_Type_Constants;
+        // return view('assign_permission.add', compact('data'));
+
+        $data['users'] = $this->UserObj->getUser();
+        $data['records'] = $this->AssignPermissionObj->getAssignPermissions([
+            'paginate' => 10,
+        ]);
+
+        return view('assign_permission.add', compact('data'));
     }
 
     /**
@@ -96,9 +106,9 @@ class PermissionController extends Controller
 
             foreach ($permissions_list as $permission) {
 
-                $permission_detail = Permission::where('name', $permission)->first();
+                $permission_detail = AssignPermission::where('name', $permission)->first();
                 if (!$permission_detail) {
-                    Permission::create(['name' => $permission]);
+                    AssignPermission::create(['name' => $permission]);
                 }
                 else {
                     $already_exist = true;
@@ -106,9 +116,9 @@ class PermissionController extends Controller
             }
 
             if( !isset($posted_data['is_crud']) && $already_exist )
-                \Session::flash('message', 'Permission already exist!');
+                \Session::flash('message', 'Permission is already assigned!');
             else
-                \Session::flash('message', 'Permission created successfully!');
+                \Session::flash('message', 'Permission is assigned successfully!');
 
             return redirect('/permission');
         }
@@ -133,13 +143,13 @@ class PermissionController extends Controller
      */
     public function edit($id)
     {
-        // $data['records'] = Permission::where('id', $id)->first();
+        // $data['records'] = AssignPermission::where('id', $id)->first();
 
-        // $data['records'] = Permission::paginate(10);
+        // $data['records'] = AssignPermission::paginate(10);
         
         // $posted_data = array();
         // $posted_data['count'] = true;
-        // $data['tot_permissions'] = $this->PermissionObj->getPermissions($posted_data);
+        // $data['tot_permissions'] = $this->AssignPermissionObj->getAssignPermissions($posted_data);
         
         // $arr = array();
         // for ($i=1; $i <= $data['tot_permissions'] ; $i++) { 
@@ -147,15 +157,15 @@ class PermissionController extends Controller
         // }
 
         // $data['all_opts'] = $arr;
-        // $data['statuses'] = $this->PermissionObj::Permission_Status_Constants;
-        // $data['asset_types'] = $this->PermissionObj::Permission_Asset_Type_Constants;
+        // $data['statuses'] = $this->AssignPermissionObj::AssignPermission_Status_Constants;
+        // $data['asset_types'] = $this->AssignPermissionObj::AssignPermission_Asset_Type_Constants;
 
-        $data = $this->PermissionObj->getPermissions([
+        $data = $this->AssignPermissionObj->getAssignPermissions([
             'id' => $id,
             'detail' => true,
         ]);
 
-        return view('permission.add',compact('data'));
+        return view('assign_permission.add',compact('data'));
     }
     
     /**
@@ -181,20 +191,20 @@ class PermissionController extends Controller
         $permission_name = strtolower($requested_data['name']);
         $permission_name = preg_replace('/\s+/', '-', $permission_name);
 
-        $update_rec = $this->PermissionObj->getPermissions([
+        $update_rec = $this->AssignPermissionObj->getAssignPermissions([
             'id' => $requested_data['update_id'],
             'detail' => true,
         ]);
 
         if ($update_rec) {
 
-            $permission_detail = $this->PermissionObj->getPermissions([
+            $permission_detail = $this->AssignPermissionObj->getAssignPermissions([
                 'name' => $permission_name,
                 'detail' => true,
             ]);
     
             if($permission_detail && $permission_detail->id != $update_rec->id) {
-                \Session::flash('error_message', 'Permission is already exist!');
+                \Session::flash('error_message', 'Permission is already assigned!');
                 return redirect('/permission');
             }
             else {
@@ -202,7 +212,7 @@ class PermissionController extends Controller
                 $update_rec->save();
             }
             
-            \Session::flash('message', 'Permission updated successfully!');
+            \Session::flash('message', 'Permission is updated successfully!');
             return redirect('/permission');
         }
         else {
@@ -219,20 +229,20 @@ class PermissionController extends Controller
      */
     public function destroy($id)
     {
-        $response = $this->PermissionObj->deletePermission($id);
+        $response = $this->AssignPermissionObj->deleteAssignPermission($id);
         if($response) {
             \Session::flash('message', 'Permission deleted successfully!');
             return redirect('/permission');
         }
     }
 
-    public function ajax_get_permissions(Request $request) {
+    public function ajax_get_assign_permissions(Request $request) {
 
-        $posted_data = $request->all();
-        $posted_data['paginate'] = 10;
-        $data['records'] = $this->PermissionObj->getPermissions($posted_data);
-        
-        return view('permission.ajax_records', compact('data'));
+        // $posted_data = $request->all();
+        // $posted_data['paginate'] = 10;
+        // $data['records'] = $this->AssignPermissionObj->getAssignPermissions($posted_data);
+        $data['records'] = [];
+        return view('assign_permission.ajax_records', compact('data'));
     }
 
     public function update_sorting($posted_data = array())
@@ -242,7 +252,7 @@ class PermissionController extends Controller
                 if ($key === 'status') {}
                 else {
                     $permission_obj = [];
-                    $permission_obj = Permission::find($value['id']);
+                    $permission_obj = AssignPermission::find($value['id']);
                     $permission_obj->sort_order = $value['sort_order'];
                     $permission_obj->save();
                 }

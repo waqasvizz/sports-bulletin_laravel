@@ -14,26 +14,26 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use DB;
 
-class Permission extends Model
+class AssignPermission extends Model
 {
     use HasFactory;
-    // protected $table = 'permissions';
+    protected $table = 'role_has_permissions';
 
-    // public const Permission_Status_Constants = [
+    // public const AssignPermission_Status_Constants = [
     //     'draft' => 'Draft',
     //     'published' => 'Published',
     // ];
 
-    // public const Permission_Asset_Type_Constants = [
+    // public const AssignPermission_Asset_Type_Constants = [
     //     'icon' => 'Icon',
     //     'image' => 'Image',
     // ];
 
-    public function getPermissions($posted_data = array())
+    public function getAssignPermissions($posted_data = array())
     {
-        $query = Permission::latest();
+        $query = AssignPermission::latest();
 
-        $columns = ['permissions.*'];
+        $columns = ['role_has_permissions.*'];
         $select_columns = array_merge($columns, []);
 
         // if (isset($posted_data['without_with']) && $posted_data['without_with']) {}
@@ -43,13 +43,13 @@ class Permission extends Model
         // }
 
         if (isset($posted_data['id'])) {
-            $query = $query->where('permissions.id', $posted_data['id']);
+            $query = $query->where('role_has_permissions.id', $posted_data['id']);
         }
         if (isset($posted_data['name'])) {
-            $query = $query->where('permissions.name', $posted_data['name']);
+            $query = $query->where('role_has_permissions.name', $posted_data['name']);
         }
 
-        $query->select('permissions.*');
+        $query->select('role_has_permissions.*');
         
         $query->getQuery()->orders = null;
         if (isset($posted_data['orderBy_name'])) {
@@ -74,12 +74,12 @@ class Permission extends Model
 
 
 
-    public function saveUpdatePermission($posted_data = array())
+    public function saveUpdateAssignPermission($posted_data = array())
     {
         if (isset($posted_data['update_id'])) {
-            $data = Permission::find($posted_data['update_id']);
+            $data = AssignPermission::find($posted_data['update_id']);
         } else {
-            $data = new Permission;
+            $data = new AssignPermission;
         }
 
         if (isset($posted_data['title'])) {
@@ -108,8 +108,8 @@ class Permission extends Model
         return $data->id;
     }
 
-    public function deletePermission($id=0) {
-        $data = Permission::find($id);
+    public function deleteAssignPermission($id=0) {
+        $data = AssignPermission::find($id);
         
         if ($data)
             return $data->delete();
