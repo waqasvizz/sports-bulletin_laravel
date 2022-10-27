@@ -415,8 +415,6 @@
                     <ul class="menu-content">
                         <li class="{{ Request::path() == 'assign_permission' ? 'active' : '' }}"><a class="d-flex align-items-center" href="{{ url('assign_permission') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="List">List</span></a>
                         </li>
-                        <li class="{{ Request::path() == 'assign_permission/create' ? 'active' : '' }}"><a class="d-flex align-items-center" href="{{ url('assign_permission/create') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Add">Add</span></a>
-                        </li>
                     </ul>
                 </li>
                 <li class="nav-item">

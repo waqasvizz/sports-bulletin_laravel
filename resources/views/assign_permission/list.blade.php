@@ -14,14 +14,39 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card">
-                        <div class="card-header">
-                            <h4 class="card-title">Filter Assign Permission</h4>
-                        </div>
-                        
-                        <div class="card-body">
-                            <form method="POST" id="assignPermissionFilterform">
+                        {{-- <form method="POST" id="assignPermissionFilterform"> --}}
+                        <form class="form" id="assignPermissionFilterform" action="{{ route('assign_permission.store') }}" method="post" enctype="multipart/form-data">
+                        @csrf
+                            <div class="card-header">
+                                <h4 class="card-title">Filter Assign Permission</h4>
+                            </div>
+                            
+                            <div class="card-body">
+                            
                                 @csrf
-                                <input name="page" id="assignPermissionFltrPage" value="1" type="hidden">
+                                {{--<input name="page" id="assignPermissionFltrPage" value="1" type="hidden">--}}
+
+                                <div class="row">
+                                    <div class="col-md-6 mb-1">
+        
+                                        <label class="form-label" for="select2-basic">Select User</label>
+                                        <select class="role_fltr select2 form-select" name="role" id="select2-user">
+                                            <option value=""> ---- Choose Role ---- </option>
+                                            @if (isset($data['roles']) && count($data['roles']) > 0 )
+                                                @foreach ($data['roles'] as $key => $role_obj)
+                                                    <option value="{{$role_obj['name']}}">{{$role_obj['name']}}</option>
+                                                @endforeach
+                                            @endif
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {{--
                                 <div class="row">
                                     <div class="col-md-6 mb-1">
     
@@ -37,9 +62,20 @@
     
                                     </div>
                                 </div>
-                            </form>
-                        </div>
+                                --}}                            
+                            </div>
+
+                            {{--
+                            <div class="card-header">
+                                <h4 class="card-title">Permissions Lists</h4>
+                            </div>
+                            --}}
+                            
+                            <div class="card-body assign_permissions_list" style="display: none; padding-top: 0px">
+                            </div>
+                        </form>
                     </div>
+                    
                 </div>
             </div>
         </section>

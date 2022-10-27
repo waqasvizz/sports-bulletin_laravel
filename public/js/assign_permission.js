@@ -2,7 +2,7 @@ jQuery(document).ready(function() {
 
     var path = $(location).attr("pathname");
     if (path === '/assign_permission'){
-        getPermissionAjaxData();
+        getAssignPermissionAjaxData();
     }
 
     //Permissions Links 
@@ -11,27 +11,24 @@ jQuery(document).ready(function() {
 
         var page = $(this).attr('href').split('page=')[1];
         $('#assignPermissionFltrPage').val(page);
-        getPermissionAjaxData();
+        getAssignPermissionAjaxData();
     });
 
-    $(document).on('change', '.assign_permission_fltr', function(event) {
+    $(document).on('change', '.role_fltr', function(event) {
         $('#assignPermissionFltrPage').val(1);
-        getPermissionAjaxData();
+        getAssignPermissionAjaxData();
     });
 
-    $(document).on('change', '.asset_type', function(event) {        
-        
-        $('.image_div').hide();
-        $('.icon_div').hide();
-
-        if($(this).val()=='Icon')
-            $('.icon_div').show();
+    $(document).on('change', '.role_fltr', function(event) {        
+    
+        if($(this).val() == '')
+            $('.assign_permissions_list').hide();
         else
-            $('.image_div').show();
+            $('.assign_permissions_list').show();
     });
 });
 
-function getPermissionAjaxData() {
+function getAssignPermissionAjaxData() {
     $('.loaderOverlay').fadeIn();
 
     jQuery.ajax({
@@ -41,7 +38,7 @@ function getPermissionAjaxData() {
         dataType: 'html',
         success: function(response) {
             $('.loaderOverlay').fadeOut();
-            $("#all_assign_permissions").html(response);
+            $(".assign_permissions_list").html(response);
         }
     });
 }

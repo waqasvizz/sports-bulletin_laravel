@@ -10,6 +10,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use PhpOffice\PhpSpreadsheet\Calculation\Category;
 
@@ -36,10 +38,8 @@ class AssignPermissionController extends Controller
 
         // $data['permissions'] = $this->AssignPermissionObj->getAssignPermissions();
 
-        // exit('deeee');
-        // $data['user'] = $this->UserObj->getUser();
-
-        $data['records'] = $this->AssignPermissionObj->getAssignPermissions([
+        $data['roles'] = $this->RoleObj->getRoles();
+        $data['permissions'] = $this->PermissionObj->getPermissions([
             'paginate' => 10,
         ]);
 
@@ -68,6 +68,54 @@ class AssignPermissionController extends Controller
     public function store(Request $request)
     {   
         $posted_data = $request->all();
+
+        // echo "<pre>";
+        //     echo "dee dee dee"."<br>";
+        //     print_r($posted_data);
+        //     echo "</pre>";
+        //     exit("@@@@");
+
+        if( isset($posted_data['role']) && $posted_data['role'] != '') {
+            // $role = Role::where('name', $posted_data['role'])->get();
+            $role = Role::findByName($posted_data['role']);
+
+            // $res = $role->hasPermissionTo('update-menu');
+            
+            $role->givePermissionTo('edit articles');
+
+
+            
+            // App\Models\User
+            // model_has_permissions
+
+            // echo "<pre>";
+            // echo "dee dee dee"."<br>";
+            // print_r($res);
+            // echo "</pre>";
+            // exit("@@@@");
+        }
+
+        foreach ($posted_data['perms'] as $key => $permission) {
+
+            $permission_id = substr($permission, strpos($permission, "id_") + 3);
+
+            $permission_name = Permission::where('id', $permission_id)->pluck('name');
+            // echo " ===> ".$permission_name."<br><br>";
+
+            $permission_detail = DB::select('select * from model_has_permissions where model_type = ? AND permission_id = ?', ['App\Models\Role', $permission_id]);
+            if (!$permission_detail) {
+                echo "IFFF ID -- ".$permission_name[0]."<br><br>";
+                $role->givePermissionTo($permission_name[0]);
+                // AssignPermission::create(['name' => $permission]);
+            }
+            else {
+                echo "FALSE ID -- ".$permission_id."<br><br>";
+                // $already_exist = true;
+            }
+        }
+
+        
+
 
         $rules = array(
             'name' => 'required',
@@ -237,12 +285,29 @@ class AssignPermissionController extends Controller
     }
 
     public function ajax_get_assign_permissions(Request $request) {
+        $posted_data = $request->all();
+        $params_data = array();
+        $role = [];
 
-        // $posted_data = $request->all();
+        if( isset($posted_data['role']) && $posted_data['role'] != '') {
+            $role = Role::where('name', $posted_data['role'])->get();
+        }
+    
         // $posted_data['paginate'] = 10;
-        // $data['records'] = $this->AssignPermissionObj->getAssignPermissions($posted_data);
+        $data['permissions'] = Permission::all();
+
+        echo "Line no @"."<br>";
+        echo "<pre>";
+        print_r($role);
+        echo "</pre>";
+        // exit("@@@@");
+        
+        // if ($role && $role->permissions->count() > 0) {
+        //     $data['assing_permissions'] = $role->permissions->pluck('name');
+        // }
+
         $data['records'] = [];
-        return view('assign_permission.ajax_records', compact('data'));
+        return view('assign_permission.ajax_permissions', compact('data'));
     }
 
     public function update_sorting($posted_data = array())
