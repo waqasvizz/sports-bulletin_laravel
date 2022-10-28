@@ -435,55 +435,52 @@
                 </li>
             --}}
 
-                <?php
+            @php
                 $sub_menu = false;
                 $data_arr = \App\Models\Menu::getMenus();
-                $sub_menus_arr = [];
-
                 $request_url = Request::path();
-
-                foreach ($data_arr as $key => $data_obj) {
-                    
-                    $childs_count = $data_obj->sub_menus->count();
-                    $class = ($request_url == $data_obj->slug) ? 'active' : '';
-
-                    $menu =
-                    '<li class="'.$class.' nav-item">
-                        <a class="d-flex align-items-center" href="'.url($data_obj->url).'">
+            @endphp
+            
+            @foreach ($data_arr as $key => $data_obj)
+                @php
+                    $childs_menu = $data_obj->sub_menus->pluck('slug','slug');
+                @endphp
+                @canany($childs_menu)
+                    @php
+                        $childs_count = $data_obj->sub_menus->count();
+                        // $class = ($request_url == $data_obj->url) ? 'active' : '';
+                        $slug =  str_replace_first('/', '', $data_obj->url); 
+                        $class = (strpos(Request::path(), $slug) !== false) ? 'active' : '';
+                        // echo '<pre>';print_r($childs_menu);'</pre>';
+                    @endphp
+                    <li class="{{ $class }} nav-item">
+                        <a class="d-flex align-items-center" href="{{ url($data_obj->url) }}">
                             <i data-feather="list"></i>
-                            <span class="menu-title text-truncate" data-i18n="Dashboards">'.$data_obj->title.'</span>
+                            <span class="menu-title text-truncate" data-i18n="Dashboards">{{ $data_obj->title }}</span>
                         </a>
-                    ';
 
-                    if ($childs_count <= 0 ) {
-                        $menu .= '
-                        </li>';
-                    }
-                    else {
-                        $menu .= '
-                            <ul class="menu-content">
-                        ';
-                        foreach ($data_obj->sub_menus as $key => $sub_menu_obj) {
-
-                            $class = ($request_url == $sub_menu_obj->slug) ? 'active' : '';
-                            $menu .= '
-                                <li class="'.$class.'">
-                                    <a class="d-flex align-items-center" href="'.url($sub_menu_obj->url).'">
-                                        <i data-feather="circle"></i>
-                                        <span class="menu-item text-truncate" data-i18n="'.$sub_menu_obj->title.'">'.$sub_menu_obj->title.'</span>
-                                    </a>
-                                </li>
-                            ';
-                        }
-
-                        $menu .= '
+                        @if ($childs_count > 0 )
+                            <ul class="menu-content">                    
+                                @foreach ($data_obj->sub_menus as $key => $sub_menu_obj)
+                                    @can($sub_menu_obj->slug)
+                                        @php
+                                        // $class = ($request_url == $sub_menu_obj->url) ? 'active' : '';
+                                        $slug =  str_replace_first('/', '', $sub_menu_obj->url);
+                                        $class = ($request_url == $slug) ? 'active' : '';
+                                        @endphp
+                                        <li class="{{ $class }}">
+                                            <a class="d-flex align-items-center" href="{{ url($sub_menu_obj->url) }}">
+                                                <i data-feather="circle"></i>
+                                                <span class="menu-item text-truncate" data-i18n="{{ $sub_menu_obj->title }}">{{ $sub_menu_obj->title }}</span>
+                                            </a>
+                                        </li>
+                                    @endcan
+                                @endforeach
                             </ul>
-                        </li>';
-                    }
-                    echo $menu;
-                }
-               
-                ?>
+                        @endif  
+                    </li>
+                @endcan
+            @endforeach
 
                 {{--
 

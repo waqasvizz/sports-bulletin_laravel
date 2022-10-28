@@ -509,7 +509,7 @@ class UserController extends Controller
 
 
             // if(Auth::user()->role == 1){
-                return redirect('/admin');
+                return redirect('/dashboard');
             // }else if(Auth::user()->role == 2){
             //     return redirect('/client');
             // }else if(Auth::user()->role == 3){
