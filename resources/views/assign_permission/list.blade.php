@@ -13,7 +13,19 @@
         <section class="basic-select2">
             <div class="row">
                 <div class="col-12">
+
+                    @if (Session::has('message'))
+                    <div class="alert alert-success"><b>Success: </b>{{ Session::get('message') }}</div>
+                    @endif
+                    @if (Session::has('error_message'))
+                    <div class="alert alert-danger"><b>Sorry: </b>{{ Session::get('error_message') }}</div>
+                    @endif
+    
+                    <div class="alert alert-success alert-success-ajax" style="display: none;"></div>
+                    <div class="alert alert-danger alert-danger-ajax" style="display: none;"></div>
+                    
                     <div class="card">
+                        
                         {{-- <form method="POST" id="assignPermissionFilterform"> --}}
                         <form class="form" id="assignPermissionFilterform" action="{{ route('assign_permission.store') }}" method="post" enctype="multipart/form-data">
                         @csrf
@@ -29,7 +41,7 @@
                                 <div class="row">
                                     <div class="col-md-6 mb-1">
         
-                                        <label class="form-label" for="select2-basic">Select User</label>
+                                        <label class="form-label" for="select2-basic">Select Role</label>
                                         <select class="role_fltr select2 form-select" name="role" id="select2-user">
                                             <option value=""> ---- Choose Role ---- </option>
                                             @if (isset($data['roles']) && count($data['roles']) > 0 )
@@ -80,16 +92,9 @@
             </div>
         </section>
         <!-- Select2 End -->
-        
-        @if (Session::has('message'))
-        <div class="alert alert-success"><b>Success: </b>{{ Session::get('message') }}</div>
-        @endif
-        @if (Session::has('error_message'))
-        <div class="alert alert-danger"><b>Sorry: </b>{{ Session::get('error_message') }}</div>
-        @endif
 
         <div id="all_assign_permissions"></div>
-
+        
     </div>
 </div>
 

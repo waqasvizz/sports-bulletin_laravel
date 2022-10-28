@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use App\Models\Menu;
 use App\Models\SubMenu;
 use PhpOffice\PhpSpreadsheet\Calculation\Category;
+use Spatie\Permission\Models\Permission;
 
 class SubMenuController extends Controller
 {
@@ -43,6 +44,7 @@ class SubMenuController extends Controller
         $posted_data = array();
         $data['menus'] = $this->MenuObj->getMenus($posted_data);
         $data['asset_types'] = $this->SubMenuObj::SubMenu_Asset_Type_Constants;
+        $data['all_permissions'] = Permission::pluck('name', 'id')->all();
 
         return view('sub_menus.add', compact('data'));
     }
@@ -57,7 +59,9 @@ class SubMenuController extends Controller
     {
         $rules = array(
             'title' => 'required',
-            'menu' => 'required|exists:menus,id'
+            'menu' => 'required|exists:menus,id',
+            'permission' => 'required',
+            'url' => 'required',
         );
 
         $validator = \Validator::make($request->all(), $rules);
@@ -73,6 +77,8 @@ class SubMenuController extends Controller
             $data['title'] = $posted_data['title'];
             $data['menu_id'] = $posted_data['menu'];
             $data['sort_order'] = ++$count;
+            $data['permission'] = $posted_data['permission'];
+            $data['url'] = $posted_data['url'];
             // $data['status'] = $this->SubMenuObj::SubMenu_Constants['draft'];
 
             $base_url = public_path();
@@ -136,6 +142,7 @@ class SubMenuController extends Controller
 
         $data['all_opts'] = $arr;
         $data['statuses'] = $this->SubMenuObj::SubMenu_Status_Constants;
+        $data['all_permissions'] = Permission::pluck('name', 'id')->all();
 
         return view('sub_menus.add',compact('data'));
     }
@@ -155,7 +162,9 @@ class SubMenuController extends Controller
             'title' => 'required',
             'menu' => 'required|exists:menus,id',
             'status' => 'required|in:Draft,Published',
-            'ordering' => 'required'
+            'ordering' => 'required',
+            'permission' => 'required',
+            'url' => 'required',
         ]);
    
         if($validator->fails()){

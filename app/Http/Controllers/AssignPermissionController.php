@@ -69,107 +69,28 @@ class AssignPermissionController extends Controller
     {   
         $posted_data = $request->all();
 
-        // echo "<pre>";
-        //     echo "dee dee dee"."<br>";
-        //     print_r($posted_data);
-        //     echo "</pre>";
-        //     exit("@@@@");
+        $role = Role::where('name',$posted_data['role'])->first();
+        $permissions = Permission::whereIn('id',$posted_data['perms'])->pluck('id','id')->all();
+        $role->syncPermissions($permissions);
 
-        if( isset($posted_data['role']) && $posted_data['role'] != '') {
-            // $role = Role::where('name', $posted_data['role'])->get();
-            $role = Role::findByName($posted_data['role']);
-
-            // $res = $role->hasPermissionTo('update-menu');
-            
-            $role->givePermissionTo('edit articles');
-
-
-            
-            // App\Models\User
-            // model_has_permissions
-
-            // echo "<pre>";
-            // echo "dee dee dee"."<br>";
-            // print_r($res);
-            // echo "</pre>";
-            // exit("@@@@");
+        if ($request->ajax()) {
+            return response()->json([
+                'status'            => 200,
+                'message'           => 'Permissions updated successfully',
+                'data'              => [],
+            ], 200);
+        }
+        else {
+            return redirect('/assign_permission');
         }
 
-        foreach ($posted_data['perms'] as $key => $permission) {
+        // if( !isset($posted_data['is_crud']) && $already_exist )
+        //     \Session::flash('message', 'Permission is already assigned!');
+        // else
+        //     \Session::flash('message', 'Permission is assigned successfully!');
 
-            $permission_id = substr($permission, strpos($permission, "id_") + 3);
-
-            $permission_name = Permission::where('id', $permission_id)->pluck('name');
-            // echo " ===> ".$permission_name."<br><br>";
-
-            $permission_detail = DB::select('select * from model_has_permissions where model_type = ? AND permission_id = ?', ['App\Models\Role', $permission_id]);
-            if (!$permission_detail) {
-                echo "IFFF ID -- ".$permission_name[0]."<br><br>";
-                $role->givePermissionTo($permission_name[0]);
-                // AssignPermission::create(['name' => $permission]);
-            }
-            else {
-                echo "FALSE ID -- ".$permission_id."<br><br>";
-                // $already_exist = true;
-            }
-        }
-
-        
-
-
-        $rules = array(
-            'name' => 'required',
-        );
-
-        $validator = \Validator::make($posted_data, $rules);
-
-        if ($validator->fails()) {
-
-            // echo "<pre>";
-            // echo "0000"."<br>";
-            // print_r($validator->errors());
-            // echo "</pre>";
-            // exit("@@@@");
-
-            return redirect()->back()->withErrors($validator)->withInput();
-            // ->withInput($request->except('password'));
-        } else {
-
-            $permissions_list = array();
-
-            $slug = strtolower($posted_data['name']);
-            $slug = preg_replace('/\s+/', '-', $slug);
-
-            if( isset($posted_data['is_crud']) ) {
-                $permissions_list[] = $slug."-create";
-                $permissions_list[] = $slug."-list";
-                $permissions_list[] = $slug."-update";
-                $permissions_list[] = $slug."-delete";
-            }
-            else {
-                $permissions_list[] = $slug;
-            }
-
-            $already_exist = false;
-
-            foreach ($permissions_list as $permission) {
-
-                $permission_detail = AssignPermission::where('name', $permission)->first();
-                if (!$permission_detail) {
-                    AssignPermission::create(['name' => $permission]);
-                }
-                else {
-                    $already_exist = true;
-                }
-            }
-
-            if( !isset($posted_data['is_crud']) && $already_exist )
-                \Session::flash('message', 'Permission is already assigned!');
-            else
-                \Session::flash('message', 'Permission is assigned successfully!');
-
-            return redirect('/permission');
-        }
+        // return redirect('/permission');
+        // }
     } 
    
     /**
@@ -286,27 +207,14 @@ class AssignPermissionController extends Controller
 
     public function ajax_get_assign_permissions(Request $request) {
         $posted_data = $request->all();
-        $params_data = array();
-        $role = [];
-
+        
         if( isset($posted_data['role']) && $posted_data['role'] != '') {
-            $role = Role::where('name', $posted_data['role'])->get();
+            $role = Role::where('name', $posted_data['role'])->first();
+            $data['role'] = $role;
         }
     
-        // $posted_data['paginate'] = 10;
         $data['permissions'] = Permission::all();
 
-        echo "Line no @"."<br>";
-        echo "<pre>";
-        print_r($role);
-        echo "</pre>";
-        // exit("@@@@");
-        
-        // if ($role && $role->permissions->count() > 0) {
-        //     $data['assing_permissions'] = $role->permissions->pluck('name');
-        // }
-
-        $data['records'] = [];
         return view('assign_permission.ajax_permissions', compact('data'));
     }
 

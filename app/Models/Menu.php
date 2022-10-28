@@ -30,6 +30,11 @@ class Menu extends Model
         'image' => 'Image',
     ];
 
+    public function sub_menus()
+    {
+        return $this->hasMany(SubMenu::class);
+    }
+
     public function getMenus($posted_data = array())
     {
         $query = Menu::latest();
@@ -37,11 +42,12 @@ class Menu extends Model
         $columns = ['menus.*'];
         $select_columns = array_merge($columns, []);
 
-        // if (isset($posted_data['without_with']) && $posted_data['without_with']) {}
-        // else {
-            // $query = $query
-            //     ->with('category_details');
-        // }
+        if (isset($posted_data['without_with']) && $posted_data['without_with']) {}
+        else {
+            $query = $query
+                ->with('sub_menus');
+                // ->with('category_details');
+        }
 
         if (isset($posted_data['id'])) {
             $query = $query->where('menus.id', $posted_data['id']);
@@ -92,8 +98,8 @@ class Menu extends Model
         if (isset($posted_data['url'])) {
             $data->url = $posted_data['url'];
         }
-        if (isset($posted_data['slug'])) {
-            $data->slug = $posted_data['slug'];
+        if (isset($posted_data['permission'])) {
+            $data->slug = $posted_data['permission'];
         }
         if (isset($posted_data['sort_order'])) {
             $data->sort_order = $posted_data['sort_order'];

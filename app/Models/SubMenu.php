@@ -104,6 +104,12 @@ class SubMenu extends Model
         if (isset($posted_data['status'])) {
             $data->status = $posted_data['status'];
         }
+        if (isset($posted_data['url'])) {
+            $data->url = $posted_data['url'];
+        }
+        if (isset($posted_data['permission'])) {
+            $data->slug = $posted_data['permission'];
+        }
         if (isset($posted_data['asset_type'])) {
             $data->asset_type = $posted_data['asset_type'];
         }

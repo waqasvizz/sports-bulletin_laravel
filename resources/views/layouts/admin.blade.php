@@ -346,6 +346,8 @@
 
                 <li class=" navigation-header"><span data-i18n="Apps &amp; Pages">Apps &amp; Pages</span><i data-feather="more-horizontal"></i>
                 </li>
+
+        {{--
                 <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather="file-text"></i><span class="menu-title text-truncate" data-i18n="Role">Role</span></a>
                         <ul class="menu-content">
                             <li class="{{ Request::path() == 'role' ? 'active' : '' }}"><a class="d-flex align-items-center" href="{{ url('role') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="List">List</span></a>
@@ -355,7 +357,6 @@
             </ul>
             </li>
 
-            
                 <li class=" nav-item">
                     <a class="d-flex align-items-center" href="#"><i data-feather="user"></i><span class="menu-title text-truncate" data-i18n="User">User</span></a>
                     <ul class="menu-content">
@@ -410,13 +411,12 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item">
-                    <a class="d-flex align-items-center" href="#"><i data-feather="list"></i><span class="menu-title text-truncate" data-i18n="Task">Assign Permission</span></a>
-                    <ul class="menu-content">
-                        <li class="{{ Request::path() == 'assign_permission' ? 'active' : '' }}"><a class="d-flex align-items-center" href="{{ url('assign_permission') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="List">List</span></a>
-                        </li>
-                    </ul>
+                
+                <li class="{{ Request::path() == 'assign_permission' ? 'active' : '' }} nav-item">
+                    <a class="d-flex align-items-center" href="{{ url('assign_permission') }}"><i data-feather="list"></i><span class="menu-title text-truncate" data-i18n="Dashboards">Assign Permission</span>
+                    </a>
                 </li>
+
                 <li class="nav-item">
                     <a class="d-flex align-items-center" href="#"><i data-feather="list"></i><span class="menu-title text-truncate" data-i18n="Task">Menu</span></a>
                     <ul class="menu-content">
@@ -435,7 +435,88 @@
                         </li>
                     </ul>
                 </li>
-                
+            --}}
+
+                <?php
+                $sub_menu = false;
+                $data_arr = \App\Models\Menu::getMenus();
+                $sub_menus_arr = [];
+
+                $request_url = Request::path();
+
+                foreach ($data_arr as $key => $data_obj) {
+                    
+                    $childs_count = $data_obj->sub_menus->count();
+                    $class = ($request_url == $data_obj->slug) ? 'active' : '';
+
+                    $menu =
+                    '<li class="'.$class.' nav-item">
+                        <a class="d-flex align-items-center" href="'.url($data_obj->url).'">
+                            <i data-feather="list"></i>
+                            <span class="menu-title text-truncate" data-i18n="Dashboards">'.$data_obj->title.'</span>
+                        </a>
+                    ';
+
+                    if ($childs_count <= 0 ) {
+                        $menu .= '
+                        </li>';
+                    }
+                    else {
+                        $menu .= '
+                            <ul class="menu-content">
+                        ';
+                        foreach ($data_obj->sub_menus as $key => $sub_menu_obj) {
+
+                            $class = ($request_url == $sub_menu_obj->slug) ? 'active' : '';
+                            $menu .= '
+                                <li class="'.$class.'">
+                                    <a class="d-flex align-items-center" href="'.url($sub_menu_obj->url).'">
+                                        <i data-feather="circle"></i>
+                                        <span class="menu-item text-truncate" data-i18n="'.$sub_menu_obj->title.'">'.$sub_menu_obj->title.'</span>
+                                    </a>
+                                </li>
+                            ';
+                        }
+
+                        $menu .= '
+                            </ul>
+                        </li>';
+                    }
+                    echo $menu;
+                }
+               
+                ?>
+
+                {{--
+
+                    <li class="nav-item">
+                        <a class="d-flex align-items-center" href="#">
+                            <i data-feather="mail"></i>
+                            <span class="menu-title text-truncate" data-i18n="Task">Email message</span>
+                        </a>
+                        <ul class="menu-content">
+                            <li class="{{ Request::path() == 'emailMessage' ? 'active' : '' }}">
+                                <a class="d-flex align-items-center" href="{{ url('emailMessage') }}">
+                                    <i data-feather="circle"></i>
+                                    <span class="menu-item text-truncate" data-i18n="List">List</span>
+                                </a>
+                            </li>
+                            <li class="{{ Request::path() == 'emailMessage/create' ? 'active' : '' }}">
+                                <a class="d-flex align-items-center" href="{{ url('emailMessage/create') }}">
+                                    <i data-feather="circle"></i>
+                                    <span class="menu-item text-truncate" data-i18n="Add">Add</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+
+                echo "<pre>";
+                echo "deee"."<br>";
+                print_r($data['menus']);
+                echo "</pre>";
+                exit("@@@@");
+                --}}
 
             </ul>
         </div>

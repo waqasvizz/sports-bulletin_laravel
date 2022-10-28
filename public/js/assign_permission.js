@@ -14,6 +14,19 @@ jQuery(document).ready(function() {
         getAssignPermissionAjaxData();
     });
 
+    $(document).on('click', '#sync_permissions', function(event) {
+        event.preventDefault();
+
+        var data = $("#assignPermissionFilterform").serializeArray();
+        console.log(data);
+        
+        syncPermissionsAjaxData();
+
+        // var page = $(this).attr('href').split('page=')[1];
+        // $('#assignPermissionFltrPage').val(page);
+        // getAssignPermissionAjaxData();
+    });
+
     $(document).on('change', '.role_fltr', function(event) {
         $('#assignPermissionFltrPage').val(1);
         getAssignPermissionAjaxData();
@@ -39,6 +52,31 @@ function getAssignPermissionAjaxData() {
         success: function(response) {
             $('.loaderOverlay').fadeOut();
             $(".assign_permissions_list").html(response);
+        }
+    });
+}
+
+function syncPermissionsAjaxData() {
+    $('.loaderOverlay').fadeIn();
+
+    jQuery.ajax({
+        url: "/assign_permission",
+        data: $("#assignPermissionFilterform").serializeArray(),
+        method: 'POST',
+        dataType:'JSON',
+        success: function(response) {
+
+            if (response.status == 200)
+                $('.alert-success-ajax').html('<b>Success: </b>' + response.message).show();
+            else if (response.status != 200)
+                $('.alert-danger-ajax').html('<b>Error: </b> Something went wrong during query').show();
+
+            setTimeout(function () {
+                $('.alert-success').hide();
+                $('.alert-danger').hide();
+            }, 2000);
+
+            $('.loaderOverlay').fadeOut();
         }
     });
 }

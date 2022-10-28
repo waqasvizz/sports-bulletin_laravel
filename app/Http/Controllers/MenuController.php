@@ -12,6 +12,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Menu;
 use PhpOffice\PhpSpreadsheet\Calculation\Category;
+use Spatie\Permission\Models\Permission;
 
 class MenuController extends Controller
 {
@@ -39,6 +40,8 @@ class MenuController extends Controller
     public function create()
     {
         $data['asset_types'] = $this->MenuObj::Menu_Asset_Type_Constants;
+        $data['all_permissions'] = Permission::pluck('name', 'id')->all();
+
         return view('menu.add', compact('data'));
     }
 
@@ -55,6 +58,7 @@ class MenuController extends Controller
         $rules = array(
             'title' => 'required',
             'url' => 'required',
+            'permission' => 'required',
             'asset_type' => 'required|in:Icon,Image',
             'asset_value' => 'required',
         );
@@ -75,14 +79,14 @@ class MenuController extends Controller
 
             $data = array();
 
-            $slug = strtolower($posted_data['title']);
-            $slug = preg_replace('/\s+/', '-', $slug);
-            $slug = $slug.'-menu';
+            // $slug = strtolower($posted_data['title']);
+            // $slug = preg_replace('/\s+/', '-', $slug);
+            // $slug = $slug.'-menu';
 
             $count = $this->MenuObj->getMenus(['count' => true]);
             $data['title'] = $posted_data['title'];
             $data['url'] = $posted_data['url'];
-            $data['slug'] = $slug;
+            $data['slug'] = $posted_data['permission'];
             $data['sort_order'] = ++$count;
             $data['asset_type'] = $posted_data['asset_type'];
             $data['asset_value'] = $posted_data['asset_value'];
@@ -136,6 +140,7 @@ class MenuController extends Controller
         $posted_data = array();
         $posted_data['count'] = true;
         $data['tot_menus'] = $this->MenuObj->getMenus($posted_data);
+        $data['all_permissions'] = Permission::pluck('name', 'id')->all();
         
         $arr = array();
         for ($i=1; $i <= $data['tot_menus'] ; $i++) { 
@@ -164,6 +169,7 @@ class MenuController extends Controller
             'update_id' => 'required',
             'title' => 'required',
             'url' => 'required',
+            'permission' => 'required',
             'ordering' => 'required',
             'status' => 'required|in:Draft,Published',
             'asset_type' => 'required|in:Icon,Image',

@@ -11,8 +11,9 @@ class FcmToken extends Model
     public function userDetails()
     {
         return $this->belongsTo('App\Models\User', 'user_id')
-            ->with('role')
-            ->select(['id', 'role', 'first_name', 'last_name', 'email', 'profile_image']);
+            // ->with('role')
+            ->select(['id', 'first_name', 'last_name', 'email', 'profile_image']);
+            // ->select(['id', 'role', 'first_name', 'last_name', 'email', 'profile_image']);
     }
 
     // public function receiverDetails()

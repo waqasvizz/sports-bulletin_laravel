@@ -64,7 +64,6 @@
                                 </div>
 
                                 <div class="row">
-
                                     @if (isset($data->id))
                                     
                                     <div class="col-md-6 col-12">
@@ -177,6 +176,26 @@
 
                                 </div>
 
+                                <div class="row">
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group">
+                                            <label for="permission">Permission</label>
+                                            <select class="form-control @error('permission') is-invalid @enderror" name="permission" id="permission">
+                                                <option value="">Choose an option</option>
+                                                @if (isset($data['all_permissions']) && count($data['all_permissions'])>0)
+                                                    @foreach ($data['all_permissions'] as $key => $slug_obj)
+                                                        <option {{ old('permission') == $slug_obj || (isset($data->slug) && $data->slug == $slug_obj)? 'selected': '' }} value="{{ $slug_obj }}">{{ $slug_obj }}</option>
+                                                    @endforeach
+                                                @endif
+                                            </select>
+                                            @error('permission')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
 
                                 {{-- <div class="row">
                                     <div class="col-md-6 col-12">
