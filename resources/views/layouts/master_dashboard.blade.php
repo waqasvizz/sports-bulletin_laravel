@@ -260,12 +260,10 @@
                             <span class="user-name font-weight-bolder">
                                 {{ Auth::user()->first_name.' '.  Auth::user()->last_name }}
                             </span>
-                            <span class="user-status">                                
-                                @if (Auth::user()->hasRole('Admin'))
-                                    Admin
-                                @else
-                                    Quest
-                                @endif
+                            <span class="user-status">
+                                @foreach (Auth::user()->getRoleNames() as $role_key => $role_name)
+                                    {{ $role_name }}
+                                @endforeach
                             </span>
                         </div>
                         <span class="avatar">
@@ -341,7 +339,7 @@
             {{-- @if(Cache::has('user-is-online' . Auth::user()->id)) --}}
             <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
 
-                <li class="{{ Request::path() == 'admin' ? 'active' : '' }} nav-item"><a class="d-flex align-items-center" href="{{ url('admin') }}"><i data-feather="home"></i><span class="menu-title text-truncate" data-i18n="Dashboards">Dashboard</span></a>
+                <li class="{{ Request::path() == 'dashboard' ? 'active' : '' }} nav-item"><a class="d-flex align-items-center" href="{{ url('dashboard') }}"><i data-feather="home"></i><span class="menu-title text-truncate" data-i18n="Dashboards">Dashboard</span></a>
             
 
                 <li class=" navigation-header"><span data-i18n="Apps &amp; Pages">Apps &amp; Pages</span><i data-feather="more-horizontal"></i>

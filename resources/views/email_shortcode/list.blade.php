@@ -1,5 +1,5 @@
 @section('title', 'Email Short Code List')
-@extends('layouts.admin')
+@extends('layouts.master_dashboard')
 
 @section('content')
 

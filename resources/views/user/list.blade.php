@@ -1,5 +1,5 @@
 @section('title', 'User List')
-@extends('layouts.admin')
+@extends('layouts.master_dashboard')
 
 @section('content')
 

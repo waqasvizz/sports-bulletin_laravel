@@ -84,7 +84,7 @@ Route::get('/passport-install', function() {
 
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Auth::routes();
+// Auth::routes();
 
 Route::get('/', function () {
     redirect()->route('clear-cache');
@@ -124,9 +124,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/get_assign_permissions', [AssignPermissionController::class, 'ajax_get_assign_permissions']);
     Route::post('/notification_token', [NotificationController::class, 'get_notificatiion_token']);
 
-    Route::get('/admin', [UserController::class, 'dashboard']);
-    Route::get('/client', [UserController::class, 'clientDashboard']);
-    Route::get('/staff', [UserController::class, 'staffDashboard']);
+    Route::get('/dashboard', [UserController::class, 'dashboard']);
     Route::get('/editProfile', [UserController::class, 'editProfile']);
     Route::post('export', [UserController::class, 'export_data'])->name('export_data_to_file');
 

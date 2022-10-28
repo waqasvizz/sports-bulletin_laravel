@@ -1,5 +1,5 @@
 @section('title', 'Client Dashboard')
-@extends('layouts.admin')
+@extends('layouts.master_dashboard')
 
 @section('content')
 

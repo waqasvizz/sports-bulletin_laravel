@@ -3,7 +3,7 @@
 @else
     @section('title', 'Add Sub-Menu')
 @endif
-@extends('layouts.admin')
+@extends('layouts.master_dashboard')
 
 @section('content')
 

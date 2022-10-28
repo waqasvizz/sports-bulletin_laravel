@@ -1,5 +1,5 @@
 @section('title', 'Assign Permission List')
-@extends('layouts.admin')
+@extends('layouts.master_dashboard')
 
 @section('content')
 

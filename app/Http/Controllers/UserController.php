@@ -145,67 +145,9 @@ class UserController extends Controller
         $posted_data = array();
         $posted_data['count'] = true;
         $data['users_count'] = $this->UserObj->getUser($posted_data);
-
-        // $posted_data = array();
-        // $posted_data['count'] = true;
-        // $data['enquiry_form_count'] = $this->EnquiryFormObj->getEnquiryForm($posted_data);
-
-        // $posted_data = array();
-        // $posted_data['count'] = true;
-        // $data['task_count'] = $this->TaskObj->getTask($posted_data);
-
         $posted_data = array();
-        // $data_task = Task::all();
-
-        // $data['tasks_data'] = Task::getTask([
-        //     'groupby' => 'assign_user_id'
-        // ]);
-        // $data['taskList'] = 'task_added_list'; 
-
-
-        // foreach ($data_task as $key => $value) {
-        //     $posted_data[] =[
-        //           'id'=> $value->id,
-        //           'title'=> $value->user->first_name.' '.$value->user->last_name,
-        //           'start'=> $value->due_date,
-        //           'resourceId'=> 'a'
-        //     ];
-
-        // }
-
         $data['calender'] = json_encode($posted_data);
-        // echo '<pre>'; print_r($data); echo '</pre>'; exit;
         return view('dashboard', compact('data'));
-    }
-
-    public function clientDashboard()
-    {
-        $posted_data = array();
-        $posted_data['count'] = true;
-        $data['users_count'] = $this->UserObj->getUser($posted_data);
-
-        $posted_data = array();
-        $posted_data['count'] = true;
-        $posted_data['email'] = \Auth::user()->email;
-        
-        return view('client_dashboard', compact('data'));
-    }
-
-    public function staffDashboard()
-    {
-        // $posted_data = array();
-        // $posted_data['count'] = true;
-        // $data['users_count'] = $this->UserObj->getUser($posted_data);
-
-        $posted_data = array();
-        $posted_data['count'] = true;
-        $data['enquiry_form_count'] = $this->EnquiryFormObj->getEnquiryForm($posted_data);
-
-        $posted_data = array();
-        $posted_data['count'] = true;
-        $data['task_count'] = $this->TaskObj->getTask($posted_data);
-        
-        return view('staff_dashboard', compact('data'));
     }
     /**
      * Display a listing of the resource.

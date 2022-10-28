@@ -4,7 +4,7 @@
     // echo '<pre>'; print_r($data['calender']); echo '</pre>'; exit;
 @endphp
 @section('title', 'Dashboard')
-@extends('layouts.admin')
+@extends('layouts.master_dashboard')
 
 @section('content')
 

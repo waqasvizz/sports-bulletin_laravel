@@ -5,7 +5,7 @@
 @else
     @section('title', 'Add Email Message')
 @endif
-@extends('layouts.admin')
+@extends('layouts.master_dashboard')
 
 @section('content')
 

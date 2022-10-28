@@ -3,7 +3,7 @@
 @else
     @section('title', 'Add User')
 @endif
-@extends('layouts.admin')
+@extends('layouts.master_dashboard')
 
 @section('content')
 
