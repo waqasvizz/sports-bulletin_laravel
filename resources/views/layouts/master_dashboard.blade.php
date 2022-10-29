@@ -443,14 +443,26 @@
             
             @foreach ($data_arr as $key => $data_obj)
                 @php
+                    $main_menu = $data_obj->where('slug', $data_obj->slug)->pluck('slug','slug');
                     $childs_menu = $data_obj->sub_menus->pluck('slug','slug');
+                    $childs_count = $data_obj->sub_menus->count();
+                    // $class = ($request_url == $data_obj->url) ? 'active' : '';
+                    // $slug =  str_replace_first('/', '', $data_obj->url); 
+                    $slug =  $data_obj->url; 
+                    $class = (strpos(Request::path(), $slug) !== false) ? 'active' : '';
+                    // $class = (Request::path() == $slug ||) ? 'active' : '';
+
+                    $main_menu = $main_menu->ToArray();
+                    $childs_menu = $childs_menu->ToArray();
+                    $all_menu = array_merge($main_menu, $childs_menu); 
+                    // $all_menu = $childs_menu; 
                 @endphp
-                @canany($childs_menu)
+                
+                @canany($all_menu)
                     @php
-                        $childs_count = $data_obj->sub_menus->count();
-                        // $class = ($request_url == $data_obj->url) ? 'active' : '';
-                        $slug =  str_replace_first('/', '', $data_obj->url); 
-                        $class = (strpos(Request::path(), $slug) !== false) ? 'active' : '';
+                        // echo '<br>'.Request::path();
+                        // echo '<br>'.$slug;
+                        // echo '<pre>';print_r($main_menu);'</pre>';
                         // echo '<pre>';print_r($childs_menu);'</pre>';
                     @endphp
                     <li class="{{ $class }} nav-item">

@@ -68,6 +68,7 @@ class AssignPermissionController extends Controller
     public function store(Request $request)
     {   
         $posted_data = $request->all();
+        $posted_data['perms'] = isset($posted_data['perms'])? $posted_data['perms'] : array();
 
         $role = Role::where('name',$posted_data['role'])->first();
         $permissions = Permission::whereIn('id',$posted_data['perms'])->pluck('id','id')->all();
