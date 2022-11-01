@@ -27,12 +27,20 @@ use Auth;
 use Illuminate\Support\Facades\Crypt;
 use Laravel\Passport\Token;
 use App\Exports\ExportData;
-use Excel; 
+use Excel;
 
 
 class UserController extends Controller
 {
-    
+    function __construct()
+    {
+        parent::__construct();
+        $this->middleware('permission:user-list|user-edit|user-delete|user-status', ['only' => ['index']]);
+        $this->middleware('permission:user-create', ['only' => ['create','store']]);
+        $this->middleware('permission:user-edit|user-status', ['only' => ['edit','update']]);
+        $this->middleware('permission:user-delete', ['only' => ['destroy']]);
+    }
+
     public function testing() {
 
 
@@ -157,11 +165,12 @@ class UserController extends Controller
     public function index()
     {
         $data = array();
-        $data['all_roles'] = Role::getRoles();
+        $data['all_roles'] = Role::getRoles(['roles_not_in' => [1]]);
         $data['assigned_roles'] = \Auth::user()->getRoleNames();
 
         $posted_data = array();
         $posted_data['paginate'] = 10;
+        $posted_data['users_not_in'] = [1];
         $data['users'] = User::getUser($posted_data);
 
         return view('user.list', compact('data'));
@@ -267,7 +276,8 @@ class UserController extends Controller
                 Session::flash('error_message', $e->getMessage());
                 // dd("Error: ". $e->getMessage());
             }
-            return redirect()->back()->withInput();
+            // return redirect()->back()->withInput();
+            return redirect('/user');
         }
     }
 

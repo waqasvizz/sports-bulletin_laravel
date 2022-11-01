@@ -15,6 +15,15 @@ use PhpOffice\PhpSpreadsheet\Calculation\Category;
 
 class CategorieController extends Controller
 {
+    function __construct()
+    {
+        parent::__construct();
+        $this->middleware('permission:category-list|category-edit|category-delete', ['only' => ['index']]);
+        $this->middleware('permission:category-create', ['only' => ['create','store']]);
+        $this->middleware('permission:category-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:category-delete', ['only' => ['destroy']]);
+    }
+
     /**
      * Display a listing of the resource.
      *

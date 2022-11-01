@@ -1,5 +1,12 @@
 <?php
 
+   /**
+    *  @author  DANISH HUSSAIN <danishhussain9525@hotmail.com>
+    *  @link    Author Website: https://danishhussain.w3spaces.com/
+    *  @link    Author LinkedIn: https://pk.linkedin.com/in/danish-hussain-285345123
+    *  @since   2020-03-01
+   **/
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -9,6 +16,15 @@ use App\Models\ShortCode;
 
 class EmailMessageController extends Controller
 {
+    function __construct()
+    {
+        parent::__construct();
+        $this->middleware('permission:email-message-list|email-message-edit|email-message-delete', ['only' => ['index']]);
+        $this->middleware('permission:email-message-create', ['only' => ['create','store']]);
+        $this->middleware('permission:email-message-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:email-message-delete', ['only' => ['destroy']]);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -47,12 +63,6 @@ class EmailMessageController extends Controller
     {
         $request_data = $request->all();
 
-        echo "Line no @111"."<br>";
-        echo "<pre>";
-        print_r($request_data);
-        echo "</pre>";
-        exit("@@@@");
-
         $rules = array(
             'subject' => 'required',
             'message' => 'required'
@@ -69,7 +79,7 @@ class EmailMessageController extends Controller
             $this->EmailMessageObj->saveUpdateEmailMessages($posted_data);
 
             \Session::flash('message', 'Email Message created successfully!');
-            return redirect('/emailMessage');
+            return redirect('/email_message');
         }
     }
 
@@ -130,7 +140,7 @@ class EmailMessageController extends Controller
 
         \Session::flash('message', 'Email Message updated successfully!');
         // return redirect('/enquiry_forms');
-        return redirect('/emailMessage');
+        return redirect('/email_message');
     }
 
     /**
@@ -139,10 +149,10 @@ class EmailMessageController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(EmailMessage $emailMessage)
+    public function destroy(EmailMessage $email_message)
     {
-        $emailMessage->delete(); 
+        $email_message->delete(); 
         \Session::flash('message', 'Email Message deleted successfully!');
-        return redirect('/emailMessage');
+        return redirect('/email_message');
     }
 }

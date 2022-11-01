@@ -15,6 +15,8 @@
                 </tr>
             </thead>
             <tbody>
+                @php $super_admin = false; @endphp
+                @php $any_permission_found = false; @endphp
                 @foreach ($data['users'] as $key => $item)
                     @php
                         $sr_no = $key + 1;
@@ -38,12 +40,23 @@
                             $user_role_color = '#44b6c0';
                         }
                     @endphp
+
+                    @if ( $item->hasRole('Super Admin') )
+                        @php $super_admin = true; @endphp
+                        @continue
+                    @endif
                                 <!-- {{-- $user_role_color = '#b4b5af';
                                 $user_role_color = '#455356'; --}} -->
                     <tr>
-                        <td>{{ $sr_no }}</td>
+                        <td>
+                            @if ($super_admin)
+                                {{ $sr_no - 1 }}
+                            @else
+                                {{ $sr_no }}
+                            @endif
+                        </td>
+
                         {{-- <td>
-                            
                         @if(Cache::has('user-is-online' . $item->id))
                             online
                         @else
@@ -84,13 +97,15 @@
                         <td>{{ date('M d, Y H:i A', strtotime($item->created_at)) }}</td>
                         
                         <td>
+                            @canany(['user-edit', 'user-delete', 'user-status'])
                             <div class="dropdown">
-                                @if ( $item->hasRole('Admin') )
-                                {{-- @if ( isset($item->role) && $item->role != 1 ) --}}
+                                {{-- @if ( $item->hasRole('Admin') ) --}}
                                     <button type="button" class="btn btn-sm dropdown-toggle hide-arrow waves-effect waves-float waves-light" data-toggle="dropdown">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg>
                                     </button>
+                                    @php $any_permission_found = true; @endphp
                                     <div class="dropdown-menu">
+                                        @can('user-status')
                                         <form action="{{ url('update_user')}}" method="Post" enctype="multipart/form-data">
                                         @method('POST')
                                         @csrf
@@ -116,12 +131,16 @@
                                            
                                             @endif
                                         </form>
+                                        @endcan
 
+                                        @can('user-edit')
                                         <a class="dropdown-item" href="{{ url('user')}}/{{$item->id}}/edit">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2 mr-50"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>
                                             <span>Edit</span>
                                         </a>
+                                        @endcan
                                         
+                                        @can('user-delete')
                                         <form action="{{ url('user/'.$item['id']) }}" method="post">
                                             @method('delete')
                                             @csrf
@@ -135,9 +154,14 @@
 
                                             </button>
                                         </form>
+                                        @endcan
                                     </div>
-                                @endif
+                                {{-- @endif --}}
                             </div>
+                            @endcanany
+                            @if (!$any_permission_found)
+                                {{ 'Not Available' }}
+                            @endif
                         </td>
                     </tr>
                 @endforeach

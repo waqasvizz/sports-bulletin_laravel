@@ -16,6 +16,16 @@ use Spatie\Permission\Models\Permission;
 
 class MenuController extends Controller
 {
+
+    function __construct()
+    {
+        parent::__construct();
+        $this->middleware('permission:menu-list|menu-edit|menu-delete', ['only' => ['index']]);
+        $this->middleware('permission:menu-create', ['only' => ['create','store']]);
+        $this->middleware('permission:menu-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:menu-delete', ['only' => ['destroy']]);
+    }
+
     /**
      * Display a listing of the resource.
      *

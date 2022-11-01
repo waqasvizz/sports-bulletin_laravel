@@ -52,7 +52,9 @@
         <div class="alert alert-danger"><b>Sorry: </b>{{ Session::get('error_message') }}</div>
         @endif
 
-        <div id="all_permissions"></div>
+        <div id="all_permissions">
+            {{ $data['html'] }}
+        </div>
 
     </div>
 </div>

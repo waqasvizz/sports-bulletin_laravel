@@ -15,6 +15,15 @@ use PhpOffice\PhpSpreadsheet\Calculation\Category;
 
 class PermissionController extends Controller
 {
+    function __construct()
+    {
+        parent::__construct();
+        $this->middleware('permission:permission-list|permission-edit|permission-delete', ['only' => ['index']]);
+        $this->middleware('permission:permission-create', ['only' => ['create','store']]);
+        $this->middleware('permission:permission-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:permission-delete', ['only' => ['destroy']]);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -38,6 +47,15 @@ class PermissionController extends Controller
         $data['records'] = $this->PermissionObj->getPermissions([
             'paginate' => 10,
         ]);
+
+        $data['html'] = view('permission.ajax_records', compact('data'));
+
+
+        // echo "<pre>";
+        // echo "0000"."<br>";
+        // print_r($html);
+        // echo "</pre>";
+        // exit("@@@@");
 
         return view('permission.list', compact('data'));
     }

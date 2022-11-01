@@ -20,6 +20,12 @@ class Role extends Model
         if (isset($posted_data['id'])) {
             $query = $query->where('roles.id', $posted_data['id']);
         }
+        if (isset($posted_data['roles_in'])) {
+            $query = $query->whereIn('roles.id', $posted_data['roles_in']);
+        }
+        if (isset($posted_data['roles_not_in'])) {
+            $query = $query->whereNotIn('roles.id', $posted_data['roles_not_in']);
+        }
         if (isset($posted_data['name'])) {
             $query = $query->where('roles.name', 'like', '%' . $posted_data['name'] . '%');
         }

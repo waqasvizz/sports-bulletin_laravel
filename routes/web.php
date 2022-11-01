@@ -138,6 +138,6 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('assign_permission', AssignPermissionController::class);
     Route::resource('sub_menu', SubMenuController::class);
     Route::resource('notification', NotificationController::class);
-    Route::resource('emailMessage', EmailMessageController::class);
+    Route::resource('email_message', EmailMessageController::class);
     Route::resource('short_codes', EmailShortCodeController::class);
 });

@@ -17,6 +17,15 @@ use Spatie\Permission\Models\Permission;
 
 class SubMenuController extends Controller
 {
+    function __construct()
+    {
+        parent::__construct();
+        $this->middleware('permission:sub-menu-list|sub-menu-edit|sub-menu-delete', ['only' => ['index']]);
+        $this->middleware('permission:sub-menu-create', ['only' => ['create','store']]);
+        $this->middleware('permission:sub-menu-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:sub-menu-delete', ['only' => ['destroy']]);
+    }
+
     /**
      * Display a listing of the resource.
      *

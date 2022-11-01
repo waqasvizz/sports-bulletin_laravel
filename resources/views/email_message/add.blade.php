@@ -30,11 +30,11 @@
                             @endif
 
                             @if (isset($data->id))
-                                <form class="form" id="email_msg_form" action="{{ route('emailMessage.update', $data->id) }}" method="post" enctype="multipart/form-data">
+                                <form class="form" id="email_msg_form" action="{{ route('email_message.update', $data->id) }}" method="post" enctype="multipart/form-data">
                                 @method('PUT')
                                 
                             @else
-                                <form class="form" id="email_msg_form" action="{{ route('emailMessage.store') }}" method="POST" enctype="multipart/form-data">
+                                <form class="form" id="email_msg_form" action="{{ route('email_message.store') }}" method="POST" enctype="multipart/form-data">
                                 
                             @endif
                                 @csrf

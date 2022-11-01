@@ -17,6 +17,12 @@ use PhpOffice\PhpSpreadsheet\Calculation\Category;
 
 class AssignPermissionController extends Controller
 {
+    function __construct()
+    {
+        parent::__construct();
+        $this->middleware('permission:assign-permission', ['only' => ['index', 'ajax_get_assign_permissions', 'store']]);
+    }
+
     /**
      * Display a listing of the resource.
      *

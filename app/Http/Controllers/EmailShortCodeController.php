@@ -1,5 +1,12 @@
 <?php
 
+   /**
+    *  @author  DANISH HUSSAIN <danishhussain9525@hotmail.com>
+    *  @link    Author Website: https://danishhussain.w3spaces.com/
+    *  @link    Author LinkedIn: https://pk.linkedin.com/in/danish-hussain-285345123
+    *  @since   2020-03-01
+   **/
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -8,6 +15,15 @@ use App\Models\ShortCode;
 
 class EmailShortCodeController extends Controller
 {
+    function __construct()
+    {
+        parent::__construct();
+        $this->middleware('permission:shortcode-list|shortcode-edit|shortcode-delete', ['only' => ['index']]);
+        $this->middleware('permission:shortcode-create', ['only' => ['create','store']]);
+        $this->middleware('permission:shortcode-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:shortcode-delete', ['only' => ['destroy']]);
+    }
+
     /**
      * Display a listing of the resource.
      *

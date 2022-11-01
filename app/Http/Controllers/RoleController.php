@@ -1,5 +1,12 @@
 <?php
 
+   /**
+    *  @author  DANISH HUSSAIN <danishhussain9525@hotmail.com>
+    *  @link    Author Website: https://danishhussain.w3spaces.com/
+    *  @link    Author LinkedIn: https://pk.linkedin.com/in/danish-hussain-285345123
+    *  @since   2020-03-01
+   **/
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -14,6 +21,7 @@ class RoleController extends Controller
         $this->middleware('permission:role-edit', ['only' => ['edit','update']]);
         $this->middleware('permission:role-delete', ['only' => ['destroy']]);
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -25,12 +33,11 @@ class RoleController extends Controller
         // $data = Role::Paginate(10);
         $posted_data = array();
         $posted_data['paginate'] = 10;
+        $posted_data['roles_not_in'] = [1];
         $data = $this->RoleObj->getRoles($posted_data);
     
         return view('role.list', compact('data'));
     }
-
-
 
     public function create()
     {
