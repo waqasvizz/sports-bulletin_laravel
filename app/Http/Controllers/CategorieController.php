@@ -42,6 +42,7 @@ class CategorieController extends Controller
 
         $data['statuses'] = $this->CategorieObj::Categorie_Constants;
 
+        $data['html'] = view('categories.ajax_records', compact('data'));
         return view('categories.list', compact('data'));
     }
 

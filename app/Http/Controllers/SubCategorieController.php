@@ -36,8 +36,10 @@ class SubCategorieController extends Controller
         $posted_data['orderBy_name'] = 'category_id';
         $posted_data['orderBy_value'] = 'ASC';
         $posted_data['paginate'] = 10;
-        $data['records'] = $this->SubCategorieObj->getSubCategories($posted_data)->toArray();
+        $data['records'] = $this->SubCategorieObj->getSubCategories($posted_data);
 
+        $data['html'] = view('sub_categories.ajax_records', compact('data'));
+        
         unset($posted_data['paginate']);
         $data['categories'] = $this->CategorieObj->all();
 

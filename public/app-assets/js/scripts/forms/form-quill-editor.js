@@ -15,26 +15,26 @@
 
   // Bubble Editor
 
-  var bubbleEditor = new Quill('#bubble-container .editor', {
-    bounds: '#bubble-container .editor',
-    modules: {
-      formula: true,
-      syntax: true
-    },
-    theme: 'bubble'
-  });
+  // var bubbleEditor = new Quill('#bubble-container .editor', {
+  //   bounds: '#bubble-container .editor',
+  //   modules: {
+  //     formula: true,
+  //     syntax: true
+  //   },
+  //   theme: 'bubble'
+  // });
 
   // Snow Editor
 
-  var snowEditor = new Quill('#snow-container .editor', {
-    bounds: '#snow-container .editor',
-    modules: {
-      formula: true,
-      syntax: true,
-      toolbar: '#snow-container .quill-toolbar'
-    },
-    theme: 'snow'
-  });
+  // var snowEditor = new Quill('#snow-container .editor', {
+  //   bounds: '#snow-container .editor',
+  //   modules: {
+  //     formula: true,
+  //     syntax: true,
+  //     toolbar: '#snow-container .quill-toolbar'
+  //   },
+  //   theme: 'snow'
+  // });
 
   // Full Editor
 

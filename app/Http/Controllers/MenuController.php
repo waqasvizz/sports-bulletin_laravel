@@ -44,6 +44,7 @@ class MenuController extends Controller
 
         $data['statuses'] = $this->MenuObj::Menu_Status_Constants;
 
+        $data['html'] = view('menu.ajax_records', compact('data'));
         return view('menu.list', compact('data'));
     }
 

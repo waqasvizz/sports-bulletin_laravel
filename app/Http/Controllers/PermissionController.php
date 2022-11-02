@@ -49,14 +49,6 @@ class PermissionController extends Controller
         ]);
 
         $data['html'] = view('permission.ajax_records', compact('data'));
-
-
-        // echo "<pre>";
-        // echo "0000"."<br>";
-        // print_r($html);
-        // echo "</pre>";
-        // exit("@@@@");
-
         return view('permission.list', compact('data'));
     }
 

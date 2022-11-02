@@ -2,7 +2,7 @@ jQuery(document).ready(function() {
 
     var path = $(location).attr("pathname");
     if (path === '/sub_category'){
-        getSubCategoryAjaxData();
+        // getSubCategoryAjaxData();
     }
 
     //Sub Categories Links 

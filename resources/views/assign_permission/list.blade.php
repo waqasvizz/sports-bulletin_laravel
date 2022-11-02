@@ -83,7 +83,8 @@
                             </div>
                             --}}
                             
-                            <div class="card-body assign_permissions_list" style="display: none; padding-top: 0px">
+                            <div class="card-body assign_permissions_list" style="display: block; padding-top: 0px">
+                                {{ $data['html'] }}
                             </div>
                         </form>
                     </div>

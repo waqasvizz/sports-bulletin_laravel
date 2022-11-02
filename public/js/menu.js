@@ -3,7 +3,7 @@ jQuery(document).ready(function() {
 
     var path = $(location).attr("pathname");
     if (path === '/menu'){
-        getMenuAjaxData();
+        // getMenuAjaxData();
     }
 
     //Menus Links 
@@ -45,6 +45,13 @@ function getMenuAjaxData() {
         success: function(response) {
             $('.loaderOverlay').fadeOut();
             $("#all_menus").html(response);
+
+            if (feather) {
+                feather.replace({
+                    width: 14,
+                    height: 14
+                });
+            }
         }
     });
 }

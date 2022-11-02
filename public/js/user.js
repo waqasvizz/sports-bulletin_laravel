@@ -3,7 +3,7 @@ jQuery(document).ready(function() {
 
     var path = $(location).attr("pathname");
     if (path === '/user'){
-        getUserAjaxData();
+        // getUserAjaxData();
     }
     
 

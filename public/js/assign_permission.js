@@ -2,7 +2,7 @@ jQuery(document).ready(function() {
 
     var path = $(location).attr("pathname");
     if (path === '/assign_permission'){
-        getAssignPermissionAjaxData();
+        // getAssignPermissionAjaxData();
     }
 
     //Permissions Links 
@@ -65,11 +65,10 @@ function syncPermissionsAjaxData() {
         method: 'POST',
         dataType:'JSON',
         success: function(response) {
-
             if (response.status == 200)
                 $('.alert-success-ajax').html('<b>Success: </b>' + response.message).show();
             else if (response.status != 200)
-                $('.alert-danger-ajax').html('<b>Error: </b> Something went wrong during query').show();
+                $('.alert-danger-ajax').html('<b>Error: </b>' + response.message).show();
 
             setTimeout(function () {
                 $('.alert-success').hide();

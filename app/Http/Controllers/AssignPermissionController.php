@@ -46,9 +46,10 @@ class AssignPermissionController extends Controller
 
         $data['roles'] = $this->RoleObj->getRoles();
         $data['permissions'] = $this->PermissionObj->getPermissions([
-            'paginate' => 10,
+            // 'paginate' => 10,
         ]);
 
+        $data['html'] = view('assign_permission.ajax_permissions', compact('data'));
         return view('assign_permission.list', compact('data'));
     }
 
@@ -74,6 +75,24 @@ class AssignPermissionController extends Controller
     public function store(Request $request)
     {   
         $posted_data = $request->all();
+   
+        $validator = \Validator::make($posted_data, [
+            'role' => 'required',
+        ]);
+
+        if($validator->fails()){
+            if ($request->ajax()) {
+                return response()->json([
+                    'status'            => 400,
+                    'message'           => $validator->errors()->first(),
+                    'data'              => [],
+                ], 200);
+            }
+            else {
+                return redirect()->back()->withErrors($validator)->withInput();   
+            }
+        }
+
         $posted_data['perms'] = isset($posted_data['perms'])? $posted_data['perms'] : array();
 
         $role = Role::where('name',$posted_data['role'])->first();

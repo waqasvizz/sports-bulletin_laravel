@@ -33,12 +33,40 @@ jQuery(document).ready(function () {
         $("#email_message").val(email_message + " " + e.target.value).focus();
     });
 
-    var quill = new Quill('#editor', {
-        modules: {
-            toolbar: '#toolbar'
-        },
-        theme: 'snow'
-    });
+
+    var editor = $('.editor');
+    if (editor.length) {
+
+        setTimeout( () => {
+            var quill = new Quill('.editor', {
+                bounds: '.editor',
+                modules: {
+                    toolbar: '.toolbar'
+                },
+                theme: 'snow'
+            });
+
+            // var container = document.getElementById(editorId);
+            // var editor    = new Quill( container );
+        }, 3000 );   
+    }
+
+    // if (commentEditor.length) {
+    //     new Quill('.comment-editor', {
+    //         modules: {
+    //             toolbar: '.comment-toolbar'
+    //         },
+    //         placeholder: 'Write a Comment... ',
+    //         theme: 'snow'
+    //     });
+    // }
+            
+    // var quill = new Quill('.editor', {
+    //     modules: {
+    //         toolbar: '#toolbar'
+    //     },
+    //     theme: 'snow'
+    // });
 
     $(document).on('submit', '#email_msg_form', function (event) {
         // $("#editorClone").val($(".editor").html());

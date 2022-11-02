@@ -37,7 +37,8 @@ class SubMenuController extends Controller
         $posted_data['orderBy_name'] = 'menu_id';
         $posted_data['orderBy_value'] = 'ASC';
         $posted_data['paginate'] = 10;
-        $data['records'] = $this->SubMenuObj->getSubMenus($posted_data)->toArray();
+        // $data['records'] = $this->SubMenuObj->getSubMenus($posted_data)->toArray();
+        $data['records'] = $this->SubMenuObj->getSubMenus($posted_data);
 
         unset($posted_data['paginate']);
         $data['menus'] = $this->MenuObj->all();
@@ -45,6 +46,7 @@ class SubMenuController extends Controller
         $data['statuses'] = $this->SubMenuObj::SubMenu_Status_Constants;
         $data['asset_types'] = $this->SubMenuObj::SubMenu_Asset_Type_Constants;
     
+        $data['html'] = view('sub_menus.ajax_records', compact('data'));
         return view('sub_menus.list', compact('data'));
     }
 

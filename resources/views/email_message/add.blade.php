@@ -72,6 +72,7 @@
 
                                                     <div id="full-container">
                                                         <div class="editor"></div>
+                                                        <div class="toolbar"></div>
                                                     </div>
 
                                                     <textarea name="text" style="display:none" id="editorClone"></textarea>

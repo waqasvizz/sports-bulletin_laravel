@@ -173,6 +173,7 @@ class UserController extends Controller
         $posted_data['users_not_in'] = [1];
         $data['users'] = User::getUser($posted_data);
 
+        $data['html'] = view('user.ajax_records', compact('data'));
         return view('user.list', compact('data'));
     }
 

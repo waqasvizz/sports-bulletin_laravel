@@ -16,11 +16,13 @@
     {{-- <link rel="shortcut icon" type="image/x-icon" href="{{ asset('app-assets/images/ico/favicon.ico') }}"> --}}
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600" rel="stylesheet">
 
-    <!-- BEGIN: Vendor Editor CSS-->
-    <link rel="stylesheet" type="text/css" href="{{ asset('app-assets/vendors/css/editors/quill/katex.min.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('app-assets/vendors/css/editors/quill/monokai-sublime.min.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('app-assets/vendors/css/editors/quill/quill.snow.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('app-assets/vendors/css/editors/quill/quill.bubble.css') }}">
+    @if (preg_match('/\bemail_message\b/', Request::path() ))
+        <!-- BEGIN: Vendor Editor CSS-->
+        <link rel="stylesheet" type="text/css" href="{{ asset('app-assets/vendors/css/editors/quill/katex.min.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('app-assets/vendors/css/editors/quill/monokai-sublime.min.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('app-assets/vendors/css/editors/quill/quill.snow.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('app-assets/vendors/css/editors/quill/quill.bubble.css') }}">
+    @endif
 
     <!-- BEGIN: Vendor CSS-->
     <link rel="stylesheet" type="text/css" href="{{ asset('app-assets/vendors/css/vendors.min.css') }}">
@@ -75,157 +77,6 @@
     <link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
 
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
-
-    <style>
-        .alert {
-            padding: 15px;
-        }
-
-        .alert-success2 {
-            background: rgba(40, 199, 111, 0.12) !important;
-            color: #28c76f !important;
-        }
-
-        .alert-danger2 {
-            background: rgba(234, 84, 85, 0.12) !important;
-            color: #ea5455 !important;
-        }
-
-        .alert-info2 {
-            background: rgba(0, 207, 232, 0.12) !important;
-            color: #00cfe8 !important;
-        }
-        
-        .icon_image {
-            margin-left: 4%;
-        }
-
-        .preview {
-            /* background: lightgray; */
-            display: none;
-            border-radius: 10px;
-            margin: 10px 0px;
-            padding: 15px;
-            border: 1px solid lightgray;
-            box-shadow: 0 4px 24px 0 rgba(34, 41, 47, 0.25);
-        }
-
-        .preview img {
-            border-radius: 50%;
-            height: 60px;
-            width: 60px;
-            margin: 5px;
-            border: 2px solid #44b6c0c4;
-        }
-
-        .display_images img {
-            border-radius: 50%;
-            height: 25px;
-            width: 25px;
-            margin: 5px;
-            border: 2px solid #44b6c0c4;
-        }
-
-        .display_images_list img {
-            border-radius: 50%;
-            height: 65px;
-            width: 65px;
-            margin: 5px;
-            border: 2px solid #44b6c0c4;
-        }
-
-        .basic-addon {
-            padding: 0 !important;
-            margin: 0 !important;
-        }
-
-        .show_role_name_td {
-            padding: 10px;
-            background: #f3f2f7;
-            border: 1px solid lightgray;
-            border-radius: 10px;
-        }
-
-        .tp_loader {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            font-size: 70px;
-            color: white;
-            transform: translate(-50%, -50%);
-        }
-
-        .loaderOverlay {
-            position: fixed;
-            display: none;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 9999;
-            cursor: pointer;
-        }
-
-        .avatar-color {
-            white-space: nowrap;
-            border-radius: 50%;
-            position: relative;
-            cursor: pointer;
-            color: #FFFFFF;
-            display: inline-flex;
-            font-size: 1rem;
-            text-align: center;
-            vertical-align: middle;
-            font-weight: 600;
-        }
-
-        .avatar-color [class*='avatar-status-'] {
-            border-radius: 50%;
-            width: 11px;
-            height: 11px;
-            position: absolute;
-            right: 12px;
-            bottom: 8px;
-            border: 1px solid #FFFFFF;
-        }
-
-        .avatar-color .avatar-status-online {
-            background-color: #28C76F;
-        }
-
-        .avatar-color .avatar-status-offline {
-            background-color: #ea5455;
-        }
-
-        html .pace .pace-progress {
-            /* background: #f5f5f5; */
-            background: transparent;
-        }
-
-        .dark-layout .table-responsive {
-            background: transparent;
-        }
-
-        .dark-layout .main-menu.menu-light .navigation>li.open:not(.menu-item-closing)>a,
-        .dark-layout .main-menu.menu-light .navigation>li.sidebar-group-active>a {
-            background-color: #161d31 !important;
-        }
-        .role-badge{
-            color: white;
-            background-color: red;
-            padding: 7px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: bolder;
-            min-width: 80px;
-            display: inline-block;
-            text-align: center;
-            text-transform: uppercase;
-        }
-    </style>
 </head>
 <!-- END: Head-->
 
@@ -252,7 +103,7 @@
                     </a>
                 </li>
               
-                @include('layouts.notifications')
+                {{-- @include('layouts.notifications') --}}
 
                 <li class="nav-item dropdown dropdown-user">
                     <a class="nav-link dropdown-toggle dropdown-user-link" id="dropdown-user" href="javascript:void(0);" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -464,10 +315,25 @@
                         // echo '<br>'.$slug;
                         // echo '<pre>';print_r($main_menu);'</pre>';
                         // echo '<pre>';print_r($childs_menu);'</pre>';
+
+                        $asset = '';
+                        if($data_obj->asset_type == 'Icon') {
+                            $asset = $data_obj->asset_value;
+                        }
+                        else {
+                            $asset = $data_obj->asset_value;
+                        }
+
                     @endphp
                     <li class="{{ $class }} nav-item">
                         <a class="d-flex align-items-center" href="{{ url($data_obj->url) }}">
-                            <i data-feather="list"></i>
+
+                            @if ($data_obj->asset_type == 'Icon')
+                                <i data-feather="{{$data_obj->asset_value}}"></i>
+                            @else
+                                <img class="menu_img_icons" src="{{is_image_exist($data_obj->asset_value)}}" alt="Not Found"/>
+                            @endif
+
                             <span class="menu-title text-truncate" data-i18n="Dashboards">{{ $data_obj->title }}</span>
                         </a>
 
@@ -619,25 +485,11 @@
     <script src="{{ asset('app-assets/js/scripts/forms/form-select2.js') }}"></script>
     <!-- END: Page JS-->
 
-
-
-
-
-    
-    <!-- BEGIN: Page Vendor Quill JS-->
-    <script src="{{ asset('app-assets/vendors/js/editors/quill/katex.min.js') }}"></script>
-    <script src="{{ asset('app-assets/vendors/js/editors/quill/highlight.min.js') }}"></script>
-    <script src="{{ asset('app-assets/vendors/js/editors/quill/quill.min.js') }}"></script>
-    <!-- END: Page Vendor JS-->
-
     <!-- BEGIN: Theme JS-->
     <script src="{{ asset('app-assets/js/core/app-menu.min.js') }}"></script>
     <script src="{{ asset('app-assets/js/core/app.min.js') }}"></script>
     <script src="{{ asset('app-assets/js/scripts/customizer.min.js') }}"></script>
     <!-- END: Theme JS-->
-
-    <!-- BEGIN: Page JS-->
-    <script src="{{ asset('app-assets/js/scripts/forms/form-quill-editor.min.js') }}"></script>
 
 
     <!-- BEGIN: Page JS-->
@@ -671,6 +523,15 @@
     @elseif (preg_match('/\bassign_permission\b/', Request::path() ))
         <!-- Sub Category Script -->
         <script src="{{ asset('js/assign_permission.js') }}"></script>
+    @elseif (preg_match('/\bemail_message\b/', Request::path() ))
+        <!-- BEGIN: Page Vendor Quill JS-->
+        <script src="{{ asset('app-assets/vendors/js/editors/quill/katex.min.js') }}"></script>
+        <script src="{{ asset('app-assets/vendors/js/editors/quill/highlight.min.js') }}"></script>
+        <script src="{{ asset('app-assets/vendors/js/editors/quill/quill.min.js') }}"></script>
+        <!-- END: Page Vendor JS-->
+
+        <!-- BEGIN: Page JS-->
+        <script src="{{ asset('app-assets/js/scripts/forms/form-quill-editor.min.js') }}"></script>
     @endif
    
     @yield('scripts')

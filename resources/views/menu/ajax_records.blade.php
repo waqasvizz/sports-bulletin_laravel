@@ -35,8 +35,8 @@
                             <td><span class="role-badge" style="background-color: {{ $color }}">{{ $item['status'] }}</span></td>
                             <td>{{ $item['sort_order'] }}</td>
                             <td>{{ $item['asset_type'] }}</td>
+                            <td>
                             @if ($item['asset_type'] == 'Image')
-                                <td>
                                     <div class="display_images_list">
                                         <span class="avatar-color">
                                             <a data-fancybox="demo" data-src="{{ is_image_exist($item['asset_value']) }}">
@@ -44,12 +44,10 @@
                                             </a>
                                         </span>
                                     </div>
-                                </td>
                             @else
-                            <td>
-                                {{ $item['asset_value'] }}
-                            </td>
+                                <i data-feather="{{$item['asset_value']}}" style="margin-left: 12px;"></i>
                             @endif
+                            </td>
                             <td>
                                 @canany(['menu-edit', 'menu-delete'])
                                 <div class="dropdown">
