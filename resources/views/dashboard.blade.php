@@ -18,7 +18,40 @@
             <div class="row match-height">
                 <!-- Subscribers Chart Card starts -->
 
-                <div class="col-lg-3 col-sm-6 col-12">
+                    @if (isset($data['roles']) && count($data['roles'])>0)
+                        @foreach ($data['roles'] as $key => $item)
+
+
+                            @if (Auth::user()->hasRole($item->name) || Auth::user()->hasRole('Super Admin'))
+                                @php
+                                    $user_count = App\Models\User::whereHas(
+                                                        'roles', function($q) use($item){
+                                                            $q->where('name', $item->name);
+                                                        }
+                                                    )->count();
+                                @endphp
+                                    
+                                <div class="col-lg-3 col-sm-6 col-12">
+                                    <div class="card">
+                                        <div class="card-header flex-column align-items-start pb-0">
+                                            <div class="avatar bg-light-primary p-50 m-0">
+                                                <a href="javascript:void()" style="color: #44b6c0 !important;">
+                                                    <div class="avatar-content">
+                                                        <i data-feather="users" class="font-medium-5"></i>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <h2 class="font-weight-bolder mt-1">{{ $user_count }}</h2>
+                                            <p class="card-text mb-1">{{ $item->name }}</p>
+                                        </div>
+                                        {{-- <div id="gained-chart"></div> --}}
+                                    </div>
+                                </div>
+                            @endif
+                            
+                        @endforeach
+                    @endif
+                {{-- <div class="col-lg-3 col-sm-6 col-12">
                     <div class="card">
                         <div class="card-header flex-column align-items-start pb-0">
                             <div class="avatar bg-light-primary p-50 m-0">
@@ -33,7 +66,7 @@
                         </div>
                         <div id="gained-chart"></div>
                     </div>
-                </div>
+                </div> --}}
                 <!-- Subscribers Chart Card ends -->
                 {{--
                 <div class="col-lg-3 col-sm-6 col-12">

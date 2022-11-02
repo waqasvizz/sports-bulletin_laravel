@@ -153,8 +153,15 @@ class UserController extends Controller
         $posted_data = array();
         $posted_data['count'] = true;
         $data['users_count'] = $this->UserObj->getUser($posted_data);
+
         $posted_data = array();
         $data['calender'] = json_encode($posted_data);
+
+        $posted_data = array();
+        $posted_data['orderBy_name'] = 'name';
+        $posted_data['orderBy_value'] = 'Asc';
+        $data['roles'] = Role::getRoles($posted_data);
+
         return view('dashboard', compact('data'));
     }
     /**
