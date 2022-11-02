@@ -300,7 +300,8 @@
                     // $class = ($request_url == $data_obj->url) ? 'active' : '';
                     // $slug =  str_replace_first('/', '', $data_obj->url); 
                     $slug =  $data_obj->url; 
-                    $class = (strpos(Request::path(), $slug) !== false) ? 'active' : '';
+                    $str_slug =  '/'.Request::path(); 
+                    $class = (strpos($str_slug, $slug) !== false) ? 'active' : '';
                     // $class = (Request::path() == $slug ||) ? 'active' : '';
 
                     $main_menu = $main_menu->ToArray();
@@ -486,7 +487,7 @@
     <!-- END: Page JS-->
 
     <!-- BEGIN: Theme JS-->
-    <script src="{{ asset('app-assets/js/core/app-menu.min.js') }}"></script>
+    <!-- <script src="{{ asset('app-assets/js/core/app-menu.min.js') }}"></script> -->
     <script src="{{ asset('app-assets/js/core/app.min.js') }}"></script>
     <script src="{{ asset('app-assets/js/scripts/customizer.min.js') }}"></script>
     <!-- END: Theme JS-->

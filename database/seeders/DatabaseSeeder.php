@@ -29,6 +29,7 @@ class DatabaseSeeder extends Seeder
             SubMenuSeeder::class,
             ShortCodeSeeder::class,
             EmailMessageSeeder::class,
+            PassportSeeder::class,
         ]);
     }
 }
