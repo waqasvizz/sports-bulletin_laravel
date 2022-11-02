@@ -35,50 +35,50 @@ Route::get('/clear-cache', function() {
     return '<h1>Cache facade value cleared</h1>';
 })->name('clear-cache');
 
-Route::get('/schedule-run', function() {
-    Artisan::call("schedule:run");
-    return '<h1>schedule run activated</h1>';
-});
+// Route::get('/schedule-run', function() {
+//     Artisan::call("schedule:run");
+//     return '<h1>schedule run activated</h1>';
+// });
 
-Route::get('/site-down', function() {
-    Artisan::call('down --secret="harrypotter"');
-    return '<h1>Application is now in maintenance mode.</h1>';
-});
+// Route::get('/site-down', function() {
+//     Artisan::call('down --secret="harrypotter"');
+//     return '<h1>Application is now in maintenance mode.</h1>';
+// });
 
-Route::get('/site-up', function() {
-    Artisan::call('up');
-    return '<h1>Application is now live..</h1>';
-});
+// Route::get('/site-up', function() {
+//     Artisan::call('up');
+//     return '<h1>Application is now live..</h1>';
+// });
 
-Route::get('/run-seeder', function() {
-    Artisan::call("db:seed");
-    return '<h1>Dummy data added successfully</h1>';
-});
+// Route::get('/run-seeder', function() {
+//     Artisan::call("db:seed");
+//     return '<h1>Dummy data added successfully</h1>';
+// });
 
-Route::get('/storage-link', function() {
-    Artisan::call("storage:link");
-    return '<h1>storage link activated</h1>';
-});
+// Route::get('/storage-link', function() {
+//     Artisan::call("storage:link");
+//     return '<h1>storage link activated</h1>';
+// });
     
-Route::get('/queue-work', function() {
-    Artisan::call("queue:work");
-    return '<h1>queue work activated</h1>';
-});
+// Route::get('/queue-work', function() {
+//     Artisan::call("queue:work");
+//     return '<h1>queue work activated</h1>';
+// });
     
-Route::get('/migration-refresh', function() {
-    Artisan::call('migrate:refresh');
-    return '<h1>Migration refresh successfully</h1>';
-});
+// Route::get('/migration-refresh', function() {
+//     Artisan::call('migrate:refresh');
+//     return '<h1>Migration refresh successfully</h1>';
+// });
     
-Route::get('/migration-fresh', function() {
-    Artisan::call("migrate:fresh");
-    return '<h1>Migration fresh successfully</h1>';
-});
+// Route::get('/migration-fresh', function() {
+//     Artisan::call("migrate:fresh");
+//     return '<h1>Migration fresh successfully</h1>';
+// });
     
-Route::get('/passport-install', function() {   
-    Artisan::call('passport:install');
-    return '<h1>Passport install successfully</h1>';
-});
+// Route::get('/passport-install', function() {   
+//     Artisan::call('passport:install');
+//     return '<h1>Passport install successfully</h1>';
+// });
 
 // Auth::routes();
 
