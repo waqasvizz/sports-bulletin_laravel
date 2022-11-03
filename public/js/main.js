@@ -34,22 +34,22 @@ jQuery(document).ready(function () {
     });
 
 
-    var editor = $('.editor');
-    if (editor.length) {
+    // var editor = $('.editor');
+    // if (editor.length) {
 
-        setTimeout( () => {
-            var quill = new Quill('.editor', {
-                bounds: '.editor',
-                modules: {
-                    toolbar: '.toolbar'
-                },
-                theme: 'snow'
-            });
+    //     setTimeout( () => {
+    //         var quill = new Quill('.editor', {
+    //             bounds: '.editor',
+    //             modules: {
+    //                 toolbar: '.toolbar'
+    //             },
+    //             theme: 'snow'
+    //         });
 
-            // var container = document.getElementById(editorId);
-            // var editor    = new Quill( container );
-        }, 3000 );   
-    }
+    //         // var container = document.getElementById(editorId);
+    //         // var editor    = new Quill( container );
+    //     }, 3000 );   
+    // }
 
     // if (commentEditor.length) {
     //     new Quill('.comment-editor', {
@@ -61,18 +61,22 @@ jQuery(document).ready(function () {
     //     });
     // }
             
-    // var quill = new Quill('.editor', {
-    //     modules: {
-    //         toolbar: '#toolbar'
-    //     },
-    //     theme: 'snow'
-    // });
+    var quill = new Quill('.editor', {
+        modules: {
+            toolbar: '#toolbar'
+        },
+        theme: 'snow'
+    });
 
     $(document).on('submit', '#email_msg_form', function (event) {
-        // $("#editorClone").val($(".editor").html());
-        $("#editorClone").val($('.ql-editor').html());
-
+        $("#editorClone").val($(".editor").html());
+        // $("#editorClone").val($('.ql-editor').html());
     });
+
+    // function (event) {
+        // $("#editorClone").val($(".editor").html());
+        // $("#editorClone").val($('.ql-editor').html());
+    // });
 
     $(document).on('click', '#delButton, #block_user', function (event) {
         var btn_txt = $(this).text();

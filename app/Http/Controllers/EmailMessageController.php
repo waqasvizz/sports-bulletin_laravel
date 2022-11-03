@@ -68,15 +68,14 @@ class EmailMessageController extends Controller
             'message' => 'required'
         );
 
-        $validator = \Validator::make($request->all(), $rules);
+        $validator = \Validator::make($request_data, $rules);
 
         if ($validator->fails()) {
             
             return redirect()->back()->withErrors($validator)->withInput();
         } else {
-            $posted_data = $request->all();
-            // echo '<pre>';print_r($posted_data);echo '</pre>';exit;
-            $this->EmailMessageObj->saveUpdateEmailMessages($posted_data);
+
+            $this->EmailMessageObj->saveUpdateEmailMessages($request_data);
 
             \Session::flash('message', 'Email Message created successfully!');
             return redirect('/email_message');

@@ -72,10 +72,10 @@
 
                                                     <div id="full-container">
                                                         <div class="editor"></div>
-                                                        <div class="toolbar"></div>
                                                     </div>
 
-                                                    <textarea name="text" style="display:none" id="editorClone"></textarea>
+                                                    <input type="hidden" value="" name="message_content"/>
+                                                    <textarea name="message" style="display:none" id="editorClone"></textarea>
                                                     
                                                     {{--
                                                     <textarea class="getPos"></textarea>
@@ -91,6 +91,7 @@
                                                 </div>
                                             </div>
 
+                                            {{--
                                             <div class="col-md-12 col-12">
                                                 <div class="form-group">
                                                     <label for="emaiil_short_codes">Email short Codes</label>
@@ -109,6 +110,8 @@
                                                     @enderror
                                                 </div>
                                             </div>
+                                            --}}
+
                                         </div>
                                     </div>
                                      
