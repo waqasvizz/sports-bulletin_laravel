@@ -64,7 +64,7 @@ class EmailMessage extends Model
             $data->subject = $posted_data['subject'];
         }
         if (isset($posted_data['message'])) {
-            $data->message = $posted_data['message'];
+            $data->message = encrypt($posted_data['message']);
         }
         $data->save();
         return $data->id;

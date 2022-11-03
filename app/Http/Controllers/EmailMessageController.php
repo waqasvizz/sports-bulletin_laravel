@@ -62,6 +62,9 @@ class EmailMessageController extends Controller
     public function store(Request $request)
     {
         $request_data = $request->all();
+        // echo '<pre>';print_r($request_data);'</pre>';exit;
+        // \Session::flash('message', json_encode($request_data));
+        // return redirect()->back();
 
         $rules = array(
             'subject' => 'required',
