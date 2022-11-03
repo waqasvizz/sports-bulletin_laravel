@@ -72,9 +72,9 @@
 
                                                     <div id="full-container">
                                                         <div class="editor"></div>
+                                                        <div class="toolbar"></div>
                                                     </div>
 
-                                                    <input type="hidden" value="" name="message_content"/>
                                                     <textarea name="message" style="display:none" id="editorClone"></textarea>
                                                     
                                                     {{--
