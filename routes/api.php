@@ -20,16 +20,26 @@ use App\Http\Controllers\Api\RegisterController;
 // });
 
 
+
+Route::post('login', [RegisterController::class, 'login_user']);
+Route::post('register', [RegisterController::class, 'register_user']);
+Route::post('forgot_password', [RegisterController::class, 'forgotPassword']);
+Route::post('change_password', [RegisterController::class, 'changePassword']);
+Route::get('verify-email/{token?}', [RegisterController::class, 'verifyUserEmail'])->name('email_verify');
+
+
+/*
 Route::post('register', [RegisterController::class, 'register']);
 Route::post('login', [RegisterController::class, 'login']);
 Route::post('forgot_password', [RegisterController::class, 'forgotPassword']);
-     
+*/
+
 Route::middleware('auth:api')->group( function () {
     
-    Route::post('logout', [RegisterController::class, 'logoutProfile']);
+    // Route::post('logout', [RegisterController::class, 'logoutProfile']);
 
-    Route::get('get_profile', [RegisterController::class, 'getProfile']);
-    Route::post('update_profile', [RegisterController::class, 'updateProfile']);
+    Route::get('get_profile', [RegisterController::class, 'get_profile']);
+    // Route::post('update_profile', [RegisterController::class, 'updateProfile']);
 
     //resouce routes
     // Route::resource('services', ServiceController::class);

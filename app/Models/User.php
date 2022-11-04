@@ -89,8 +89,14 @@ class User extends Authenticatable
         if (isset($posted_data['email'])) {
             $query = $query->where('users.email', $posted_data['email']);
         }
-        if (isset($posted_data['name'])) {
-            $query = $query->where('users.name', 'like', '%' . $posted_data['name'] . '%');
+        if (isset($posted_data['first_name'])) {
+            $query = $query->where('users.first_name', 'like', '%' . $posted_data['first_name'] . '%');
+        }
+        if (isset($posted_data['last_name'])) {
+            $query = $query->where('users.last_name', 'like', '%' . $posted_data['last_name'] . '%');
+        }
+        if (isset($posted_data['full_name'])) {
+            $query = $query->where('users.full_name', 'like', '%' . $posted_data['full_name'] . '%');
         }
         if (isset($posted_data['roles'])) {
             $query = $query->whereHas("roles", function($qry) use ($posted_data) {
@@ -100,8 +106,8 @@ class User extends Authenticatable
 	    if (isset($posted_data['phone_number'])) {
             $query = $query->where('users.phone_number', $posted_data['phone_number']);
         }
-        if (isset($posted_data['status'])) {
-            $query = $query->where('users.user_status', $posted_data['status']);
+        if (isset($posted_data['user_status'])) {
+            $query = $query->where('users.user_status', $posted_data['user_status']);
         }
         if (isset($posted_data['last_seen'])) {
             $query = $query->where('users.last_seen', $posted_data['last_seen']);
@@ -164,30 +170,65 @@ class User extends Authenticatable
         if (isset($posted_data['last_name'])) {
             $data->last_name = $posted_data['last_name'];
         }
+        if (isset($posted_data['full_name'])) {
+            $data->full_name = $posted_data['full_name'];
+        }
         if (isset($posted_data['email'])) {
             $data->email = $posted_data['email'];
         }
         if (isset($posted_data['password'])) {
             $data->password = Hash::make($posted_data['password']);
         }
-        // if (isset($posted_data['role'])) {
-        //     $data->role = $posted_data['role'];
-        // }
-        
+        if (isset($posted_data['user_type'])) {
+            $data->user_type = $posted_data['user_type'];
+        }
+        if (isset($posted_data['dob'])) {
+            $data->dob = $posted_data['dob'];
+        }
+        if (isset($posted_data['location'])) {
+            $data->location = $posted_data['location'];
+        }
+        if (isset($posted_data['country'])) {
+            $data->country = $posted_data['country'];
+        }
+        if (isset($posted_data['city'])) {
+            $data->city = $posted_data['city'];
+        }
+        if (isset($posted_data['state'])) {
+            $data->state = $posted_data['state'];
+        }
+        if (isset($posted_data['latitude'])) {
+            $data->latitude = $posted_data['latitude'];
+        }
+        if (isset($posted_data['longitude'])) {
+            $data->longitude = $posted_data['longitude'];
+        }
         if (isset($posted_data['profile_image'])) {
             $data->profile_image = $posted_data['profile_image'];
+        }
+        if (isset($posted_data['phone_number'])) {
+            $data->phone_number = $posted_data['phone_number'];
         }
         if (isset($posted_data['user_status'])) {
             $data->user_status = $posted_data['user_status'];
         }
+        if (isset($posted_data['register_from'])) {
+            $data->register_from = $posted_data['register_from'];
+        }
         if (isset($posted_data['last_seen'])) {
             $data->last_seen = $posted_data['last_seen'];
+        }
+        if (isset($posted_data['email_verified_at'])) {
+            $data->email_verified_at = $posted_data['email_verified_at'];
         }
         if (isset($posted_data['time_spent'])) {
             $data->time_spent = $posted_data['time_spent'];
         }
         if (isset($posted_data['theme_mode'])) {
             $data->theme_mode = $posted_data['theme_mode'];
+        }
+        if (isset($posted_data['remember_token'])) {
+            $data->remember_token = $posted_data['remember_token'];
         }
         $data->save();
         return $data;
