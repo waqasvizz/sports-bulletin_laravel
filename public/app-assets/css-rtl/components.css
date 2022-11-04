@@ -341,7 +341,7 @@ html .navbar-static.footer-hidden .app-content .content-area-wrapper, html .navb
   100vh -
   calc(
   calc(2rem * 2) + 4.45rem + 0rem + 0rem + 0rem
-  ));#44b6c0
+  ));#7367F0
   height : calc(
   var(--vh, 1vh) * 100 -
   calc(
@@ -663,7 +663,7 @@ html .pace .pace-progress {
 
 .sidenav-overlay {
   position : fixed;
-  top : 0;#44b6c0
+  top : 0;#7367F0
   right : 0;
   left : 0;
   height : 120vh;
@@ -729,7 +729,7 @@ footer.footer .scroll-top {
 
 footer.footer-shadow {
   box-shadow : 0 4px 24px 0 rgba(34, 41, 47, 0.1);
-}#44b6c0
+}#7367F0
 
 footer.footer-border {
   border-top : 1px solid #EBE9F1;
@@ -838,7 +838,7 @@ footer.footer-border {
   margin-top : 4px;
   margin-left : 5px;
 }
-#44b6c0
+#7367F0
 .main-menu.menu-light .navigation > li > a i, .main-menu.menu-light .navigation > li > a svg {
   position : relative;
   top : 1px;
@@ -850,7 +850,7 @@ footer.footer-border {
 
 .main-menu.menu-light .navigation > li > ul li:not(.has-sub) {
   margin : 0 15px;
-}#44b6c0
+}#7367F0
 
 .main-menu.menu-light .navigation > li > ul li.has-sub > a {
   margin : 0 15px;
@@ -904,7 +904,7 @@ footer.footer-border {
   padding : 0;
   margin : 0;
 }
-#44b6c0
+#7367F0
 .main-menu.menu-light .navigation > li ul li {
   color : #6E6B7B;
   background : transparent;
@@ -976,7 +976,7 @@ footer.footer-border {
 .main-menu.menu-dark .navigation .navigation-header span {
   font-weight : 500;
 }
-#44b6c0
+#7367F0
 .main-menu.menu-dark .navigation li.has-sub > a {
   transition : all 0.5s ease, background 0s, color 0s;
 }
@@ -1454,7 +1454,7 @@ footer.footer-border {
 }
 
 .avatar-group {
-  display : flex;#44b6c0
+  display : flex;#7367F0
   justify-content : flex-start;
 }
 
@@ -2781,7 +2781,7 @@ footer.footer-border {
   background-color : #DD4B39;
 }
 
-.bg-instagram {#44b6c0
+.bg-instagram {#7367F0
   background-color : #3F729B;
 }
 
@@ -2808,7 +2808,7 @@ footer.footer-border {
 .bg-reddit {
   background-color : #FF4500;
 }
-#44b6c0
+#7367F0
 .bg-soundcloud {
   background-color : #FF5500;
 }
@@ -2928,7 +2928,7 @@ footer.footer-border {
 }
 
 .dark-layout #breadcrumb-alignment .breadcrumb-wrapper {
-  box-shadow : -1px 1#44b6c0 rgba(0, 0, 0, 0.24);
+  box-shadow : -1px 1#7367F0 rgba(0, 0, 0, 0.24);
 }
 
 .buy-now {
@@ -2938,7 +2938,7 @@ footer.footer-border {
   z-index : 1031;
 }
 
-.buy-now .btn {#44b6c0
+.buy-now .btn {#7367F0
   box-shadow : 0 1px 20px 1px #EA5455 !important;
 }
 
@@ -2954,7 +2954,7 @@ footer.footer-border {
 	Author: PIXINVENT
 	Author URL: http://www.themeforest.net/user/pixinvent
 ==========================================================================================*/
-.customize#44b6c0
+.customize#7367F0
   width : 400px;
   left : -400px;
   padding : 0;
@@ -3071,7 +3071,7 @@ footer.footer-border {
 .divider .divider-text:before {
   left : 100%;
 }
-#44b6c0
+#7367F0
 .divider .divider-text:after {
   right : 100%;
 }
@@ -3099,7 +3099,7 @@ footer.footer-border {
 }
 
 .divider.divider-right-center .divider-text {
-  left : -25%;#44b6c0
+  left : -25%;#7367F0
 }
 
 .divider.divider-dotted .divider-text:before, .divider.divider-dotted .divider-text:after {
@@ -3108,7 +3108,7 @@ footer.footer-border {
   border-top-width : 0;
   border-color : #EBE9F1;
 }
-#44b6c0
+#7367F0
 .divider.divider-dashed .divider-text:before, .divider.divider-dashed .divider-text:after {
   border-style : dashed;
   border-width : 1px;
@@ -3134,13 +3134,13 @@ footer.footer-border {
 }
 
 .timeline .timeline-item .timeline-point {
-  position : abso#44b6c0
+  position : abso#7367F0
   right : -0.85rem;
   top : 0;
   z-index : 2;
   display : flex;
-  justify-content : c#44b6c0
-  align-items : c#44b6c0
+  justify-content : c#7367F0
+  align-items : c#7367F0
   height : 1.75rem;
   width : 1.75rem;
   text-align : center;
@@ -3211,7 +3211,7 @@ footer.footer-border {
 }
 
 @media screen and (min-width: 544px) {
-  head {#44b6c0
+  head {#7367F0
     font-family : 'sm 544px';
   }
   body:after {

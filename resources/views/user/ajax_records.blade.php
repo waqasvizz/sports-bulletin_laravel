@@ -37,7 +37,7 @@
                         $user_role_color = '#6e6b7b';
                                                
                         if ($item->hasRole('Admin')){
-                            $user_role_color = '#44b6c0';
+                            $user_role_color = '#7367F0';
                         }
                     @endphp
 

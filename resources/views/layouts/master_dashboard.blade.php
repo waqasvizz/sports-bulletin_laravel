@@ -154,8 +154,8 @@
                 <li class="nav-item mr-auto">
                     <a class="navbar-brand" href="{{ url('/')}}">
                         <span class="brand-logo">
-                            <img src="{{ asset('app-assets/images/ico/apple-icon-120.png') }}" class="congratulations-img-left" alt="card-img-left" />
-                            {{--<svg viewbox="0 0 139 95" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="24">
+                            {{-- <img src="{{ asset('app-assets/images/ico/apple-icon-120.png') }}" class="congratulations-img-left" alt="card-img-left" /> --}}
+                            <svg viewbox="0 0 139 95" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="24">
                                 <defs>
                                     <lineargradient id="linearGradient-1" x1="100%" y1="10.5120544%" x2="50%" y2="89.4879456%">
                                         <stop stop-color="#000000" offset="0%"></stop>
@@ -177,12 +177,13 @@
                                         </g>
                                     </g>
                                 </g>
-                            </svg>--}}
+                            </svg>
                         </span>
-                        {{-- <h2 class="brand-text" style="padding-left: 5px; font-size: 17px !important;">{{ config('app.name') }}</h2> --}}
+                        <h2 class="brand-text" style="padding-left: 5px; font-size: 17px !important;">{{ config('app.name') }}</h2>
                     </a>
                 </li>
                 <li class="nav-item nav-toggle"><a class="nav-link modern-nav-toggle pr-0" data-toggle="collapse"><i class="d-block d-xl-none text-primary toggle-icon font-medium-4" data-feather="x"></i><i class="d-none d-xl-block collapse-toggle-icon font-medium-4  text-primary" data-feather="disc" data-ticon="disc"></i></a></li>
+                {{-- <li class="nav-item nav-toggle"><a class="nav-link modern-nav-toggle pr-0" data-toggle="collapse"><i class="d-block d-xl-none text-primary toggle-icon font-medium-4" data-feather="x"></i><i class="d-none d-xl-block collapse-toggle-icon font-medium-4  text-primary" data-feather="disc" data-ticon="disc"></i></a></li> --}}
             </ul>
         </div>
         <div class="shadow-bottom"></div>
@@ -196,201 +197,65 @@
                 <li class=" navigation-header"><span data-i18n="Apps &amp; Pages">Apps &amp; Pages</span><i data-feather="more-horizontal"></i>
                 </li>
 
-        {{--
-                <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather="file-text"></i><span class="menu-title text-truncate" data-i18n="Role">Role</span></a>
-                        <ul class="menu-content">
-                            <li class="{{ Request::path() == 'role' ? 'active' : '' }}"><a class="d-flex align-items-center" href="{{ url('role') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="List">List</span></a>
-                </li>
-                <li class="{{ Request::path() == 'role/create' ? 'active' : '' }}"><a class="d-flex align-items-center" href="{{ url('role/create') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Add">Add</span></a>
-                </li>
-            </ul>
-            </li>
-
-                <li class=" nav-item">
-                    <a class="d-flex align-items-center" href="#"><i data-feather="user"></i><span class="menu-title text-truncate" data-i18n="User">User</span></a>
-                    <ul class="menu-content">
-                        <li class="{{ Request::path() == 'user' ? 'active' : '' }}"><a class="d-flex align-items-center" href="{{ url('user') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="List">List</span></a>
-                        </li>
-                        <li class="{{ Request::path() == 'user/create' ? 'active' : '' }}"><a class="d-flex align-items-center" href="{{ url('user/create') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Add">Add</span></a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a class="d-flex align-items-center" href="#"><i data-feather="mail"></i><span class="menu-title text-truncate" data-i18n="Task">Email message</span></a>
-                    <ul class="menu-content">
-                        <li class="{{ Request::path() == 'emailMessage' ? 'active' : '' }}"><a class="d-flex align-items-center" href="{{ url('emailMessage') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="List">List</span></a>
-                        </li>
-                        <li class="{{ Request::path() == 'emailMessage/create' ? 'active' : '' }}"><a class="d-flex align-items-center" href="{{ url('emailMessage/create') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Add">Add</span></a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a class="d-flex align-items-center" href="#"><i data-feather="code"></i><span class="menu-title text-truncate" data-i18n="Task">Email short codes</span></a>
-                    <ul class="menu-content">
-                        <li class="{{ Request::path() == 'short_codes' ? 'active' : '' }}"><a class="d-flex align-items-center" href="{{ url('short_codes') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="List">List</span></a>
-                        </li>
-                        <li class="{{ Request::path() == 'short_codes/create' ? 'active' : '' }}"><a class="d-flex align-items-center" href="{{ url('short_codes/create') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Add">Add</span></a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a class="d-flex align-items-center" href="#"><i data-feather="list"></i><span class="menu-title text-truncate" data-i18n="Task">Categories</span></a>
-                    <ul class="menu-content">
-                        <li class="{{ Request::path() == 'category' ? 'active' : '' }}"><a class="d-flex align-items-center" href="{{ url('category') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="List">List</span></a>
-                        </li>
-                        <li class="{{ Request::path() == 'category/create' ? 'active' : '' }}"><a class="d-flex align-items-center" href="{{ url('category/create') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Add">Add</span></a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a class="d-flex align-items-center" href="#"><i data-feather="list"></i><span class="menu-title text-truncate" data-i18n="Task">Sub Categories</span></a>
-                    <ul class="menu-content">
-                        <li class="{{ Request::path() == 'sub_category' ? 'active' : '' }}"><a class="d-flex align-items-center" href="{{ url('sub_category') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="List">List</span></a>
-                        </li>
-                        <li class="{{ Request::path() == 'sub_category/create' ? 'active' : '' }}"><a class="d-flex align-items-center" href="{{ url('sub_category/create') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Add">Add</span></a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a class="d-flex align-items-center" href="#"><i data-feather="list"></i><span class="menu-title text-truncate" data-i18n="Task">Permission</span></a>
-                    <ul class="menu-content">
-                        <li class="{{ Request::path() == 'permission' ? 'active' : '' }}"><a class="d-flex align-items-center" href="{{ url('permission') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="List">List</span></a>
-                        </li>
-                        <li class="{{ Request::path() == 'permission/create' ? 'active' : '' }}"><a class="d-flex align-items-center" href="{{ url('permission/create') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Add">Add</span></a>
-                        </li>
-                    </ul>
-                </li>
-                
-                <li class="{{ Request::path() == 'assign_permission' ? 'active' : '' }} nav-item">
-                    <a class="d-flex align-items-center" href="{{ url('assign_permission') }}"><i data-feather="list"></i><span class="menu-title text-truncate" data-i18n="Dashboards">Assign Permission</span>
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="d-flex align-items-center" href="#"><i data-feather="list"></i><span class="menu-title text-truncate" data-i18n="Task">Menu</span></a>
-                    <ul class="menu-content">
-                        <li class="{{ Request::path() == 'menu' ? 'active' : '' }}"><a class="d-flex align-items-center" href="{{ url('menu') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="List">List</span></a>
-                        </li>
-                        <li class="{{ Request::path() == 'menu/create' ? 'active' : '' }}"><a class="d-flex align-items-center" href="{{ url('menu/create') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Add">Add</span></a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a class="d-flex align-items-center" href="#"><i data-feather="list"></i><span class="menu-title text-truncate" data-i18n="Task">Sub Menu</span></a>
-                    <ul class="menu-content">
-                        <li class="{{ Request::path() == 'sub_menu' ? 'active' : '' }}"><a class="d-flex align-items-center" href="{{ url('sub_menu') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="List">List</span></a>
-                        </li>
-                        <li class="{{ Request::path() == 'sub_menu/create' ? 'active' : '' }}"><a class="d-flex align-items-center" href="{{ url('sub_menu/create') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Add">Add</span></a>
-                        </li>
-                    </ul>
-                </li>
-            --}}
-
-            @php
-                $sub_menu = false;
-                $data_arr = \App\Models\Menu::getMenus();
-                $request_url = Request::path();
-            @endphp
-            
-            @foreach ($data_arr as $key => $data_obj)
                 @php
-                    $main_menu = $data_obj->where('slug', $data_obj->slug)->pluck('slug','slug');
-                    $childs_menu = $data_obj->sub_menus->pluck('slug','slug');
-                    $childs_count = $data_obj->sub_menus->count();
-                    // $class = ($request_url == $data_obj->url) ? 'active' : '';
-                    // $slug =  str_replace_first('/', '', $data_obj->url); 
-                    $slug =  $data_obj->url; 
-                    $str_slug =  '/'.Request::path(); 
-                    $class = (strpos($str_slug, $slug) !== false) ? 'active' : '';
-                    // $class = (Request::path() == $slug ||) ? 'active' : '';
-
-                    $main_menu = $main_menu->ToArray();
-                    $childs_menu = $childs_menu->ToArray();
-                    $all_menu = array_merge($main_menu, $childs_menu); 
-                    // $all_menu = $childs_menu; 
+                    $sub_menu = false;
+                    $data_arr = \App\Models\Menu::getMenus();
+                    $request_url = Request::path();
                 @endphp
                 
-                @canany($all_menu)
+                @foreach ($data_arr as $key => $data_obj)
                     @php
-                        // echo '<br>'.Request::path();
-                        // echo '<br>'.$slug;
-                        // echo '<pre>';print_r($main_menu);'</pre>';
-                        // echo '<pre>';print_r($childs_menu);'</pre>';
+                        $main_menu = $data_obj->where('slug', $data_obj->slug)->pluck('slug','slug');
+                        $childs_menu = $data_obj->sub_menus->pluck('slug','slug');
+                        $childs_count = $data_obj->sub_menus->count();
+                        // $class = ($request_url == $data_obj->url) ? 'active' : '';
+                        // $slug =  str_replace_first('/', '', $data_obj->url); 
+                        $slug =  $data_obj->url; 
+                        $str_slug =  '/'.Request::path(); 
+                        $class = (strpos($str_slug, $slug) !== false) ? 'active' : '';
+                        // $class = (Request::path() == $slug ||) ? 'active' : '';
 
-                        $asset = '';
-                        if($data_obj->asset_type == 'Icon') {
-                            $asset = $data_obj->asset_value;
-                        }
-                        else {
-                            $asset = $data_obj->asset_value;
-                        }
-
+                        $main_menu = $main_menu->ToArray();
+                        $childs_menu = $childs_menu->ToArray();
+                        $all_menu = array_merge($main_menu, $childs_menu); 
+                        // $all_menu = $childs_menu; 
                     @endphp
-                    <li class="{{ $class }} nav-item">
-                        <a class="d-flex align-items-center" href="{{ url($data_obj->url) }}">
+                    
+                    @canany($all_menu)
+                        <li class="{{ $class }} nav-item">
+                            <a class="d-flex align-items-center" href="{{ url($data_obj->url) }}">
 
-                            @if ($data_obj->asset_type == 'Icon')
-                                <i data-feather="{{$data_obj->asset_value}}"></i>
-                            @else
-                                <img class="menu_img_icons" src="{{is_image_exist($data_obj->asset_value)}}" alt="Not Found"/>
-                            @endif
+                                @if ($data_obj->asset_type == 'Icon')
+                                    <i data-feather="{{$data_obj->asset_value}}"></i>
+                                @else
+                                    <img class="menu_img_icons" src="{{is_image_exist($data_obj->asset_value)}}" alt="Not Found"/>
+                                @endif
 
-                            <span class="menu-title text-truncate" data-i18n="Dashboards">{{ $data_obj->title }}</span>
-                        </a>
+                                <span class="menu-title text-truncate" data-i18n="Dashboards">{{ $data_obj->title }}</span>
+                            </a>
 
-                        @if ($childs_count > 0 )
-                            <ul class="menu-content">                    
-                                @foreach ($data_obj->sub_menus as $key => $sub_menu_obj)
-                                    @can($sub_menu_obj->slug)
-                                        @php
-                                        // $class = ($request_url == $sub_menu_obj->url) ? 'active' : '';
-                                        $slug =  str_replace_first('/', '', $sub_menu_obj->url);
-                                        $class = ($request_url == $slug) ? 'active' : '';
-                                        @endphp
-                                        <li class="{{ $class }}">
-                                            <a class="d-flex align-items-center" href="{{ url($sub_menu_obj->url) }}">
-                                                <i data-feather="circle"></i>
-                                                <span class="menu-item text-truncate" data-i18n="{{ $sub_menu_obj->title }}">{{ $sub_menu_obj->title }}</span>
-                                            </a>
-                                        </li>
-                                    @endcan
-                                @endforeach
-                            </ul>
-                        @endif  
-                    </li>
-                @endcan
-            @endforeach
-
-                {{--
-
-                    <li class="nav-item">
-                        <a class="d-flex align-items-center" href="#">
-                            <i data-feather="mail"></i>
-                            <span class="menu-title text-truncate" data-i18n="Task">Email message</span>
-                        </a>
-                        <ul class="menu-content">
-                            <li class="{{ Request::path() == 'emailMessage' ? 'active' : '' }}">
-                                <a class="d-flex align-items-center" href="{{ url('emailMessage') }}">
-                                    <i data-feather="circle"></i>
-                                    <span class="menu-item text-truncate" data-i18n="List">List</span>
-                                </a>
-                            </li>
-                            <li class="{{ Request::path() == 'emailMessage/create' ? 'active' : '' }}">
-                                <a class="d-flex align-items-center" href="{{ url('emailMessage/create') }}">
-                                    <i data-feather="circle"></i>
-                                    <span class="menu-item text-truncate" data-i18n="Add">Add</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-
-
-                echo "<pre>";
-                echo "deee"."<br>";
-                print_r($data['menus']);
-                echo "</pre>";
-                exit("@@@@");
-                --}}
+                            @if ($childs_count > 0 )
+                                <ul class="menu-content">                    
+                                    @foreach ($data_obj->sub_menus as $key => $sub_menu_obj)
+                                        @can($sub_menu_obj->slug)
+                                            @php
+                                            // $class = ($request_url == $sub_menu_obj->url) ? 'active' : '';
+                                            $slug =  str_replace_first('/', '', $sub_menu_obj->url);
+                                            $class = ($request_url == $slug) ? 'active' : '';
+                                            @endphp
+                                            <li class="{{ $class }}">
+                                                <a class="d-flex align-items-center" href="{{ url($sub_menu_obj->url) }}">
+                                                    <i data-feather="circle"></i>
+                                                    <span class="menu-item text-truncate" data-i18n="{{ $sub_menu_obj->title }}">{{ $sub_menu_obj->title }}</span>
+                                                </a>
+                                            </li>
+                                        @endcan
+                                    @endforeach
+                                </ul>
+                            @endif  
+                        </li>
+                    @endcan
+                @endforeach
 
             </ul>
         </div>
@@ -487,8 +352,8 @@
     <!-- END: Page JS-->
 
     <!-- BEGIN: Theme JS-->
-    <!-- <script src="{{ asset('app-assets/js/core/app-menu.min.js') }}"></script> -->
-    <script src="{{ asset('app-assets/js/core/app.min.js') }}"></script>
+    {{-- <script src="{{ asset('app-assets/js/core/app-menu.min.js') }}"></script> --}}
+    {{-- <script src="{{ asset('app-assets/js/core/app.min.js') }}"></script> --}}
     <script src="{{ asset('app-assets/js/scripts/customizer.min.js') }}"></script>
     <!-- END: Theme JS-->
 
@@ -533,6 +398,7 @@
 
         <!-- BEGIN: Page JS-->
         <script src="{{ asset('app-assets/js/scripts/forms/form-quill-editor.min.js') }}"></script>
+        <script src="{{ asset('js/email_messages.js') }}"></script>
     @endif
    
     @yield('scripts')

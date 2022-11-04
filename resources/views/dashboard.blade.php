@@ -35,7 +35,7 @@
                                     <div class="card">
                                         <div class="card-header flex-column align-items-start pb-0">
                                             <div class="avatar bg-light-primary p-50 m-0">
-                                                <a href="javascript:void()" style="color: #44b6c0 !important;">
+                                                <a href="javascript:void()" style="color: #7367F0 !important;">
                                                     <div class="avatar-content">
                                                         <i data-feather="users" class="font-medium-5"></i>
                                                     </div>
@@ -55,7 +55,7 @@
                     <div class="card">
                         <div class="card-header flex-column align-items-start pb-0">
                             <div class="avatar bg-light-primary p-50 m-0">
-                                <a href="{{url('/user')}}" style="color: #44b6c0 !important;">
+                                <a href="{{url('/user')}}" style="color: #7367F0 !important;">
                                     <div class="avatar-content">
                                         <i data-feather="users" class="font-medium-5"></i>
                                     </div>

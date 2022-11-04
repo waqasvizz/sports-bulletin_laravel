@@ -325,7 +325,7 @@ class UserController extends Controller
     //    echo '<pre>';print_r($posted_data);echo '</pre>';exit;
         $response = User::saveUpdateUser($posted_data);
         // echo '<pre>';print_r($response);echo '</pre>';exit;
-        return response()->json(['message' => 'Data submitted']);
+        return response()->json(['message' => 'Data submitted', 'record' => $posted_data]);
 
     }
 
