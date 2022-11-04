@@ -66,6 +66,10 @@
                                                         <option value="">Choose an option</option>
                                                         @if (isset($data['roles']) && count($data['roles'])>0)
                                                             @foreach ($data['roles'] as $item)
+
+                                                                @if ( $item['name'] == 'Super Admin' )
+                                                                    @continue
+                                                                @endif
                                                                 <option {{ old('user_role') == $item['name'] || (isset($data->user_role) && $data->user_role==$item['name'])? 'selected': '' }} value="{{ $item['name'] }}">{{ $item['name'] }}</option>
                                                             @endforeach
                                                         @endif

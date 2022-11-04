@@ -46,21 +46,73 @@ class ShortCode extends Model
                 $result = $query->get();
             }
         }
+        
+        if(isset($posted_data['printsql'])){
+            $result = $query->toSql();
+            echo '<pre>';
+            print_r($result);
+            print_r($posted_data);
+            exit;
+        }
         return $result;
     }
 
-    public function saveUpdateEmailShortCode($posted_data = array())
+    public function saveUpdateEmailShortCode($posted_data = array(), $where_posted_data = array())
     {
         if (isset($posted_data['update_id'])) {
             $data = ShortCode::find($posted_data['update_id']);
         } else {
             $data = new ShortCode;
         }
+
+        if(isset($where_posted_data) && count($where_posted_data)>0){
+            $is_updated = false;
+            if (isset($where_posted_data['title'])) {
+                $is_updated = true;
+                $data = $data->where('title', $where_posted_data['title']);
+            }
+
+            if($is_updated){
+                return $data->update($posted_data);
+            }else{
+                return false;
+            }
+        }
+
         if (isset($posted_data['title'])) {
             $data->title = $posted_data['title'];
         }
 
         $data->save();
-        return $data->id;
+        
+        $data = ShortCode::getEmailShortCode([
+            'detail' => true,
+            'id' => $data->id
+        ]);
+        return $data;
+    }
+    
+    public function deleteEmailShortCode($id = 0, $where_posted_data = array())
+    {
+        $is_deleted = false;
+        if($id>0){
+            $is_deleted = true;
+            $data = ShortCode::find($id);
+        }else{
+            $data = ShortCode::latest();
+        }
+
+        if(isset($where_posted_data) && count($where_posted_data)>0){
+            if (isset($where_posted_data['title'])) {
+                $is_deleted = true;
+                $data = $data->where('title', $where_posted_data['title']);
+            }
+        }
+        
+        if($is_deleted){
+            return $data->delete();
+        }else{
+            return false;
+        }
     }
 }

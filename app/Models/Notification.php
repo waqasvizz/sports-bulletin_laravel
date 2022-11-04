@@ -41,6 +41,9 @@ class Notification extends Model
         $query = $query->with('senderDetails')
                     ->with('receiverDetails');
 
+        if (isset($posted_data['id'])) {
+            $query = $query->where('notifications.id', $posted_data['id']);
+        }
         if (isset($posted_data['notification_message_id'])) {
             $query = $query->where('notifications.notification_message_id', $posted_data['notification_message_id']);
         }
@@ -102,12 +105,6 @@ class Notification extends Model
             // $query->groupBy($posted_data['groupBy_name'], $posted_data['groupBy_value']);
             $query->groupBy($posted_data['groupBy_value']);
         }
-
-        if (isset($posted_data['print_query'])) {
-            $result = $query->toSql();
-            echo '<pre>';print_r($posted_data);'</pre>';
-            echo '<pre>';print_r($result);'</pre>';exit;
-        }
         
         if (isset($posted_data['paginate'])) {
             $result = $query->paginate($posted_data['paginate']);
@@ -120,6 +117,14 @@ class Notification extends Model
             } else {
                 $result = $query->get();
             }
+        }
+        
+        if(isset($posted_data['printsql'])){
+            $result = $query->toSql();
+            echo '<pre>';
+            print_r($result);
+            print_r($posted_data);
+            exit;
         }
 
 
@@ -202,6 +207,13 @@ class Notification extends Model
         
         if (isset($posted_data['update_id']) || !isset($posted_data['whereUpdate'])) {
             $data->save();
+        
+            $data = Notification::getNotifications([
+                'detail' => true,
+                'id' => $data->id
+            ]);
+            return $data;
+
         }else{
             $data->update($update_data);
         }
@@ -210,10 +222,28 @@ class Notification extends Model
         return $data;
     }
 
-    public static function deleteNotification($id=0)
+    public static function deleteNotification($id = 0, $where_posted_data = array())
     {
-        $data = Notification::find($id);
-        return $data->delete();
+        $is_deleted = false;
+        if($id>0){
+            $is_deleted = true;
+            $data = Notification::find($id);
+        }else{
+            $data = Notification::latest();
+        }
+
+        if(isset($where_posted_data) && count($where_posted_data)>0){
+            if (isset($where_posted_data['sender_id'])) {
+                $is_deleted = true;
+                $data = $data->where('sender_id', $where_posted_data['sender_id']);
+            }
+        }
+        
+        if($is_deleted){
+            return $data->delete();
+        }else{
+            return false;
+        }
     }
 
     public static function sendNotification($posted_data = array())

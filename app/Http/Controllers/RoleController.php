@@ -127,7 +127,7 @@ class RoleController extends Controller
         $data['update_id'] = $id;
         $data['name'] = $input['name'];
 
-        $response = $this->RoleObj->saveUpdateRole($data);
+        $this->RoleObj->saveUpdateRole($data);
 
         \Session::flash('message', 'Role updated successfully!');
         return redirect('/role');

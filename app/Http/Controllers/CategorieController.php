@@ -203,7 +203,7 @@ class CategorieController extends Controller
             }
         }
 
-        $update_rec = Categorie::saveUpdateCategorie($requested_data);
+        Categorie::saveUpdateCategorie($requested_data);
 
         \Session::flash('message', 'Category updated successfully!');
         return redirect('/category');

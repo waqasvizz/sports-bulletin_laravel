@@ -8,48 +8,63 @@ $(window).on('load', function () {
 });
 
 jQuery(document).ready(function () {
+    setTimeout(function () {
+        $('.alert-success').hide();
+    }, 4000);
 
     $("#theme_layout").click(function (event) {
         $.ajax({
-            method: "post",
-            url: "{{ URL::to('theme_mode') }}",
-            data: {
-                _token: "{{ csrf_token() }}"
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
+            method: "post",
+            url: "/theme_mode",
+            success: function (data) {
 
-            success: function (data) { },
+                if (data.record.theme_mode == 'Light') {
+                    $("html").removeClass("dark-layout");
+                    $("html").addClass("light-layout");
+                    $("i").removeClass("sun");
+                    $("i").addClass("moon");
+                    $("div").removeClass("menu-dark");
+                    $("div").addClass("menu-light");
+                    $("nav").removeClass("navbar-dark");
+                    $("nav").addClass("navbar-light");
+
+                } else {
+                    $("html").addClass("dark-layout");
+                    $("html").removeClass("light-layout");
+                    $("i").addClass("sun");
+                    $("i").removeClass("moon");
+                    $("div").addClass("menu-dark");
+                    $("div").removeClass("menu-light");
+                    $("nav").addClass("navbar-dark");
+                    $("nav").removeClass("navbar-light");
+                }
+            },
             error: function (e) { }
         });
 
     });
 
-    setTimeout(function () {
-        $('.alert-success').hide();
-    }, 4000);
-
-    // Add email Shortcodes
-    $("#emaiil_short_codes").change(function (e) {
-        var email_message = $('#email_message').val();
-        $("#email_message").val(email_message + " " + e.target.value).focus();
-    });
 
 
-    var editor = $('.editor');
-    if (editor.length) {
+    // var editor = $('.editor');
+    // if (editor.length) {
 
-        setTimeout( () => {
-            var quill = new Quill('.editor', {
-                bounds: '.editor',
-                modules: {
-                    toolbar: '.toolbar'
-                },
-                theme: 'snow'
-            });
+    //     setTimeout(() => {
+    //         var quill = new Quill('.editor', {
+    //             bounds: '.editor',
+    //             modules: {
+    //                 toolbar: '.toolbar'
+    //             },
+    //             theme: 'snow'
+    //         });
 
-            // var container = document.getElementById(editorId);
-            // var editor    = new Quill( container );
-        }, 3000 );   
-    }
+    //         // var container = document.getElementById(editorId);
+    //         // var editor    = new Quill( container );
+    //     }, 3000);
+    // }
 
     // if (commentEditor.length) {
     //     new Quill('.comment-editor', {
@@ -60,7 +75,7 @@ jQuery(document).ready(function () {
     //         theme: 'snow'
     //     });
     // }
-            
+
     // var quill = new Quill('.editor', {
     //     modules: {
     //         toolbar: '#toolbar'
@@ -68,11 +83,7 @@ jQuery(document).ready(function () {
     //     theme: 'snow'
     // });
 
-    $(document).on('submit', '#email_msg_form', function (event) {
-        // $("#editorClone").val($(".editor").html());
-        $("#editorClone").val($('.ql-editor').html());
 
-    });
 
     $(document).on('click', '#delButton, #block_user', function (event) {
         var btn_txt = $(this).text();

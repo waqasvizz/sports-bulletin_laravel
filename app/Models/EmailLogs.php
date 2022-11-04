@@ -44,16 +44,39 @@ class EmailLogs extends Model
                 $result = $query->get();
             }
         }
+        
+        if(isset($posted_data['printsql'])){
+            $result = $query->toSql();
+            echo '<pre>';
+            print_r($result);
+            print_r($posted_data);
+            exit;
+        }
         return $result;
     }
 
-    public static function saveUpdateEmailLogs($posted_data = array())
+    public static function saveUpdateEmailLogs($posted_data = array(), $where_posted_data = array())
     {
         if (isset($posted_data['update_id'])) {
             $data = EmailLogs::find($posted_data['update_id']);
         } else {
             $data = new EmailLogs;
         }
+
+        if(isset($where_posted_data) && count($where_posted_data)>0){
+            $is_updated = false;
+            if (isset($where_posted_data['email_status'])) {
+                $is_updated = true;
+                $data = $data->where('email_status', $where_posted_data['email_status']);
+            }
+
+            if($is_updated){
+                return $data->update($posted_data);
+            }else{
+                return false;
+            }
+        }
+        
         if (isset($posted_data['user_id'])) {
             $data->user_id = $posted_data['user_id'];
         }
@@ -93,4 +116,31 @@ class EmailLogs extends Model
         ]);
         return $data;
     }
+
+
+
+    public function deleteEmailLogs($id = 0, $where_posted_data = array())
+    {
+        $is_deleted = false;
+        if($id>0){
+            $is_deleted = true;
+            $data = EmailLogs::find($id);
+        }else{
+            $data = EmailLogs::latest();
+        }
+
+        if(isset($where_posted_data) && count($where_posted_data)>0){
+            if (isset($where_posted_data['email_status'])) {
+                $is_deleted = true;
+                $data = $data->where('email_status', $where_posted_data['email_status']);
+            }
+        }
+        
+        if($is_deleted){
+            return $data->delete();
+        }else{
+            return false;
+        }
+    }
+
 }

@@ -237,7 +237,7 @@ class SubCategorieController extends Controller
         $requested_data['category_id'] = $requested_data['category'];
         unset($requested_data['category']);
 
-        $update_rec = $this->SubCategorieObj->saveUpdateSubCategorie($requested_data);
+        $this->SubCategorieObj->saveUpdateSubCategorie($requested_data);
 
         \Session::flash('message', 'Sub Category updated successfully!');
         return redirect('/sub_category');

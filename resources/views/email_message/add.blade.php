@@ -70,13 +70,21 @@
                                                     </select>
 
 
-                                                    <div id="full-container">
+                                                    {{-- <div id="full-container">
                                                         <div class="editor"></div>
                                                         <div class="toolbar"></div>
-                                                    </div>
+                                                    </div> --}}
 
+                                                    {{-- <textarea name="message" id="editorClone"></textarea> --}}
                                                     <textarea name="message" style="display:none" id="editorClone"></textarea>
                                                     
+
+                                                    <div id="editor-container">{!! old('message', isset($data->message)? decrypt($data->message): '') !!}</div>
+                                                    
+                                                    {{-- <pre><code id="output-html"></code></pre> --}}
+                                                    <div id="output-html" style="display:none">{!! old('message', isset($data->message)? decrypt($data->message): '') !!}</div>
+
+
                                                     {{--
                                                     <textarea class="getPos"></textarea>
                                                     <input class="posStart" />
