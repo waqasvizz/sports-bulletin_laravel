@@ -32,44 +32,44 @@
                         </div>
                     @endcan
                     
-                    @if (isset($data['roles']) && count($data['roles'])>0)
-                        @foreach ($data['roles'] as $key => $item)
+                    @if (Auth::user()->hasRole('Super Admin'))
+                        @if (isset($data['roles']) && count($data['roles'])>0)
+                            @foreach ($data['roles'] as $key => $item)
 
 
-                            @if (Auth::user()->hasRole($item->name) || Auth::user()->hasRole('Super Admin'))
-                                @if ( $item['name'] == 'Super Admin' )
-                                    @continue
-                                @endif
-                                @php
-                                    $user_count = App\Models\User::whereHas(
-                                                        'roles', function($q) use($item){
-                                                            $q->where('name', $item->name);
-                                                        }
-                                                    )->count();
-                                @endphp
-                                    
-                                <div class="col-lg-3 col-sm-6 col-12">
-                                    <div class="card">
-                                        <div class="card-header flex-column align-items-start pb-0">
-                                            <div class="avatar bg-light-primary p-50 m-0">
-                                                <a href="javascript:void()" style="color: #7367F0 !important;">
-                                                    <div class="avatar-content">
-                                                        <i data-feather="award" class="font-medium-5"></i>
-                                                    </div>
-                                                </a>
+                                @if (Auth::user()->hasRole($item->name) || Auth::user()->hasRole('Super Admin'))
+                                    @if ( $item['name'] == 'Super Admin' )
+                                        @continue
+                                    @endif
+                                    @php
+                                        $user_count = App\Models\User::whereHas(
+                                                            'roles', function($q) use($item){
+                                                                $q->where('name', $item->name);
+                                                            }
+                                                        )->count();
+                                    @endphp
+                                        
+                                    <div class="col-lg-3 col-sm-6 col-12">
+                                        <div class="card">
+                                            <div class="card-header flex-column align-items-start pb-0">
+                                                <div class="avatar bg-light-primary p-50 m-0">
+                                                    <a href="javascript:void()" style="color: #7367F0 !important;">
+                                                        <div class="avatar-content">
+                                                            <i data-feather="award" class="font-medium-5"></i>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                                <h2 class="font-weight-bolder mt-1">{{ $user_count }}</h2>
+                                                <p class="card-text mb-1">{{ $item->name }}</p>
                                             </div>
-                                            <h2 class="font-weight-bolder mt-1">{{ $user_count }}</h2>
-                                            <p class="card-text mb-1">{{ $item->name }}</p>
+                                            {{-- <div id="gained-chart"></div> --}}
                                         </div>
-                                        {{-- <div id="gained-chart"></div> --}}
                                     </div>
-                                </div>
-                            @endif
-                            
-                        @endforeach
+                                @endif
+                                
+                            @endforeach
+                        @endif
                     @endif
-
-
 
 
                     @can('permission-list')
