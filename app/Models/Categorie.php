@@ -68,17 +68,39 @@ class Categorie extends Model
                 $result = $query->get();
             }
         }
+        
+        if(isset($posted_data['printsql'])){
+            $result = $query->toSql();
+            echo '<pre>';
+            print_r($result);
+            print_r($posted_data);
+            exit;
+        }
         return $result;
     }
 
 
 
-    public function saveUpdateCategorie($posted_data = array())
+    public function saveUpdateCategorie($posted_data = array(), $where_posted_data = array())
     {
         if (isset($posted_data['update_id'])) {
             $data = Categorie::find($posted_data['update_id']);
         } else {
             $data = new Categorie;
+        }
+
+        if(isset($where_posted_data) && count($where_posted_data)>0){
+            $is_updated = true;
+            if (isset($where_posted_data['status'])) {
+                $is_updated = true;
+                $data = $data->where('status', $where_posted_data['status']);
+            }
+
+            if($is_updated){
+                return $data->update($posted_data);
+            }else{
+                return false;
+            }
         }
 
         if (isset($posted_data['title'])) {
@@ -95,15 +117,35 @@ class Categorie extends Model
         }
 
         $data->save();
-        return $data->id;
+        
+        $data = Categorie::getCategories([
+            'detail' => true,
+            'id' => $data->id
+        ]);
+        return $data;
     }
 
-    public function deleteCategorie($id=0) {
-        $data = Categorie::find($id);
+    public function deleteCategorie($id = 0, $where_posted_data = array())
+    {
+        $is_deleted = false;
+        if($id>0){
+            $is_deleted = true;
+            $data = Categorie::find($id);
+        }else{
+            $data = Categorie::latest();
+        }
+
+        if(isset($where_posted_data) && count($where_posted_data)>0){
+            if (isset($where_posted_data['status'])) {
+                $is_deleted = true;
+                $data = $data->where('status', $where_posted_data['status']);
+            }
+        }
         
-        if ($data)
+        if($is_deleted){
             return $data->delete();
-        else
+        }else{
             return false;
+        }
     }
 }

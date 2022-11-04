@@ -30,6 +30,9 @@ class FcmToken extends Model
         $query = $query->with('userDetails');
         //             ->with('receiverDetails');
 
+        if (isset($posted_data['id'])) {
+            $query = $query->where('fcm_tokens.id', $posted_data['id']);
+        }
         if (isset($posted_data['user_id'])) {
             $query = $query->where('fcm_tokens.user_id', $posted_data['user_id']);
         }
@@ -76,6 +79,13 @@ class FcmToken extends Model
             } else {
                 $result = $query->get();
             }
+        }
+        if(isset($posted_data['printsql'])){
+            $result = $query->toSql();
+            echo '<pre>';
+            print_r($result);
+            print_r($posted_data);
+            exit;
         }
 
 
@@ -167,12 +177,26 @@ class FcmToken extends Model
         }
     }
 
-    public static function saveUpdateFcmToken($posted_data = array())
+    public static function saveUpdateFcmToken($posted_data = array(), $where_posted_data = array())
     {
         if (isset($posted_data['update_id'])) {
             $data = FcmToken::find($posted_data['update_id']);
         } else {
             $data = new FcmToken;
+        }
+
+        if(isset($where_posted_data) && count($where_posted_data)>0){
+            $is_updated = false;
+            if (isset($where_posted_data['user_id'])) {
+                $is_updated = true;
+                $data = $data->where('user_id', $where_posted_data['user_id']);
+            }
+
+            if($is_updated){
+                return $data->update($posted_data);
+            }else{
+                return false;
+            }
         }
 
         if (isset($posted_data['user_id'])) {
@@ -189,20 +213,32 @@ class FcmToken extends Model
         }
 
         $data->save();
+        
+        $data = FcmToken::getFcmTokens([
+            'detail' => true,
+            'id' => $data->id
+        ]);
         return $data;
     }
 
-    public static function deleteFCM_Token($id = 0, $where = array())
+    public static function deleteFCM_Token($id = 0, $where_posted_data = array())
     {
-        if($id == 0){
-            if (isset($where['user_id_in'])) {
-                $data = FcmToken::latest();                
-                $data = $data->whereIn('user_id', $where['user_id_in']);
-            }
-        }else{
+        $is_deleted = false;
+        if($id>0){
+            $is_deleted = true;
             $data = FcmToken::find($id);
+        }else{
+            $data = FcmToken::latest();
         }
-        if(isset($data)){
+
+        if(isset($where_posted_data) && count($where_posted_data)>0){
+            if (isset($where_posted_data['user_id_in'])) {
+                $is_deleted = true;
+                $data = $data->where('user_id', $where_posted_data['user_id_in']);
+            }
+        }
+        
+        if($is_deleted){
             return $data->delete();
         }else{
             return false;

@@ -102,7 +102,8 @@ class RegisterController extends BaseController
                         $user_data['password'] = '12345678@d';
                         $user_data['user_type'] = $posted_data['user_type'];
             
-                        $user_id = $this->UserObj->saveUpdateUser($user_data);
+                        $latest_res = $this->UserObj->saveUpdateUser($user_data);
+                        $user_id = $latest_res->id;
                         
                         if ($user_id) {
                             $response = $this->authorizeUser([

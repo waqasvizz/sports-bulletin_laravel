@@ -251,7 +251,7 @@ class SubMenuController extends Controller
         $requested_data['menu_id'] = $requested_data['menu'];
         unset($requested_data['menu']);
 
-        $update_rec = $this->SubMenuObj->saveUpdateSubMenu($requested_data);
+        $this->SubMenuObj->saveUpdateSubMenu($requested_data);
 
         \Session::flash('message', 'Sub Menu updated successfully!');
         return redirect('/sub_menu');

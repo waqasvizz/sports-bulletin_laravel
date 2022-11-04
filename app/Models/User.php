@@ -144,19 +144,39 @@ class User extends Authenticatable
                 $result = $query->get();
             }
         }
-        // echo '<pre>';
-        // print_r($result->toSql());
-        // exit;
+        
+        if(isset($posted_data['printsql'])){
+            $result = $query->toSql();
+            echo '<pre>';
+            print_r($result);
+            print_r($posted_data);
+            exit;
+        }
         return $result;
     }
 
-    public static function saveUpdateUser($posted_data = array())
+    public static function saveUpdateUser($posted_data = array(), $where_posted_data = array())
     {
         if (isset($posted_data['update_id'])) {
             $data = User::find($posted_data['update_id']);
         } else {
             $data = new User;
         }
+
+        if(isset($where_posted_data) && count($where_posted_data)>0){
+            $is_updated = false;
+            if (isset($where_posted_data['user_status'])) {
+                $is_updated = true;
+                $data = $data->where('user_status', $where_posted_data['user_status']);
+            }
+
+            if($is_updated){
+                return $data->update($posted_data);
+            }else{
+                return false;
+            }
+        }
+        
 
         if (isset($posted_data['first_name'])) {
             $data->first_name = $posted_data['first_name'];
@@ -190,12 +210,35 @@ class User extends Authenticatable
             $data->theme_mode = $posted_data['theme_mode'];
         }
         $data->save();
+        
+        $data = User::getUser([
+            'detail' => true,
+            'id' => $data->id
+        ]);
         return $data;
     }
 
-    // public function deleteUser($id=0)
-    // {
-    //     $data = User::find($id);
-    //     return $data->delete();
-    // }
+    public function deleteUser($id = 0, $where_posted_data = array())
+    {
+        $is_deleted = false;
+        if($id>0){
+            $is_deleted = true;
+            $data = User::find($id);
+        }else{
+            $data = User::latest();
+        }
+
+        if(isset($where_posted_data) && count($where_posted_data)>0){
+            if (isset($where_posted_data['user_status'])) {
+                $is_deleted = true;
+                $data = $data->where('user_status', $where_posted_data['user_status']);
+            }
+        }
+        
+        if($is_deleted){
+            return $data->delete();
+        }else{
+            return false;
+        }
+    }
 }

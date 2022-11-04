@@ -9,10 +9,10 @@
     </div>
     <div class="content-body">
         @if (Session::has('message'))
-        <div class="alert alert-success"><b>Success: </b>{{ Session::get('message') }}</div>
+            <div class="alert alert-success"><b>Success: </b>{{ Session::get('message') }}</div>
         @endif
         @if (Session::has('error_message'))
-        <div class="alert alert-danger"><b>Sorry: </b>{{ Session::get('error_message') }}</div>
+            <div class="alert alert-danger"><b>Sorry: </b>{{ Session::get('error_message') }}</div>
         @endif
 
 
@@ -89,8 +89,11 @@
                     @endif
                 </tbody>
             </table>
-            {{-- {!! $data->links() !!} --}}
-            {{ $data->links('vendor.pagination.bootstrap-4') }}
+            @if (isset($data) && count($data)>0)
+                {{ $data->links('vendor.pagination.bootstrap-4') }}
+            @else
+                <div class="alert alert-primary">Don't have records!</div>
+            @endif
 
         </div>
     </div>

@@ -231,7 +231,7 @@ class MenuController extends Controller
             }
         }
 
-        $update_rec = Menu::saveUpdateMenu($requested_data);
+        Menu::saveUpdateMenu($requested_data);
 
         \Session::flash('message', 'Menu updated successfully!');
         return redirect('/menu');

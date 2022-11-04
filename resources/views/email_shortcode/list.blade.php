@@ -91,8 +91,11 @@
                     @endif
                 </tbody>
             </table>
-            {{-- {!! $data->links() !!} --}}
-            {{ $data->links('vendor.pagination.bootstrap-4') }}
+            @if (isset($data) && count($data)>0)
+                {{ $data->links('vendor.pagination.bootstrap-4') }}
+            @else
+                <div class="alert alert-primary">Don't have records!</div>
+            @endif
 
         </div>
     </div>

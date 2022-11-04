@@ -1,8 +1,4 @@
 
-
-@php
-    // echo '<pre>'; print_r($data['calender']); echo '</pre>'; exit;
-@endphp
 @section('title', 'Dashboard')
 @extends('layouts.master_dashboard')
 
@@ -18,11 +14,32 @@
             <div class="row match-height">
                 <!-- Subscribers Chart Card starts -->
 
+                    @can('role-list')
+                        <div class="col-lg-3 col-sm-6 col-12">
+                            <div class="card">
+                                <div class="card-header flex-column align-items-start pb-0">
+                                    <div class="avatar bg-light-primary p-50 m-0">
+                                        <a href="javascript:void()" style="color: #7367F0 !important;">
+                                            <div class="avatar-content">
+                                                <i data-feather="lock" class="font-medium-5"></i>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <h2 class="font-weight-bolder mt-1">{{ isset($data['counts']['roles'])? $data['counts']['roles']:0 }}</h2>
+                                    <p class="card-text mb-1">Roles</p>
+                                </div>
+                            </div>
+                        </div>
+                    @endcan
+                    
                     @if (isset($data['roles']) && count($data['roles'])>0)
                         @foreach ($data['roles'] as $key => $item)
 
 
                             @if (Auth::user()->hasRole($item->name) || Auth::user()->hasRole('Super Admin'))
+                                @if ( $item['name'] == 'Super Admin' )
+                                    @continue
+                                @endif
                                 @php
                                     $user_count = App\Models\User::whereHas(
                                                         'roles', function($q) use($item){
@@ -37,7 +54,7 @@
                                             <div class="avatar bg-light-primary p-50 m-0">
                                                 <a href="javascript:void()" style="color: #7367F0 !important;">
                                                     <div class="avatar-content">
-                                                        <i data-feather="users" class="font-medium-5"></i>
+                                                        <i data-feather="award" class="font-medium-5"></i>
                                                     </div>
                                                 </a>
                                             </div>
@@ -51,88 +68,158 @@
                             
                         @endforeach
                     @endif
-                {{-- <div class="col-lg-3 col-sm-6 col-12">
-                    <div class="card">
-                        <div class="card-header flex-column align-items-start pb-0">
-                            <div class="avatar bg-light-primary p-50 m-0">
-                                <a href="{{url('/user')}}" style="color: #7367F0 !important;">
-                                    <div class="avatar-content">
-                                        <i data-feather="users" class="font-medium-5"></i>
-                                    </div>
-                                </a>
-                            </div>
-                            <h2 class="font-weight-bolder mt-1">{{ isset($data['users_count']) ? $data['users_count']: 0 }}</h2>
-                            <p class="card-text mb-1">Users</p>
-                        </div>
-                        <div id="gained-chart"></div>
-                    </div>
-                </div> --}}
-                <!-- Subscribers Chart Card ends -->
-                {{--
-                <div class="col-lg-3 col-sm-6 col-12">
-                    <div class="card">
-                        <div class="card-header flex-column align-items-start pb-0">
-                            <div class="avatar bg-light-warning p-50 m-0">
-                                <a href="{{url('/enquiry_form')}}" style="color: #ff9f43 !important;">
-                                    <div class="avatar-content">
-                                        <i data-feather="briefcase" class="font-medium-5"></i>
-                                    </div>
-                                </a>
-                            </div>
-                            <h2 class="font-weight-bolder mt-1">{{ isset($data['enquiry_form_count']) ? $data['enquiry_form_count']: 0 }}</h2>
-                            <p class="card-text mb-1">Orders</p>
-                        </div>
-                        <div id="order-chart"></div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 col-12">
-                    <div class="card">
-                        <div class="card-header flex-column align-items-start pb-0">
-                            <div class="avatar bg-light-warning p-50 m-0">
-                                <a href="{{url('/task')}}" style="color: #8d007b !important;">
-                                    <div class="avatar-content">
-                                        <i data-feather="list" class="font-medium-5"></i>
-                                    </div>
-                                </a>
-                            </div>
-                            <h2 class="font-weight-bolder mt-1">{{ isset($data['task_count']) ? $data['task_count']: 0 }}</h2>
-                            <p class="card-text mb-1">Tasks</p>
-                        </div>
-                        <div id="order-chart"></div>
-                    </div>
-                </div>
-                --}}
 
-                {{-- 
-                <div class="col-lg-3 col-sm-6 col-12">
-                    <div class="card">
-                        <div class="card-header flex-column align-items-start pb-0">
-                            <div class="avatar bg-light-primary p-50 m-0">
-                                <div class="avatar-content">
-                                    <i data-feather="share-2" class="font-medium-5"></i>
+
+
+
+                    @can('permission-list')
+                        <div class="col-lg-3 col-sm-6 col-12">
+                            <div class="card">
+                                <div class="card-header flex-column align-items-start pb-0">
+                                    <div class="avatar bg-light-primary p-50 m-0">
+                                        <a href="javascript:void()" style="color: #7367F0 !important;">
+                                            <div class="avatar-content">
+                                                <i data-feather="lock" class="font-medium-5"></i>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <h2 class="font-weight-bolder mt-1">{{ isset($data['counts']['permissions'])? $data['counts']['permissions']:0 }}</h2>
+                                    <p class="card-text mb-1">Permission</p>
                                 </div>
                             </div>
-                            <h2 class="font-weight-bolder mt-1">{{ isset($data['bids_count']) ? $data['bids_count']: 0 }}</h2>
-                            <p class="card-text mb-1">Bids</p>
                         </div>
-                        <div id="order-chart"></div>
-                    </div>
-                </div>
+                    @endcan
 
-                <div class="col-lg-3 col-sm-6 col-12">
-                    <div class="card">
-                        <div class="card-header flex-column align-items-start pb-0">
-                            <div class="avatar bg-light-warning p-50 m-0">
-                                <div class="avatar-content">
-                                    <i data-feather="dollar-sign" class="font-medium-5"></i>
+
+                    @can('user-list')
+                        <div class="col-lg-3 col-sm-6 col-12">
+                            <div class="card">
+                                <div class="card-header flex-column align-items-start pb-0">
+                                    <div class="avatar bg-light-primary p-50 m-0">
+                                        <a href="javascript:void()" style="color: #7367F0 !important;">
+                                            <div class="avatar-content">
+                                                <i data-feather="user" class="font-medium-5"></i>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <h2 class="font-weight-bolder mt-1">{{ isset($data['counts']['users'])? $data['counts']['users']:0 }}</h2>
+                                    <p class="card-text mb-1">Users</p>
                                 </div>
                             </div>
-                            <h2 class="font-weight-bolder mt-1">${{ isset($data['revenue_count']) ? $data['revenue_count']: 0 }}</h2>
-                            <p class="card-text mb-1">Revenue</p>
                         </div>
-                        <div id="order-chart"></div>
-                    </div>
-                </div> --}}
+                    @endcan
+
+
+                    @can('menu-list')
+                        <div class="col-lg-3 col-sm-6 col-12">
+                            <div class="card">
+                                <div class="card-header flex-column align-items-start pb-0">
+                                    <div class="avatar bg-light-primary p-50 m-0">
+                                        <a href="javascript:void()" style="color: #7367F0 !important;">
+                                            <div class="avatar-content">
+                                                <i data-feather="menu" class="font-medium-5"></i>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <h2 class="font-weight-bolder mt-1">{{ isset($data['counts']['menus'])? $data['counts']['menus']:0 }}</h2>
+                                    <p class="card-text mb-1">Menu</p>
+                                </div>
+                            </div>
+                        </div>
+                    @endcan
+
+                    @can('sub-menu-list')
+                        <div class="col-lg-3 col-sm-6 col-12">
+                            <div class="card">
+                                <div class="card-header flex-column align-items-start pb-0">
+                                    <div class="avatar bg-light-primary p-50 m-0">
+                                        <a href="javascript:void()" style="color: #7367F0 !important;">
+                                            <div class="avatar-content">
+                                                <i data-feather="menu" class="font-medium-5"></i>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <h2 class="font-weight-bolder mt-1">{{ isset($data['counts']['sub_menus'])? $data['counts']['sub_menus']:0 }}</h2>
+                                    <p class="card-text mb-1">Sub Menu</p>
+                                </div>
+                            </div>
+                        </div>
+                    @endcan
+
+
+                    @can('category-list')
+                        <div class="col-lg-3 col-sm-6 col-12">
+                            <div class="card">
+                                <div class="card-header flex-column align-items-start pb-0">
+                                    <div class="avatar bg-light-primary p-50 m-0">
+                                        <a href="javascript:void()" style="color: #7367F0 !important;">
+                                            <div class="avatar-content">
+                                                <i data-feather="menu" class="font-medium-5"></i>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <h2 class="font-weight-bolder mt-1">{{ isset($data['counts']['category'])? $data['counts']['category']:0 }}</h2>
+                                    <p class="card-text mb-1">Categories</p>
+                                </div>
+                            </div>
+                        </div>
+                    @endcan
+
+                    @can('sub-category-list')
+                        <div class="col-lg-3 col-sm-6 col-12">
+                            <div class="card">
+                                <div class="card-header flex-column align-items-start pb-0">
+                                    <div class="avatar bg-light-primary p-50 m-0">
+                                        <a href="javascript:void()" style="color: #7367F0 !important;">
+                                            <div class="avatar-content">
+                                                <i data-feather="menu" class="font-medium-5"></i>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <h2 class="font-weight-bolder mt-1">{{ isset($data['counts']['sub_category'])? $data['counts']['sub_category']:0 }}</h2>
+                                    <p class="card-text mb-1">Sub Categories</p>
+                                </div>
+                            </div>
+                        </div>
+                    @endcan
+
+
+                    @can('email-message-list')
+                        <div class="col-lg-3 col-sm-6 col-12">
+                            <div class="card">
+                                <div class="card-header flex-column align-items-start pb-0">
+                                    <div class="avatar bg-light-primary p-50 m-0">
+                                        <a href="javascript:void()" style="color: #7367F0 !important;">
+                                            <div class="avatar-content">
+                                                <i data-feather="mail" class="font-medium-5"></i>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <h2 class="font-weight-bolder mt-1">{{ isset($data['counts']['email_messages'])? $data['counts']['email_messages']:0 }}</h2>
+                                    <p class="card-text mb-1">Email Messages</p>
+                                </div>
+                            </div>
+                        </div>
+                    @endcan
+
+
+                    @can('shortcode-list')
+                        <div class="col-lg-3 col-sm-6 col-12">
+                            <div class="card">
+                                <div class="card-header flex-column align-items-start pb-0">
+                                    <div class="avatar bg-light-primary p-50 m-0">
+                                        <a href="javascript:void()" style="color: #7367F0 !important;">
+                                            <div class="avatar-content">
+                                                <i data-feather="code" class="font-medium-5"></i>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <h2 class="font-weight-bolder mt-1">{{ isset($data['counts']['short_codes'])? $data['counts']['short_codes']:0 }}</h2>
+                                    <p class="card-text mb-1">Short Code</p>
+                                </div>
+                            </div>
+                        </div>
+                    @endcan
             </div>
 
         </section>

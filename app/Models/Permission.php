@@ -69,17 +69,39 @@ class Permission extends Model
                 $result = $query->get();
             }
         }
+        
+        if(isset($posted_data['printsql'])){
+            $result = $query->toSql();
+            echo '<pre>';
+            print_r($result);
+            print_r($posted_data);
+            exit;
+        }
         return $result;
     }
 
 
 
-    public function saveUpdatePermission($posted_data = array())
+    public function saveUpdatePermission($posted_data = array(), $where_posted_data = array())
     {
         if (isset($posted_data['update_id'])) {
             $data = Permission::find($posted_data['update_id']);
         } else {
             $data = new Permission;
+        }
+
+        if(isset($where_posted_data) && count($where_posted_data)>0){
+            $is_updated = false;
+            if (isset($where_posted_data['status'])) {
+                $is_updated = true;
+                $data = $data->where('status', $where_posted_data['status']);
+            }
+
+            if($is_updated){
+                return $data->update($posted_data);
+            }else{
+                return false;
+            }
         }
 
         if (isset($posted_data['title'])) {
@@ -105,15 +127,35 @@ class Permission extends Model
         }
 
         $data->save();
-        return $data->id;
-    }
-
-    public function deletePermission($id=0) {
-        $data = Permission::find($id);
         
-        if ($data)
+        $data = Permission::getPermissions([
+            'detail' => true,
+            'id' => $data->id
+        ]);
+        return $data;
+    }
+    
+    public function deletePermission($id = 0, $where_posted_data = array())
+    {
+        $is_deleted = false;
+        if($id>0){
+            $is_deleted = true;
+            $data = Permission::find($id);
+        }else{
+            $data = Permission::latest();
+        }
+
+        if(isset($where_posted_data) && count($where_posted_data)>0){
+            if (isset($where_posted_data['status'])) {
+                $is_deleted = true;
+                $data = $data->where('status', $where_posted_data['status']);
+            }
+        }
+        
+        if($is_deleted){
             return $data->delete();
-        else
+        }else{
             return false;
+        }
     }
 }

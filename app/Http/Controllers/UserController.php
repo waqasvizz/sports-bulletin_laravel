@@ -28,7 +28,7 @@ use Illuminate\Support\Facades\Crypt;
 use Laravel\Passport\Token;
 use App\Exports\ExportData;
 use Excel;
-
+use Illuminate\Support\Arr;
 
 class UserController extends Controller
 {
@@ -150,12 +150,49 @@ class UserController extends Controller
 
     public function dashboard(Request $request)
     {
-        $posted_data = array();
-        $posted_data['count'] = true;
-        $data['users_count'] = $this->UserObj->getUser($posted_data);
+        $data = array();
+        $data['counts'] = array();
 
-        $posted_data = array();
-        $data['calender'] = json_encode($posted_data);
+        $data['counts']['roles'] = $this->RoleObj->getRoles([
+            'count' => true
+        ]);
+
+        $data['counts']['permissions'] = $this->PermissionObj->getPermissions([
+            'count' => true
+        ]);
+
+        $data['counts']['users'] = $this->UserObj->getUser([
+            'count' => true
+        ]);
+
+        $data['counts']['menus'] = $this->MenuObj->getMenus([
+            'count' => true
+        ]);
+
+        $data['counts']['sub_menus'] = $this->SubMenuObj->getSubMenus([
+            'count' => true
+        ]);
+
+        $data['counts']['category'] = $this->CategorieObj->getCategories([
+            'count' => true
+        ]);
+
+        $data['counts']['sub_category'] = $this->SubCategorieObj->getSubCategories([
+            'count' => true
+        ]);
+
+        $data['counts']['email_messages'] = $this->EmailMessageObj->getEmailMessages([
+            'count' => true
+        ]);
+
+        $data['counts']['short_codes'] = $this->EmailShortCodeObj->getEmailShortCode([
+            'count' => true
+        ]);
+
+
+
+
+        // echo '<pre>';print_r($data);'</pre>';exit;
 
         $posted_data = array();
         $posted_data['orderBy_name'] = 'name';
@@ -323,7 +360,7 @@ class UserController extends Controller
             $posted_data['theme_mode'] = 'Light';
         }
     //    echo '<pre>';print_r($posted_data);echo '</pre>';exit;
-        $response = User::saveUpdateUser($posted_data);
+        User::saveUpdateUser($posted_data);
         // echo '<pre>';print_r($response);echo '</pre>';exit;
         return response()->json(['message' => 'Data submitted', 'record' => $posted_data]);
 
@@ -478,7 +515,7 @@ class UserController extends Controller
         if ( isset($posted_data['user_status']) )
             $user_data['user_status'] = $posted_data['user_status'];
 
-        $response = User::saveUpdateUser($user_data);
+        User::saveUpdateUser($user_data);
 
 
         Session::flash('message', 'User Updated Successfully!');

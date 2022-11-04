@@ -1,6 +1,5 @@
 <div class="table-responsive">
-    @if (isset($data['records']) && count($data['records'])>0)
-        <table class="table">
+    <table class="table">
             <thead>
                 <tr>
                     <th>Sr #</th>
@@ -96,12 +95,13 @@
 
                 @endif
             </tbody>
-        </table>
-        
-        <div class="sub_cat_links">
-            {{-- {!! $data['records']->links() !!} --}}
+    </table>
+    
+    <div class="sub_cat_links">
+        @if (isset($data['records']) && count($data['records'])>0)
             {{ $data['records']->links('vendor.pagination.bootstrap-4') }}
-        </div>
-    @endif
-
+        @else
+            <div class="alert alert-primary">Don't have records!</div>
+        @endif
+    </div>
 </div>
