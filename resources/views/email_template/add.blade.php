@@ -1,9 +1,9 @@
 
 
 @if (isset($data->id))
-    @section('title', 'Update Email Message')
+    @section('title', 'Update Email Template')
 @else
-    @section('title', 'Add Email Message')
+    @section('title', 'Add Email Template')
 @endif
 @extends('layouts.master_dashboard')
 
@@ -30,18 +30,18 @@
                             @endif
 
                             @if (isset($data->id))
-                                <form class="form" id="email_msg_form" action="{{ route('email_message.update', $data->id) }}" method="post" enctype="multipart/form-data">
+                                <form class="form" id="email_msg_form" action="{{ route('email_template.update', $data->id) }}" method="post" enctype="multipart/form-data">
                                 @method('PUT')
                                 
                             @else
-                                <form class="form" id="email_msg_form" action="{{ route('email_message.store') }}" method="POST" enctype="multipart/form-data">
+                                <form class="form" id="email_msg_form" action="{{ route('email_template.store') }}" method="POST" enctype="multipart/form-data">
                                 
                             @endif
                                 @csrf
                                 <div class="row">
                                     <div class="col-md-12 col-12">
                                         <div class="row">
-                                            <div class="col-md-12 col-12">
+                                            <div class="col-md-8 col-12">
                                                 <div class="form-group">
                                                     <label for="first_name">Email Subject</label>
                                                     <input value="{{old('subject', isset($data->subject)? $data->subject: '')}}" type="text" id="subject" class="form-control @error('subject') is-invalid @enderror" placeholder="Email subject" name="subject">
@@ -52,9 +52,26 @@
                                                     @enderror
                                                 </div>
                                             </div>
+
+                                            <div class="col-md-4 col-12">
+                                                <div class="form-group">
+                                                    <label for="send_on">Email Send On</label>
+                                                    <select class="form-control @error('send_on') is-invalid @enderror" id="send_on"  name="send_on">
+                                                        <option value="">Choose email send on</option>
+                                                        @foreach (App\Models\EmailTemplate::Email_Send_On_Constants as $key => $item)
+                                                            <option {{ old('send_on') == $item || (isset($data->send_on) && $data->send_on == $item )? 'selected': '' }} value="{{ $item }}">{{ $item }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                    @error('send_on')
+                                                        <span class="invalid-feedback" role="alert">
+                                                            <strong>{{ $message }}</strong>
+                                                        </span>
+                                                    @enderror
+                                                </div>
+                                            </div>
                                             <div class="col-md-12 col-12">
                                                 <div class="form-group">
-                                                    <label for="last_name">Email Message</label>
+                                                    <label for="last_name">Email Template</label>
         
                                                     {{--
                                                     <textarea id="email_message" class="form-control email_messages @error('message') is-invalid @enderror"  placeholder="Email message" name="message">{{old('message', isset($data->message)? $data->message: '')}}</textarea>
@@ -64,7 +81,7 @@
                                                         <option value="">Choose short code</option>
                                                         @if (isset($data['short_codes']) && count($data['short_codes'])>0)
                                                             @foreach ($data['short_codes'] as $item)
-                                                                <option {{ old('short_codes') == $item['id'] || (isset($data->title) && $data->title == $item['id'])? 'selected': '' }} value="{{ $item['title'] }}">{{ $item['title'] }}</option>
+                                                                <option value="{{ $item['title'] }}">{{ $item['title'] }}</option>
                                                             @endforeach
                                                         @endif
                                                     </select>

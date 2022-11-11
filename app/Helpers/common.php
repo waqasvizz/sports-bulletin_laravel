@@ -3,16 +3,6 @@ use App\Models\User;
 use Laravel\Ui\Presets\Vue;
 
 if (! function_exists('is_image_exist')) {
-
-    /**
-     * check and return the valid url image link. It mey be a real or default asset.
-     *
-     * @param  string $image_path // the url of the image
-     * @param  string $type // it must be 'image' or 'profile-image'
-     * @param  string $is_public_path // if true then it will find in public folder, if false then it will find in storage folder'
-     * @return string $redirect_url // the wil be the valid url link with real or default asset
-     */
-
     function is_image_exist($image_path = '', $type = "image", $is_public_path = false) {
 
         $default_asset = ($type == "image") ? 'default-image.png' : 'default-profile-image.png';
@@ -36,76 +26,7 @@ if (! function_exists('is_image_exist')) {
         }
     }
 }
-
-if (! function_exists('get_gayment_name')) {
-    function get_gayment_name($id = 0) {
-        
-        if ( $id == 1)
-            return 'Cash On Delivery';
-        else if ( $id == 2)
-            return 'Paypal Payment';
-        else if ( $id == 3)
-            return 'Stripe Payment';
-        else
-            return 'Unknown';
-    }
-}
-
-if (! function_exists('get_task_step')) {
-    function get_task_step($id = 0) {
-        
-        if ( $id == 1)
-                return 'Step 1 (Sales Pick Up)';
-            else if ( $id == 2)
-                return 'Step 2 (Survey)';
-            else if ( $id == 3)
-                return 'Step 3 (Proposal)';
-            else if ( $id == 4)
-                return 'Step 4 (Reschedule)';
-            else if ( $id == 5)
-                return 'Step 4 (Itemsinfo)';
-            else if ( $id == 6)
-                return 'Step 4 (Showroominvite)';
-            else if ( $id == 7)
-                return 'Upload Invoice 30% (First Invoice)';
-            else if ( $id == 8)
-                return 'Upload Invoice 40% (Second Invoice)';
-            else if ( $id == 9)
-                return 'Step 4 (ShowroomInvoice)';
-            else if ( $id == 10)
-                return 'Step 4 (PortalloSection)';
-            else if ( $id == 11)
-                return 'Upload Invoice 20% (Third Invoice)';
-            else if ( $id == 12)
-                return 'Upload Invoice 10% (Fourth Invoice)';
-            else if ( $id == 13)
-                return 'Step 6 (InstallationChecklist)';
-            else if ( $id == 14)
-                return 'Step 6 (UploadMannual)';
-            else if ( $id == 15)
-                return 'Step 6 (GuranteeDoc)';
-            else if ( $id == 16)
-                return 'Step 6 (RectificationPer)';
-            else if ( $id == 176)
-                return 'Step 6 (ChecklistComplete)';
-            else
-                return 'Unknown';
-    }
-}
-
-if (! function_exists('get_status_name')) {
-    function get_status_name($id = 0) {
-        
-        if ( $id == 1)
-            return 'Pending';
-        else if ( $id == 2)
-            return 'In-Progress';
-        else if ( $id == 3)
-            return 'Complete';
-        else
-            return 'Unknown';
-    }
-}
+ 
 
 if (! function_exists('upload_files_to_storage')) {
     function upload_files_to_storage($request, $file_param, $path)
@@ -193,17 +114,6 @@ if (! function_exists('multidimentional_array_flatten')) {
 }
 
 if (! function_exists('swap_array_indexes')) {
-
-    /**
-     * update sorting and store it into the database.
-     *
-     * @param  array $data_sources // the data array which you want to update
-     * @param  string $sort_key // the key which you want to find in the array
-     * @param  int $current_val // the current key which you want to find in the data set
-     * @param  int $new_val // the updated key which you want to replace in the data set
-     * @return array $data_sources // the updated data set which is sorted according to given keys
-     */
-    
     function swap_array_indexes($data_sources, $sort_key, $current_val, $new_val) {
         $status = false;
         $arr_size = count($data_sources);
@@ -331,7 +241,7 @@ if (! function_exists('decodeShortCodesTemplate')) {
         // $new_password = isset($posted_data['new_password']) ? $posted_data['new_password'] : '[Something went wrong with server. Please request again]';
         // $verification_code = isset($posted_data['email_verification_url']) ? $posted_data['email_verification_url'] : '[Something went wrong with server. Please request again]';
         
-        $EmailMessageObj = new \App\Models\EmailMessage;
+        $EmailTemplateObj = new \App\Models\EmailTemplate;
         $ShortCodesObj = new \App\Models\ShortCode;
         $OrderObj = new \App\Models\Order;
         $InvoiceObj = new \App\Models\Invoice;
@@ -343,10 +253,16 @@ if (! function_exists('decodeShortCodesTemplate')) {
         $order_data = $OrderObj->getOrders(['id' => $order_id, 'detail' => true]);
         $invoice_data = $InvoiceObj->getInvoice(['id' => $invoice_id, 'detail' => true]);
 
-        $emailMessageDetail = $EmailMessageObj->getEmailMessages([
+        $emailMessageDetail = $EmailTemplateObj->getEmailTemplates([
             'detail' => true,
             'id' => $message_id,
         ]);
+        if(!$emailMessageDetail){
+            return $response = [
+                'email_subject' => false,
+                'email_body' => false
+            ];
+        }
         
         $email_subject = $emailMessageDetail->subject;
         $email_body = $emailMessageDetail->message;

@@ -10,19 +10,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\EmailMessage;
+use App\Models\EmailTemplate;
 use App\Models\ShortCode;
 
 
-class EmailMessageController extends Controller
+class EmailTemplateController extends Controller
 {
     function __construct()
     {
         parent::__construct();
-        $this->middleware('permission:email-message-list|email-message-edit|email-message-delete', ['only' => ['index']]);
-        $this->middleware('permission:email-message-create', ['only' => ['create','store']]);
-        $this->middleware('permission:email-message-edit', ['only' => ['edit','update']]);
-        $this->middleware('permission:email-message-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:email-template-list|email-template-edit|email-template-delete', ['only' => ['index']]);
+        $this->middleware('permission:email-template-create', ['only' => ['create','store']]);
+        $this->middleware('permission:email-template-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:email-template-delete', ['only' => ['destroy']]);
     }
 
     /**
@@ -32,11 +32,10 @@ class EmailMessageController extends Controller
      */
     public function index()
     {
-
         $posted_data = array();
         $posted_data['paginate'] = 10;
-        $data = $this->EmailMessageObj->getEmailMessages($posted_data);
-        return view('email_message.list', compact('data'));
+        $data = $this->EmailTemplateObj->getEmailTemplates($posted_data);
+        return view('email_template.list', compact('data'));
     }
 
     /**
@@ -50,7 +49,7 @@ class EmailMessageController extends Controller
         $posted_data = array();
         $data['short_codes'] = ShortCode::getEmailShortCode($posted_data);
         // echo '<pre>';print_r($data);echo '</pre>';exit;
-        return view('email_message.add',compact('data'));
+        return view('email_template.add',compact('data'));
     }
 
     /**
@@ -63,26 +62,30 @@ class EmailMessageController extends Controller
     {
         $request_data = $request->all();
         // echo '<pre>';print_r($request_data);'</pre>';exit;
-        // \Session::flash('message', json_encode($request_data));
-        // return redirect()->back();
-
         $rules = array(
             'subject' => 'required',
+            'send_on' => 'required',
             'message' => 'required'
         );
 
-        $validator = \Validator::make($request->all(), $rules);
+        $validator = \Validator::make($request_data, $rules);
 
         if ($validator->fails()) {
-            
             return redirect()->back()->withErrors($validator)->withInput();
-        } else {
-            $posted_data = $request->all();
-            // echo '<pre>';print_r($posted_data);echo '</pre>';exit;
-            $this->EmailMessageObj->saveUpdateEmailMessages($posted_data);
+        } else {            
+            $email_send_on_detail = $this->EmailTemplateObj->getEmailTemplates([
+                'detail' => true,
+                'send_on' => $request_data['send_on']
+            ]);
 
-            \Session::flash('message', 'Email Message created successfully!');
-            return redirect('/email_message');
+            if ($email_send_on_detail && $email_send_on_detail->send_on == $request_data['send_on']) {
+                \Session::flash('error_message', '"'.$request_data['send_on'].'" Email template already exists, if you want to update than go and edit in email template!');
+                return redirect()->back()->withInput();
+            }else{
+                \Session::flash('message', 'Email Template created successfully!');
+                $this->EmailTemplateObj->saveUpdateEmailTemplates($request_data);
+                return redirect('/email_template');
+            }
         }
     }
 
@@ -110,10 +113,10 @@ class EmailMessageController extends Controller
         $posted_data['detail'] = true;
        
         // $data['short_codes'] = ShortCode::getEmailShortCode($posted_data);
-        $data = $this->EmailMessageObj->getEmailMessages($posted_data);
+        $data = $this->EmailTemplateObj->getEmailTemplates($posted_data);
         $data['short_codes'] = ShortCode::all();
         // echo '<pre>';print_r($data);echo '</pre>';exit;
-        return view('email_message.add', compact('data'));
+        return view('email_template.add', compact('data'));
     }
 
     /**
@@ -130,6 +133,7 @@ class EmailMessageController extends Controller
 
         $rules = array(
             'subject' => 'required',
+            'send_on' => 'required',
             'message' => 'required'
         );
 
@@ -139,11 +143,23 @@ class EmailMessageController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        $this->EmailMessageObj->saveUpdateEmailMessages($request_data);
 
-        \Session::flash('message', 'Email Message updated successfully!');
-        // return redirect('/enquiry_forms');
-        return redirect('/email_message');
+        $email_message_detail = $this->EmailTemplateObj->getEmailTemplates([
+            'detail' =>true,
+            'id' =>$request_data['update_id']
+        ]);
+
+        $email_send_on_detail = $this->EmailTemplateObj->getEmailTemplates([
+            'detail' =>true,
+            'send_on' =>$request_data['send_on']
+        ]);
+        if ($email_message_detail->send_on != $request_data['send_on'] && $email_send_on_detail) {
+            \Session::flash('error_message', '"'.$request_data['send_on'].'" Email template already exists, if you want to update than go and edit in email template!');
+        }else{
+            \Session::flash('message', 'Email Template updated successfully!');
+            $this->EmailTemplateObj->saveUpdateEmailTemplates($request_data);
+        }
+        return redirect()->back()->withInput();
     }
 
     /**
@@ -152,10 +168,10 @@ class EmailMessageController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(EmailMessage $email_message)
+    public function destroy(EmailTemplate $email_template)
     {
-        $email_message->delete(); 
-        \Session::flash('message', 'Email Message deleted successfully!');
-        return redirect('/email_message');
+        $email_template->delete(); 
+        \Session::flash('message', 'Email Template deleted successfully!');
+        return redirect('/email_template');
     }
 }

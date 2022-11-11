@@ -22,6 +22,7 @@
                     <tr>
                         <th>Sr #</th>
                         <th>Email subject</th>
+                        <th>Email send on</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -41,6 +42,7 @@
                             <tr>
                                 <td>{{ $sr_no }}</td>
                                 <td>{{ $item['subject'] }}</td>
+                                <td>Send on "{{ $item['send_on'] }}"</td>
                                
                                 <td>
                                     @canany(['email-template-edit', 'email-template-delete'])

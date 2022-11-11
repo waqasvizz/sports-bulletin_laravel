@@ -52,8 +52,27 @@ $(document).on('submit', '#email_msg_form', function (event) {
 
 // Add email Shortcodes
 $("#emaiil_short_codes").change(function (e) {
-    var email_message = $('.ql-editor').html();
-    // alert(email_message);
-    $("#editorClone").val(email_message + " " + e.target.value).focus();
-    $('.ql-editor').html(email_message + " " + e.target.value);
+    // var email_message = $('.ql-editor').html();
+    // // alert(email_message);
+    // $("#editorClone").val(email_message + " " + e.target.value).focus();
+    // $('.ql-editor').html(email_message + " " + e.target.value);
+
+
+    quill.focus();
+    var symbol = e.target.value;
+    var caretPosition = quill.getSelection(true);
+
+    quill.insertText(caretPosition, symbol);
+    // $(this).val('');
+
+    // console.log(caretPosition.index);
+    // console.log('-----------------');
+    // console.log(quill.scroll.length());
+    // if (caretPosition.index == 0) {
+    //     console.log('if');
+    //     quill.insertText(quill.scroll.length(), symbol);
+    // } else {
+    //     console.log('else');
+    //     quill.insertText(caretPosition, symbol);
+    // }
 });

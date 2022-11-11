@@ -121,9 +121,9 @@ class MenuSeeder extends Seeder
                             'updated_at' => now(),
                         ],
                         [
-                            'title' => 'Email Message',
-                            'url' => '/email_message',
-                            'slug' => 'email-message-list',
+                            'title' => 'Email Template',
+                            'url' => '/email_template',
+                            'slug' => 'email-template-list',
                             'sort_order' => 9,
                             'status' => 'Published',
                             'asset_type' => 'Icon',

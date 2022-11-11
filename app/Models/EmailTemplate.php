@@ -11,26 +11,36 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-class EmailMessage extends Model
+class EmailTemplate extends Model
 {
     use HasFactory;
+    use SoftDeletes;
+
+    public const Email_Send_On_Constants = [
+        1 => 'Register',
+        2 => 'Reset Password',
+    ];
     
-    public static function getEmailMessages($posted_data = array())
+    public static function getEmailTemplates($posted_data = array())
     {
-        $query = EmailMessage::latest();
+        $query = EmailTemplate::latest();
 
         if (isset($posted_data['id'])) {
-            $query = $query->where('email_messages.id', $posted_data['id']);
+            $query = $query->where('email_templates.id', $posted_data['id']);
         }
         if (isset($posted_data['subject'])) {
-            $query = $query->where('email_messages.subject', $posted_data['subject']);
+            $query = $query->where('email_templates.subject', $posted_data['subject']);
         }
         if (isset($posted_data['message'])) {
-            $query = $query->where('email_messages.message', $posted_data['message']);
+            $query = $query->where('email_templates.message', $posted_data['message']);
+        }
+        if (isset($posted_data['send_on'])) {
+            $query = $query->where('email_templates.send_on', $posted_data['send_on']);
         }
  
-        $query->select('email_messages.*');
+        $query->select('email_templates.*');
         
         $query->getQuery()->email_messages = null;
         if (isset($posted_data['orderBy_name'])) {
@@ -61,12 +71,12 @@ class EmailMessage extends Model
         return $result;
     }
 
-    public function saveUpdateEmailMessages($posted_data = array(), $where_posted_data = array())
+    public function saveUpdateEmailTemplates($posted_data = array(), $where_posted_data = array())
     {
         if (isset($posted_data['update_id'])) {
-            $data = EmailMessage::find($posted_data['update_id']);
+            $data = EmailTemplate::find($posted_data['update_id']);
         } else {
-            $data = new EmailMessage;
+            $data = new EmailTemplate;
         }
 
         if(isset($where_posted_data) && count($where_posted_data)>0){
@@ -89,24 +99,27 @@ class EmailMessage extends Model
         if (isset($posted_data['message'])) {
             $data->message = encrypt($posted_data['message']);
         }
+        if (isset($posted_data['send_on'])) {
+            $data->send_on = $posted_data['send_on'];
+        }
 
         $data->save();
         
-        $data = EmailMessage::getEmailMessages([
+        $data = EmailTemplate::getEmailTemplates([
             'detail' => true,
             'user_id' => $data->id
         ]);
         return $data;
     }
 
-    public function deleteEmailMessages($id = 0, $where_posted_data = array())
+    public function deleteEmailTemplates($id = 0, $where_posted_data = array())
     {
         $is_deleted = false;
         if($id>0){
             $is_deleted = true;
-            $data = EmailMessage::find($id);
+            $data = EmailTemplate::find($id);
         }else{
-            $data = EmailMessage::latest();
+            $data = EmailTemplate::latest();
         }
 
         if(isset($where_posted_data) && count($where_posted_data)>0){
