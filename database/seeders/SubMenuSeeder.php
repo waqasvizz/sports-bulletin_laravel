@@ -203,8 +203,8 @@ class SubMenuSeeder extends Seeder
                         [
                             'menu_id' => 9,
                             'title' => 'Add',
-                            'url' => '/email_message/create',
-                            'slug' => 'email-message-create',
+                            'url' => '/email_template/create',
+                            'slug' => 'email-template-create',
                             'sort_order' => 1,
                             'status' => 'Published',
                             'asset_type' => 'Icon',
@@ -215,8 +215,8 @@ class SubMenuSeeder extends Seeder
                         [
                             'menu_id' => 9,
                             'title' => 'List',
-                            'url' => '/email_message',
-                            'slug' => 'email-message-list',
+                            'url' => '/email_template',
+                            'slug' => 'email-template-list',
                             'sort_order' => 2,
                             'status' => 'Published',
                             'asset_type' => 'Icon',

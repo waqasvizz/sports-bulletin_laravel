@@ -22,7 +22,7 @@ use App\Models\Invoice;
 use App\Models\EmailLogs;
 use App\Models\FcmToken;
 use App\Models\Notification;
-use App\Models\EmailMessage;
+use App\Models\EmailTemplate;
 use App\Models\Task;
 use App\Models\NotificationMessage;
 use App\Models\OrderAsset;
@@ -55,7 +55,7 @@ class Controller extends BaseController
     public $TaskObj;
     public $NotificationObj;
     public $FcnTokenObj;
-    public $EmailMessageObj;
+    public $EmailTemplateObj;
     public $NotificationMessageObj;
     public $EmailShortCodeObj;
     public $CategorieObj;
@@ -75,7 +75,7 @@ class Controller extends BaseController
         $this->FcnTokenObj = new FcmToken();
         $this->NotificationObj = new Notification();
         $this->NotificationMessageObj = new NotificationMessage();
-        $this->EmailMessageObj = new EmailMessage();
+        $this->EmailTemplateObj = new EmailTemplate();
         $this->EmailShortCodeObj = new ShortCode();
         $this->CategorieObj = new Categorie();
         $this->SubCategorieObj = new SubCategorie();

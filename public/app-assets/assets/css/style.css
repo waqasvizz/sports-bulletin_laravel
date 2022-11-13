@@ -70,10 +70,8 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
 
 .display_images_list img {
 	border-radius: 50%;
-	height: 65px;
-	width: 65px;
-	/* height: 30px;
-	width: 30px; */
+	height: 50px;
+	width: 50px;
 	margin: 5px;
 	border: 2px solid #44b6c0c4;
 }

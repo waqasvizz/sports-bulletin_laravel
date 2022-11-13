@@ -5,7 +5,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\EmailShortCodeController;
-use App\Http\Controllers\EmailMessageController;
+use App\Http\Controllers\EmailTemplateController;
 use App\Http\Controllers\CategorieController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\PermissionController;
@@ -138,7 +138,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('assign_permission', AssignPermissionController::class);
     Route::resource('sub_menu', SubMenuController::class);
     Route::resource('notification', NotificationController::class);
-    Route::resource('email_message', EmailMessageController::class);
+    Route::resource('email_template', EmailTemplateController::class);
     Route::resource('short_codes', EmailShortCodeController::class);
     Route::resource('news', NewsController::class);
 });

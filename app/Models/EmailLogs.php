@@ -63,6 +63,10 @@ class EmailLogs extends Model
             $data = new EmailLogs;
         }
 
+        if (isset($posted_data['email_subject']) && !$posted_data['email_subject']) {
+            return false;
+        }
+
         if(isset($where_posted_data) && count($where_posted_data)>0){
             $is_updated = false;
             if (isset($where_posted_data['email_status'])) {

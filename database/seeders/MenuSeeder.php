@@ -33,7 +33,7 @@ class MenuSeeder extends Seeder
                 if(DB::table('menus')->count() == 0){
                     DB::table('menus')->insert([
                         [
-                            'title' => 'Role',
+                            'title' => 'Roles',
                             'url' => '/role',
                             'slug' => 'role-list',
                             'sort_order' => 1,
@@ -44,7 +44,7 @@ class MenuSeeder extends Seeder
                             'updated_at' => now(),
                         ],
                         [
-                            'title' => 'Permission',
+                            'title' => 'Permissions',
                             'url' => '/permission',
                             'slug' => 'permission-list',
                             'sort_order' => 2,
@@ -55,7 +55,7 @@ class MenuSeeder extends Seeder
                             'updated_at' => now(),
                         ],
                         [
-                            'title' => 'Assign Permission',
+                            'title' => 'Assign Permissions',
                             'url' => '/assign_permission',
                             'slug' => 'assign-permission',
                             'sort_order' => 3,
@@ -66,7 +66,7 @@ class MenuSeeder extends Seeder
                             'updated_at' => now(),
                         ],
                         [
-                            'title' => 'User',
+                            'title' => 'Users',
                             'url' => '/user',
                             'slug' => 'user-list',
                             'sort_order' => 4,
@@ -77,7 +77,7 @@ class MenuSeeder extends Seeder
                             'updated_at' => now(),
                         ],
                         [
-                            'title' => 'Menu',
+                            'title' => 'Menus',
                             'url' => '/menu',
                             'slug' => 'menu-list',
                             'sort_order' => 5,
@@ -88,7 +88,7 @@ class MenuSeeder extends Seeder
                             'updated_at' => now(),
                         ],
                         [
-                            'title' => 'Sub Menu',
+                            'title' => 'Sub Menus',
                             'url' => '/sub_menu',
                             'slug' => 'sub-menu-list',
                             'sort_order' => 6,
@@ -121,9 +121,9 @@ class MenuSeeder extends Seeder
                             'updated_at' => now(),
                         ],
                         [
-                            'title' => 'Email Message',
-                            'url' => '/email_message',
-                            'slug' => 'email-message-list',
+                            'title' => 'Email Templates',
+                            'url' => '/email_template',
+                            'slug' => 'email-template-list',
                             'sort_order' => 9,
                             'status' => 'Published',
                             'asset_type' => 'Icon',
@@ -132,7 +132,7 @@ class MenuSeeder extends Seeder
                             'updated_at' => now(),
                         ],
                         [
-                            'title' => 'Short Code',
+                            'title' => 'Short Codes',
                             'url' => '/short_codes',
                             'slug' => 'shortcode-list',
                             'sort_order' => 10,

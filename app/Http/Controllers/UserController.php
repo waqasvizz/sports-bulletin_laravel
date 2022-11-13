@@ -181,7 +181,7 @@ class UserController extends Controller
             'count' => true
         ]);
 
-        $data['counts']['email_messages'] = $this->EmailMessageObj->getEmailMessages([
+        $data['counts']['email_messages'] = $this->EmailTemplateObj->getEmailTemplates([
             'count' => true
         ]);
 

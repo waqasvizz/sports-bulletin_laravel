@@ -185,7 +185,7 @@ class RegisterController extends BaseController
                 // $admin_data = User::getUser(['id' => 1, 'without_with' => true, 'detail' => true]);
 
                 // // this email will send to the admin to notify about newly registered user
-                // $email_content = EmailMessage::getEmailMessage(['id' => 2, 'detail' => true]);
+                // $email_content = EmailTemplate::getEmailMessage(['id' => 2, 'detail' => true]);
         
                 // $email_data = decodeShortCodesTemplate([
                 //     'subject' => $email_content->subject,
@@ -208,7 +208,7 @@ class RegisterController extends BaseController
 
 
                 // // this email will send to the user who has successfully registered with social apps
-                // $email_content = EmailMessage::getEmailMessage(['id' => 5, 'detail' => true]);
+                // $email_content = EmailTemplate::getEmailMessage(['id' => 5, 'detail' => true]);
         
                 // $email_data = decodeShortCodesTemplate([
                 //     'subject' => $email_content->subject,
@@ -399,7 +399,7 @@ class RegisterController extends BaseController
                 $response = User::getUser($admin_data);
 
                 // this email will sent to the newly registered user via mobile app
-                $email_content = EmailMessage::getEmailMessage(['id' => 6, 'detail' => true]);
+                $email_content = EmailTemplate::getEmailMessage(['id' => 6, 'detail' => true]);
                     
                 $email_data = decodeShortCodesTemplate([
                     'subject' => $email_content->subject,
@@ -438,7 +438,7 @@ class RegisterController extends BaseController
                     */
 
                     // this email will sent to the admin on new user registeration
-                    $email_content = EmailMessage::getEmailMessage(['id' => 2, 'detail' => true]);
+                    $email_content = EmailTemplate::getEmailMessage(['id' => 2, 'detail' => true]);
                     
                     $email_data = decodeShortCodesTemplate([
                         'subject' => $email_content->subject,
@@ -679,7 +679,7 @@ class RegisterController extends BaseController
                 if ($admin_data) {
                     
                     // this email will sent to the user who have requested to forget password
-                    $email_content = EmailMessage::getEmailMessage(['id' => 7, 'detail' => true]);
+                    $email_content = EmailTemplate::getEmailMessage(['id' => 7, 'detail' => true]);
                         
                     $email_data = decodeShortCodesTemplate([
                         'subject' => $email_content->subject,
@@ -774,7 +774,7 @@ class RegisterController extends BaseController
             if ($admin_data) {
                 
                 // this email will sent to the user who have requested to forget password
-                $email_content = EmailMessage::getEmailMessage(['id' => 8, 'detail' => true]);
+                $email_content = EmailTemplate::getEmailMessage(['id' => 8, 'detail' => true]);
                     
                 $email_data = decodeShortCodesTemplate([
                     'subject' => $email_content->subject,

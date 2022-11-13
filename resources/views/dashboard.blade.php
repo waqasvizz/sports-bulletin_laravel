@@ -184,7 +184,7 @@
                     @endcan
 
 
-                    @can('email-message-list')
+                    @can('email-template-list')
                         <div class="col-lg-3 col-sm-6 col-12">
                             <div class="card">
                                 <div class="card-header flex-column align-items-start pb-0">
@@ -196,7 +196,7 @@
                                         </a>
                                     </div>
                                     <h2 class="font-weight-bolder mt-1">{{ isset($data['counts']['email_messages'])? $data['counts']['email_messages']:0 }}</h2>
-                                    <p class="card-text mb-1">Email Messages</p>
+                                    <p class="card-text mb-1">Email Templates</p>
                                 </div>
                             </div>
                         </div>
