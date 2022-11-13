@@ -16,7 +16,7 @@
     {{-- <link rel="shortcut icon" type="image/x-icon" href="{{ asset('app-assets/images/ico/favicon.ico') }}"> --}}
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600" rel="stylesheet">
 
-    @if (preg_match('/\bemail_message\b/', Request::path() ))
+    @if (preg_match('/\bemail_message\b/', Request::path() ) || preg_match('/\bnews\b/', Request::path() ))
         <!-- BEGIN: Vendor Editor CSS-->
         <link rel="stylesheet" type="text/css" href="{{ asset('app-assets/vendors/css/editors/quill/katex.min.css') }}">
         <link rel="stylesheet" type="text/css" href="{{ asset('app-assets/vendors/css/editors/quill/monokai-sublime.min.css') }}">
@@ -367,6 +367,19 @@
     <!-- END: Page JS-->
     <script src="{{ asset('js/main.js') }}"></script>
 
+    
+    @if (preg_match('/\bemail_message\b/', Request::path() ) || preg_match('/\bnews\b/', Request::path() ))
+        <!-- BEGIN: Page Vendor Quill JS-->
+        <script src="{{ asset('app-assets/vendors/js/editors/quill/katex.min.js') }}"></script>
+        <script src="{{ asset('app-assets/vendors/js/editors/quill/highlight.min.js') }}"></script>
+        <script src="{{ asset('app-assets/vendors/js/editors/quill/quill.min.js') }}"></script>
+        <!-- END: Page Vendor JS-->
+
+        <!-- BEGIN: Page JS-->
+        <script src="{{ asset('app-assets/js/scripts/forms/form-quill-editor.min.js') }}"></script>
+    @endif
+
+
     {{-- /\b<find_string>\b/ --}}
     @if (preg_match('/\bcategory\b/', Request::path() ))
         <!-- Category Script -->
@@ -389,17 +402,15 @@
     @elseif (preg_match('/\bassign_permission\b/', Request::path() ))
         <!-- Sub Category Script -->
         <script src="{{ asset('js/assign_permission.js') }}"></script>
+    @elseif (preg_match('/\bnews\b/', Request::path() ))
+        <!-- Sub Category Script -->
+        <script src="{{ asset('js/news.js') }}"></script>
+        <script src="{{ asset('js/sub_category.js') }}"></script>
     @elseif (preg_match('/\bemail_message\b/', Request::path() ))
-        <!-- BEGIN: Page Vendor Quill JS-->
-        <script src="{{ asset('app-assets/vendors/js/editors/quill/katex.min.js') }}"></script>
-        <script src="{{ asset('app-assets/vendors/js/editors/quill/highlight.min.js') }}"></script>
-        <script src="{{ asset('app-assets/vendors/js/editors/quill/quill.min.js') }}"></script>
-        <!-- END: Page Vendor JS-->
-
-        <!-- BEGIN: Page JS-->
-        <script src="{{ asset('app-assets/js/scripts/forms/form-quill-editor.min.js') }}"></script>
         <script src="{{ asset('js/email_messages.js') }}"></script>
     @endif
+
+    
    
     @yield('scripts')
     @yield('notificationScript')

@@ -95,7 +95,7 @@ class PermissionController extends Controller
             if( isset($posted_data['is_crud']) ) {
                 $permissions_list[] = $slug."-create";
                 $permissions_list[] = $slug."-list";
-                $permissions_list[] = $slug."-update";
+                $permissions_list[] = $slug."-edit";
                 $permissions_list[] = $slug."-delete";
             }
             else {

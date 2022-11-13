@@ -12,7 +12,7 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\AssignPermissionController;
 use App\Http\Controllers\SubMenuController;
 use App\Http\Controllers\SubCategorieController;
-
+use App\Http\Controllers\NewsController;
 //
 /*
 |--------------------------------------------------------------------------
@@ -140,4 +140,5 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('notification', NotificationController::class);
     Route::resource('email_message', EmailMessageController::class);
     Route::resource('short_codes', EmailShortCodeController::class);
+    Route::resource('news', NewsController::class);
 });

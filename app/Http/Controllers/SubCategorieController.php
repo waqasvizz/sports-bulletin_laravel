@@ -261,9 +261,29 @@ class SubCategorieController extends Controller
     public function ajax_get_sub_categories(Request $request)
     {
         $posted_data = $request->all();
-        $posted_data['paginate'] = 10;
+        if(isset($posted_data['category'])){
+            $category_id = $posted_data['category'];
+            $posted_data = array();
+            $posted_data['category'] = $category_id;
+            $posted_data['category_id'] = $posted_data['category'];
+        }else{
+            $posted_data['paginate'] = 10;
+        }
+        // $posted_data['printsql'] = true;
         $data['records'] = $this->SubCategorieObj->getSubCategories($posted_data);
-        return view('sub_categories.ajax_records', compact('data'));
+        
+        if(isset($posted_data['category'])){
+            $html = '<option value="">Choose an option</option>';
+            if (isset($data['records']) && count($data['records'])>0){
+                foreach ($data['records'] as $key => $item){
+                    $html .= '<option value="'.$item->id.'">'.$item->title.'</option>';
+                }
+            }
+            return $html;
+
+        }else{
+            return view('sub_categories.ajax_records', compact('data'));
+        }
     }
 
     public function update_sorting($posted_data = array())
