@@ -1,4 +1,4 @@
-@section('title', 'News List')
+@section('title', 'Blog List')
 @extends('layouts.master_dashboard')
 
 @section('content')
@@ -15,24 +15,22 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">Filter News</h4>
+                            <h4 class="card-title">Filter Blog</h4>
                         </div>
                         
                         <div class="card-body">
-                            <form method="GET" id="filterForm" action="{{ url('/news') }}">
+                            <form method="GET" id="filterForm" action="{{ url('/blog') }}">
                                 @csrf
                                 <input name="page" id="filterPage" value="1" type="hidden">
                                 <div class="row">
                                     <div class="col-md-6 mb-1">
                                         
                                         <label class="form-label" for="select2-basic">Status</label>
-                                        <select class="filterForm select2 form-select" name="status" id="select2-account-menu-status">
+                                        <select class="filterForm select2 form-select" name="blog_status" id="select2-account-menu-status">
                                             <option value=""> ---- Choose Status ---- </option>
-                                            @if (isset($data['statuses']) && count($data['statuses']) > 0 )
-                                                @foreach ($data['statuses'] as $key => $status_obj) 
-                                                    <option value="{{$status_obj}}">{{$status_obj}}</option>
-                                                @endforeach
-                                            @endif
+                                            @foreach (App\Models\Blog::statusConst as $key => $item)
+                                                <option {{ old('blog_status') == $item || (isset($data->blog_status) && $data->blog_status == $item )? 'selected': '' }} value="{{ $item }}">{{ $item }}</option>
+                                            @endforeach
                                         </select>
     
                                     </div>

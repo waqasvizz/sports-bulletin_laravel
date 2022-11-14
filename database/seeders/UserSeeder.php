@@ -97,6 +97,10 @@ class UserSeeder extends Seeder
                         'news-create',
                         'news-edit',
                         'news-delete',
+                        'blog-list',
+                        'blog-create',
+                        'blog-edit',
+                        'blog-delete',
                     ];
                     
                     foreach ($permissions as $permission) {
@@ -111,7 +115,7 @@ class UserSeeder extends Seeder
 
                     $role = Role::where('name','Admin')->first();
                     $user = User::where('id', 2)->first();                     
-                    $permissions = Permission::whereIn('id',[31,32,33,34,35,36,37,38,39,40,41,42])->pluck('id','id')->all();
+                    $permissions = Permission::whereIn('id',[31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46])->pluck('id','id')->all();
                     $role->syncPermissions($permissions);
                     $user->assignRole([$role->id]);
 

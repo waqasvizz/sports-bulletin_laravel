@@ -44,46 +44,7 @@ jQuery(document).ready(function () {
             },
             error: function (e) { }
         });
-
     });
-
-
-
-    // var editor = $('.editor');
-    // if (editor.length) {
-
-    //     setTimeout(() => {
-    //         var quill = new Quill('.editor', {
-    //             bounds: '.editor',
-    //             modules: {
-    //                 toolbar: '.toolbar'
-    //             },
-    //             theme: 'snow'
-    //         });
-
-    //         // var container = document.getElementById(editorId);
-    //         // var editor    = new Quill( container );
-    //     }, 3000);
-    // }
-
-    // if (commentEditor.length) {
-    //     new Quill('.comment-editor', {
-    //         modules: {
-    //             toolbar: '.comment-toolbar'
-    //         },
-    //         placeholder: 'Write a Comment... ',
-    //         theme: 'snow'
-    //     });
-    // }
-
-    // var quill = new Quill('.editor', {
-    //     modules: {
-    //         toolbar: '#toolbar'
-    //     },
-    //     theme: 'snow'
-    // });
-
-
 
     $(document).on('click', '#delButton, #block_user', function (event) {
         var btn_txt = $(this).text();
@@ -117,79 +78,35 @@ jQuery(document).ready(function () {
         }
     });
 
-    // $(":textarea.getPos").on("keyup click", function(e) {
-    //     var pos = getCursorPos(this);
+    
+    $(document).on('click', '.pagination_links .pagination a', function(event) {
+        event.preventDefault();
 
-    //     console.log(" START ==> " + pos.start);
-    //     console.log("   END ==> " + pos.end);
+        var page = $(this).attr('href').split('page=')[1];
+        $('#filterPage').val(page);
+        getAjaxData();
+    });
 
-    //     // $(this).siblings(".posStart").val(pos.start);
-    //     // $(this).siblings(".posEnd").val(pos.end);
-    // }).siblings("input").keydown(function(e){
-    //     if (e.keyCode == 13){
-    //         $(this).siblings("button").click();
-    //         e.preventDefault();
-    //     }
-    // });
-
-    // $("button").click(function(e) {
-    //     var par = $(this).parent();
-    //     setCursorPos(par.find(":input.getPos")[0], +par.find(".posStart").val(), +par.find(".posEnd").val());
-    // });
-
-    // $('.ql-editor').keyup(function() {
-    // var keyed = $(this).val().replace(/\n/g, '<br/>');
-    // console.log($(this).val().indexOf('*'));
-
-    // console.log(keyed);
-    // var keyed = $(this).val().replace(/\n/g, '<br/>');
-    // $("#target").html(keyed);
-    // }); 
-
+    $(document).on('change', '.filterForm', function(event) {
+        $('#filterPage').val(1);
+        getAjaxData();
+    });
 
 });
 
 
 
-// function getCursorPos(input) {
-//     if ("selectionStart" in input && document.activeElement == input) {
-//         return {
-//             start: input.selectionStart,
-//             end: input.selectionEnd
-//         };
-//     }
-//     else if (input.createTextRange) {
-//         var sel = document.selection.createRange();
-//         if (sel.parentElement() === input) {
-//             var rng = input.createTextRange();
-//             rng.moveToBookmark(sel.getBookmark());
-//             for (var len = 0; rng.compareEndPoints("EndToStart", rng) > 0; rng.moveEnd("character", -1)) {
-//                 len++;
-//             }
-//             rng.setEndPoint("StartToStart", input.createTextRange());
-//             for (var pos = { start: 0, end: len }; rng.compareEndPoints("EndToStart", rng) > 0; rng.moveEnd("character", -1)) {
-//                 pos.start++;
-//                 pos.end++;
-//             }
-//             return pos;
-//         }
-//     }
-//     return -1;
-// }
+function getAjaxData() {
+    $('.loaderOverlay').fadeIn();
 
-// function setCursorPos(input, start, end) {
-//     if (arguments.length < 3) end = start;
-//     if ("selectionStart" in input) {
-//         setTimeout(function() {
-//             input.selectionStart = start;
-//             input.selectionEnd = end;
-//         }, 1);
-//     }
-//     else if (input.createTextRange) {
-//         var rng = input.createTextRange();
-//         rng.moveStart("character", start);
-//         rng.collapse();
-//         rng.moveEnd("character", end - start);
-//         rng.select();
-//     }
-// }
+    jQuery.ajax({
+        url: $("#filterForm").attr('action'),
+        data: $("#filterForm").serializeArray(),
+        method: $("#filterForm").attr('method'),
+        dataType: 'html',
+        success: function(response) {
+            $('.loaderOverlay').fadeOut();
+            $("#table_data").html(response);
+        }
+    });
+}

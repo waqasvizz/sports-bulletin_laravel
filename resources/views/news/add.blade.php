@@ -46,7 +46,8 @@
                                                 <option value="">Choose an option</option>
                                                 @if (isset($data['categories']) && count($data['categories'])>0)
                                                     @foreach ($data['categories'] as $key => $item)
-                                                        <option {{ old('category') == $item->id || (isset($data['news_detail']->categories_id) && $data->categories_id == $item->id)? 'selected': '' }} value="{{ $item->id }}">{{ $item->title }}</option>
+                                                        <option {{ (isset($data['news_detail']->categories_id) && $data->categories_id == $item->id)? 'selected': '' }} value="{{ $item->id }}">{{ $item->title }}</option>
+                                                        <!-- <option {{ old('category') == $item->id || (isset($data['news_detail']->categories_id) && $data->categories_id == $item->id)? 'selected': '' }} value="{{ $item->id }}">{{ $item->title }}</option> -->
                                                     @endforeach
                                                 @endif
                                             </select>
@@ -129,8 +130,8 @@
                                         <div class="form-group">
                                             <label for="news_description">News Description</label>
                                             <textarea name="news_description" class="form-control @error('news_description') is-invalid @enderror" style="display:none" id="editorClone"></textarea>
-                                            <div id="editor-container">{!! old('message', isset($data['news_detail']->news_description)? decrypt($data['news_detail']->news_description): '') !!}</div>
-                                            <div id="output-html" style="display:none">{!! old('message', isset($data['news_detail']->news_description)? decrypt($data['news_detail']->news_description): '') !!}</div>
+                                            <div id="editor-container">{!! old('news_description', isset($data['news_detail']->news_description)? $data['news_detail']->news_description: '') !!}</div>
+                                            <div id="output-html" style="display:none">{!! old('news_description', isset($data['news_detail']->news_description)? $data['news_detail']->news_description: '') !!}</div>
                                             @error('news_description')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>

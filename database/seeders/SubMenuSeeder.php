@@ -272,6 +272,30 @@ class SubMenuSeeder extends Seeder
                             'created_at' => now(),	
                             'updated_at' => now(),
                         ],
+                        [
+                            'menu_id' => 12,
+                            'title' => 'Add',
+                            'url' => '/blog/create',
+                            'slug' => 'blog-create',
+                            'sort_order' => 1,
+                            'status' => 'Published',
+                            'asset_type' => 'Icon',
+                            'asset_value' => 'menu',
+                            'created_at' => now(),	
+                            'updated_at' => now(),
+                        ],
+                        [
+                            'menu_id' => 12,
+                            'title' => 'List',
+                            'url' => '/blog',
+                            'slug' => 'blog-list',
+                            'sort_order' => 2,
+                            'status' => 'Published',
+                            'asset_type' => 'Icon',
+                            'asset_value' => 'menu',
+                            'created_at' => now(),	
+                            'updated_at' => now(),
+                        ],
                     ]);
 
                 } else { echo "<br>[Sub Menus Table is not empty] "; }

@@ -35,6 +35,23 @@ class News extends Model
         return $this->belongsTo(SubCategorie::class, 'sub_categories_id');
     }
 
+    public function setTitleAttribute($value)
+    {
+        $this->attributes['title'] = $value;
+        $this->attributes['news_slug'] = str_slug($value);
+    }
+
+    public function setNewsDescriptionAttribute($value)
+    {
+        $this->attributes['news_description'] = encrypt($value);
+    }
+
+    public function getNewsDescriptionAttribute($value)
+    {
+        return decrypt($value);
+    }
+
+
     public function getNews($posted_data = array())
     {
         $query = News::latest();
@@ -73,6 +90,14 @@ class News extends Model
             } else {
                 $result = $query->get();
             }
+        }
+        
+        if(isset($posted_data['printsql'])){
+            $result = $query->toSql();
+            echo '<pre>';
+            print_r($result);
+            print_r($posted_data);
+            exit;
         }
         return $result;
     }

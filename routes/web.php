@@ -13,6 +13,7 @@ use App\Http\Controllers\AssignPermissionController;
 use App\Http\Controllers\SubMenuController;
 use App\Http\Controllers\SubCategorieController;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\BlogController;
 //
 /*
 |--------------------------------------------------------------------------
@@ -141,4 +142,5 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('email_template', EmailTemplateController::class);
     Route::resource('short_codes', EmailShortCodeController::class);
     Route::resource('news', NewsController::class);
+    Route::resource('blog', BlogController::class);
 });

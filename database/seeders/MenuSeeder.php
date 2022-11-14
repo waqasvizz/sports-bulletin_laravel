@@ -153,6 +153,17 @@ class MenuSeeder extends Seeder
                             'created_at' => now(),	
                             'updated_at' => now(),
                         ],
+                        [
+                            'title' => 'Blogs',
+                            'url' => '/blog',
+                            'slug' => 'blog-list',
+                            'sort_order' => 11,
+                            'status' => 'Published',
+                            'asset_type' => 'Icon',
+                            'asset_value' => 'menu',
+                            'created_at' => now(),	
+                            'updated_at' => now(),
+                        ],
                     ]);
 
                 } else { echo "<br>[Menus Table is not empty] "; }

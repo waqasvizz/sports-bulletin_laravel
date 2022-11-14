@@ -20,6 +20,7 @@ class CreateNewsTable extends Migration
             $table->unsignedBigInteger('sub_categories_id');
             $table->foreign('sub_categories_id')->references('id')->on('sub_categories')->onUpdate('cascade')->onDelete('cascade');
             $table->string('title');
+            $table->string('news_slug');
             $table->enum('status', ['Draft', 'Published'])->default('Draft');
             $table->date('news_date');
             $table->string('image_path');

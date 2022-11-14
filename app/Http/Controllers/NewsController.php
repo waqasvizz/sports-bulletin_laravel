@@ -28,17 +28,23 @@ class NewsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $posted_data = array();
+        $posted_data = $request->all();
         // $posted_data['orderBy_name'] = 'sort_order';
         $posted_data['orderBy_name'] = 'id';
         $posted_data['orderBy_value'] = 'ASC';
         $posted_data['paginate'] = 10;
+        // $posted_data['printsql'] = true;
         $data['records'] = $this->NewsObj->getNews($posted_data);
         $data['statuses'] = $this->NewsObj::News_Status_Constants;
 
         $data['html'] = view('news.ajax_records', compact('data'));
+        
+        if($request->ajax()){
+            return $data['html'];
+        }
+
         return view('news.list', compact('data'));
     }
 

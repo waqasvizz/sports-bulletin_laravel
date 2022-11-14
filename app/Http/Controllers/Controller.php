@@ -36,6 +36,7 @@ use App\Models\SubMenu;
 use App\Models\Permission;
 use App\Models\AssignPermission;
 use App\Models\News;
+use App\Models\Blog;
 
 use DB;
 use Validator;
@@ -65,6 +66,7 @@ class Controller extends BaseController
     public $PermissionObj;
     public $AssignPermissionObj;
     public $NewsObj;
+    public $BlogObj;
 
 
     public function __construct() {
@@ -84,6 +86,7 @@ class Controller extends BaseController
         $this->PermissionObj = new Permission();
         $this->AssignPermissionObj = new AssignPermission();
         $this->NewsObj = new News();
+        $this->BlogObj = new Blog();
     }
 
     /**
