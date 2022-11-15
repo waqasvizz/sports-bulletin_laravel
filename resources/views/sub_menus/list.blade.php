@@ -19,14 +19,14 @@
                         </div>
                         
                         <div class="card-body">
-                            <form method="POST" id="subMenuFilterform">
+                            <form method="GET" id="filterForm" action="{{ url('/sub_menu') }}">
                                 @csrf
-                                <input name="page" id="subMenuFltrPage" value="1" type="hidden">
+                                <input name="page" id="filterPage" value="1" type="hidden">
                                 <div class="row">
                                     <div class="col-md-6 mb-1">
         
                                         <label class="form-label" for="select2-basic">Menu</label>
-                                        <select class="sub_menu_fltr select2 form-select" name="menu_id" id="select2-sub-menu">
+                                        <select class="formFilter select2 form-select" name="menu_id" id="select2-sub-menu">
                                             <option value=""> ---- Choose Menu ---- </option>
                                             @if (isset($data['menus']) && count($data['menus']) > 0 )
                                                 @foreach ($data['menus'] as $key => $menu_obj)
@@ -39,7 +39,7 @@
                                     <div class="col-md-6 mb-1">
                                         
                                         <label class="form-label" for="select2-basic">Status</label>
-                                        <select class="sub_menu_fltr select2 form-select" name="status" id="select2-account-sub-menu-status">
+                                        <select class="formFilter select2 form-select" name="status" id="select2-account-sub-menu-status">
                                             <option value=""> ---- Choose Status ---- </option>
                                             @if (isset($data['statuses']) && count($data['statuses']) > 0 )
                                                 @foreach ($data['statuses'] as $key => $status_obj) 
@@ -65,7 +65,7 @@
         <div class="alert alert-danger"><b>Sorry: </b>{{ Session::get('error_message') }}</div>
         @endif
 
-        <div id="all_sub_menus">
+        <div id="table_data">
             {{ $data['html'] }}
         </div>
 

@@ -1,23 +1,23 @@
 
-jQuery(document).ready(function() {
+jQuery(document).ready(function () {
 
     var path = $(location).attr("pathname");
-    if (path === '/user'){
+    if (path === '/user') {
         // getUserAjaxData();
     }
-    
 
-    $(document).on('click', '#delButton, #block_user', function(event) {
+
+    $(document).on('click', '#delButton, #block_user', function (event) {
         var btn_txt = $(this).text();
         var form = $(this).closest("form");
         var name = $(this).data("name");
         event.preventDefault();
         swal({
-                title: `Are you sure you want to delete this record?`,
-                icon: "warning",
-                buttons: ["No", "Yes"],
-                dangerMode: true,
-            })
+            title: `Are you sure you want to delete this record?`,
+            icon: "warning",
+            buttons: ["No", "Yes"],
+            dangerMode: true,
+        })
             .then((willDelete) => {
                 if (willDelete) {
                     form.submit();
@@ -31,16 +31,16 @@ jQuery(document).ready(function() {
                 buttons: ["No", "Yes"],
                 dangerMode: true,
             })
-            .then((willDelete) => {
-                if (willDelete) {
-                    form.submit();
-                }
-            });
+                .then((willDelete) => {
+                    if (willDelete) {
+                        form.submit();
+                    }
+                });
         }
 
     });
 
-    $(document).on('click', '#send_login_button', function(event) {
+    $(document).on('click', '#send_login_button', function (event) {
         var btn_txt = $(this).text();
         var form = $(this).closest("form");
         var name = $(this).data("name");
@@ -54,38 +54,11 @@ jQuery(document).ready(function() {
             buttons: ["No", "Yes"],
             dangerMode: true,
         })
-        .then(function(value) {
-            if (value) {
-                window.location.href = link;
-            }
-        });
-    });
-
-    //Users Links 
-    $(document).on('click', '.users_links .pagination a', function(event) {
-        event.preventDefault();
-
-        var page = $(this).attr('href').split('page=')[1];
-        $('#userFltrPage').val(page);
-        getUserAjaxData();
-    });
-
-    $(document).on('change', '.userfltr', function(event) {
-        getUserAjaxData();
+            .then(function (value) {
+                if (value) {
+                    window.location.href = link;
+                }
+            });
     });
 
 });
-
-function getUserAjaxData(data) {
-    $('.loaderOverlay').fadeIn();
-    jQuery.ajax({
-        url: "/get_users",
-        data: $("#userFilterform").serializeArray(),
-        method: 'POST',
-        dataType: 'html',
-        success: function(response) {
-            $('.loaderOverlay').fadeOut();
-            $("#all_users").html(response);
-        }
-    });
-}

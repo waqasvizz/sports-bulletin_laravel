@@ -1,18 +1,8 @@
 <?php
-
-   /**
-    *  @author  DANISH HUSSAIN <danishhussain9525@hotmail.com>
-    *  @link    Author Website: https://danishhussain.w3spaces.com/
-    *  @link    Author LinkedIn: https://pk.linkedin.com/in/danish-hussain-285345123
-    *  @since   2020-03-01
-   **/
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Categorie;
-use App\Models\SubCategorie;
-use PhpOffice\PhpSpreadsheet\Calculation\Category;
+use App\Models\SubMenu;
 
 class SubCategorieController extends Controller
 {
@@ -30,20 +20,24 @@ class SubCategorieController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $posted_data = array();
+        $posted_data = $request->all();
         $posted_data['orderBy_name'] = 'category_id';
         $posted_data['orderBy_value'] = 'ASC';
         $posted_data['paginate'] = 10;
         $data['records'] = $this->SubCategorieObj->getSubCategories($posted_data);
 
         $data['html'] = view('sub_categories.ajax_records', compact('data'));
+
+        if($request->ajax()){
+            return $data['html'];
+        }
         
         unset($posted_data['paginate']);
         $data['categories'] = $this->CategorieObj->all();
 
-        $data['statuses'] = $this->SubCategorieObj::SubCategorie_Constants;
+        $data['statuses'] = $this->SubCategorieObj::statusConst;
     
         return view('sub_categories.list', compact('data'));
     }
@@ -82,7 +76,7 @@ class SubCategorieController extends Controller
             $data['title'] = $posted_data['title'];
             $data['category_id'] = $posted_data['category'];
             $data['sort_order'] = ++$count;
-            // $data['status'] = $this->SubCategorieObj::SubCategorie_Constants['draft'];
+            // $data['status'] = $this->SubCategorieObj::statusConst['draft'];
 
             $base_url = public_path();
             if($request->file('image')) {
@@ -143,7 +137,7 @@ class SubCategorieController extends Controller
         }
 
         $data['all_opts'] = $arr;
-        $data['statuses'] = $this->SubCategorieObj::SubCategorie_Constants;
+        $data['statuses'] = $this->SubCategorieObj::statusConst;
 
         return view('sub_categories.add',compact('data'));
     }
@@ -179,7 +173,7 @@ class SubCategorieController extends Controller
         $posted_data = array();
         $posted_data['id'] = $requested_data['update_id'];
         $posted_data['detail'] = true;
-        $update_rec = SubCategorie::getSubCategories($posted_data)->toArray();
+        $update_rec = $this->SubCategorieObj->getSubCategories($posted_data)->toArray();
 
         if ($update_rec) {
 
@@ -258,34 +252,6 @@ class SubCategorieController extends Controller
         }
     }
 
-    public function ajax_get_sub_categories(Request $request)
-    {
-        $posted_data = $request->all();
-        if(isset($posted_data['category'])){
-            $category_id = $posted_data['category'];
-            $posted_data = array();
-            $posted_data['category'] = $category_id;
-            $posted_data['category_id'] = $posted_data['category'];
-        }else{
-            $posted_data['paginate'] = 10;
-        }
-        // $posted_data['printsql'] = true;
-        $data['records'] = $this->SubCategorieObj->getSubCategories($posted_data);
-        
-        if(isset($posted_data['category'])){
-            $html = '<option value="">Choose an option</option>';
-            if (isset($data['records']) && count($data['records'])>0){
-                foreach ($data['records'] as $key => $item){
-                    $html .= '<option value="'.$item->id.'">'.$item->title.'</option>';
-                }
-            }
-            return $html;
-
-        }else{
-            return view('sub_categories.ajax_records', compact('data'));
-        }
-    }
-
     public function update_sorting($posted_data = array())
     {
         if ( isset($posted_data['status']) && $posted_data['status'] ) {
@@ -293,7 +259,7 @@ class SubCategorieController extends Controller
                 if ($key === 'status') {}
                 else {
                     $categorie_obj = [];
-                    $categorie_obj = SubCategorie::find($value['id']);
+                    $categorie_obj = $this->SubCategorieObj::find($value['id']);
                     $categorie_obj->sort_order = $value['sort_order'];
                     $categorie_obj->save();
                 }

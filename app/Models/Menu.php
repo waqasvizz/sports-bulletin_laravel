@@ -18,17 +18,6 @@ class Menu extends Model
 {
     use HasFactory;
     use SoftDeletes;
-    // protected $table = 'menus';
-
-    public const Menu_Status_Constants = [
-        'draft' => 'Draft',
-        'published' => 'Published',
-    ];
-
-    public const Menu_Asset_Type_Constants = [
-        'icon' => 'Icon',
-        'image' => 'Image',
-    ];
 
     public function sub_menus()
     {

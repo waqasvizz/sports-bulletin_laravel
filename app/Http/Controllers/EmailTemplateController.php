@@ -1,17 +1,8 @@
 <?php
-
-   /**
-    *  @author  DANISH HUSSAIN <danishhussain9525@hotmail.com>
-    *  @link    Author Website: https://danishhussain.w3spaces.com/
-    *  @link    Author LinkedIn: https://pk.linkedin.com/in/danish-hussain-285345123
-    *  @since   2020-03-01
-   **/
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\EmailTemplate;
-use App\Models\ShortCode;
 
 
 class EmailTemplateController extends Controller
@@ -47,7 +38,7 @@ class EmailTemplateController extends Controller
     {
         $data = array();
         $posted_data = array();
-        $data['short_codes'] = ShortCode::getEmailShortCode($posted_data);
+        $data['short_codes'] = $this->EmailShortCodeObj->getEmailShortCode($posted_data);
         // echo '<pre>';print_r($data);echo '</pre>';exit;
         return view('email_template.add',compact('data'));
     }
@@ -114,7 +105,7 @@ class EmailTemplateController extends Controller
        
         // $data['short_codes'] = ShortCode::getEmailShortCode($posted_data);
         $data = $this->EmailTemplateObj->getEmailTemplates($posted_data);
-        $data['short_codes'] = ShortCode::all();
+        $data['short_codes'] = $this->EmailShortCodeObj::all();
         // echo '<pre>';print_r($data);echo '</pre>';exit;
         return view('email_template.add', compact('data'));
     }

@@ -44,6 +44,7 @@ jQuery(document).ready(function () {
             },
             error: function (e) { }
         });
+
     });
 
     $(document).on('click', '#delButton, #block_user', function (event) {
@@ -78,8 +79,7 @@ jQuery(document).ready(function () {
         }
     });
 
-    
-    $(document).on('click', '.pagination_links .pagination a', function(event) {
+    $(document).on('click', '.pagination_links .pagination a', function (event) {
         event.preventDefault();
 
         var page = $(this).attr('href').split('page=')[1];
@@ -87,26 +87,30 @@ jQuery(document).ready(function () {
         getAjaxData();
     });
 
-    $(document).on('change', '.filterForm', function(event) {
-        $('#filterPage').val(1);
+    $(document).on('change', '.formFilter', function (event) {
         getAjaxData();
     });
-
 });
 
 
 
-function getAjaxData() {
+function getAjaxData(data) {
     $('.loaderOverlay').fadeIn();
-
     jQuery.ajax({
         url: $("#filterForm").attr('action'),
         data: $("#filterForm").serializeArray(),
         method: $("#filterForm").attr('method'),
         dataType: 'html',
-        success: function(response) {
+        success: function (response) {
             $('.loaderOverlay').fadeOut();
             $("#table_data").html(response);
+
+            if (feather) {
+                feather.replace({
+                    width: 14,
+                    height: 14
+                });
+            }
         }
     });
 }

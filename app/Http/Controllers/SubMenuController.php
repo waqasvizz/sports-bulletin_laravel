@@ -1,19 +1,8 @@
 <?php
-
-   /**
-    *  @author  DANISH HUSSAIN <danishhussain9525@hotmail.com>
-    *  @link    Author Website: https://danishhussain.w3spaces.com/
-    *  @link    Author LinkedIn: https://pk.linkedin.com/in/danish-hussain-285345123
-    *  @since   2020-03-01
-   **/
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Menu;
-use App\Models\SubMenu;
-use PhpOffice\PhpSpreadsheet\Calculation\Category;
-use Spatie\Permission\Models\Permission;
+use App\Models\SubCategorie;
 
 class SubMenuController extends Controller
 {
@@ -31,9 +20,9 @@ class SubMenuController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $posted_data = array();
+        $posted_data = $request->all();
         $posted_data['orderBy_name'] = 'menu_id';
         $posted_data['orderBy_value'] = 'ASC';
         $posted_data['paginate'] = 10;
@@ -43,10 +32,15 @@ class SubMenuController extends Controller
         unset($posted_data['paginate']);
         $data['menus'] = $this->MenuObj->all();
 
-        $data['statuses'] = $this->SubMenuObj::SubMenu_Status_Constants;
-        $data['asset_types'] = $this->SubMenuObj::SubMenu_Asset_Type_Constants;
+        $data['statuses'] = \Config::get('constants.statusDraftPublished');
+        $data['asset_types'] = \Config::get('constants.assetType');
     
         $data['html'] = view('sub_menus.ajax_records', compact('data'));
+
+        if($request->ajax()){
+            return $data['html'];
+        }
+
         return view('sub_menus.list', compact('data'));
     }
 
@@ -54,8 +48,8 @@ class SubMenuController extends Controller
     {
         $posted_data = array();
         $data['menus'] = $this->MenuObj->getMenus($posted_data);
-        $data['asset_types'] = $this->SubMenuObj::SubMenu_Asset_Type_Constants;
-        $data['all_permissions'] = Permission::pluck('name', 'id')->all();
+        $data['asset_types'] = \Config::get('constants.assetType');
+        $data['all_permissions'] = $this->PermissionObj::pluck('name', 'id')->all();
 
         return view('sub_menus.add', compact('data'));
     }
@@ -152,8 +146,8 @@ class SubMenuController extends Controller
         }
 
         $data['all_opts'] = $arr;
-        $data['statuses'] = $this->SubMenuObj::SubMenu_Status_Constants;
-        $data['all_permissions'] = Permission::pluck('name', 'id')->all();
+        $data['statuses'] = \Config::get('constants.statusDraftPublished');
+        $data['all_permissions'] = $this->PermissionObj::pluck('name', 'id')->all();
 
         return view('sub_menus.add',compact('data'));
     }
@@ -193,7 +187,7 @@ class SubMenuController extends Controller
         $posted_data = array();
         $posted_data['id'] = $requested_data['update_id'];
         $posted_data['detail'] = true;
-        $update_rec = SubMenu::getSubMenus($posted_data)->toArray();
+        $update_rec = $this->SubMenuObj->getSubMenus($posted_data)->toArray();
 
         if ($update_rec) {
 
@@ -272,14 +266,6 @@ class SubMenuController extends Controller
         }
     }
 
-    public function ajax_get_sub_menus(Request $request)
-    {
-        $posted_data = $request->all();
-        $posted_data['paginate'] = 10;
-        $data['records'] = $this->SubMenuObj->getSubMenus($posted_data);
-        return view('sub_menus.ajax_records', compact('data'));
-    }
-
     public function update_sorting($posted_data = array())
     {
         if ( isset($posted_data['status']) && $posted_data['status'] ) {
@@ -287,7 +273,7 @@ class SubMenuController extends Controller
                 if ($key === 'status') {}
                 else {
                     $menu_obj = [];
-                    $menu_obj = SubMenu::find($value['id']);
+                    $menu_obj = $this->SubMenuObj::find($value['id']);
                     $menu_obj->sort_order = $value['sort_order'];
                     $menu_obj->save();
                 }

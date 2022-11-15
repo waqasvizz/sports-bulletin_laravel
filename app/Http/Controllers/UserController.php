@@ -1,34 +1,12 @@
 <?php
-
-   /**
-    *  @author  DANISH HUSSAIN <danishhussain9525@hotmail.com>
-    *  @link    Author Website: https://danishhussain.w3spaces.com/
-    *  @link    Author LinkedIn: https://pk.linkedin.com/in/danish-hussain-285345123
-    *  @since   2020-03-01
-   **/
-
 namespace App\Http\Controllers;
 
-use App\Models\EnquiryForm;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
-use App\Models\User;
-use App\Models\FCM_Token;
-use App\Models\Role;
-use App\Models\Task;
-use App\Models\Categorie;
-use App\Models\Item;
-use Validator;
-use Session;
-use DB;
-use Carbon\Carbon;
-use Auth;
 use Illuminate\Support\Facades\Crypt;
 use Laravel\Passport\Token;
 use App\Exports\ExportData;
-use Excel;
 use Illuminate\Support\Arr;
+use App\Models\User;
 
 class UserController extends Controller
 {
@@ -42,67 +20,7 @@ class UserController extends Controller
     }
 
     public function testing() {
-
-
-        $posted_data = array();
-        $posted_data['orderBy_name'] = 'sort_order';
-        $posted_data['orderBy_value'] = 'ASC';
-        $data_sources = Categorie::getCategories($posted_data)->toArray();
-
-        $sort_key = 'sort_order';
-        $current_val = 4;
-        $new_val = 1;
-        
-        echo "Line no @333"."<br>";
-        echo "<pre>";
-        echo "BEFORE"."<br>";
-        print_r($data_sources);
-        echo "</pre>";
-
-        $status = false;
-
-        $arr_size = count($data_sources);
-        $mode = "swap";
-
-        
-        if ( $new_val == 0) {
-            $new_val = $arr_size;
-            $mode = "delete";
-        }
-
-        // echo "new_val ==> ".$new_val;
-        // exit('deeee');
-
-        foreach ($data_sources as $key => $value) {
-            if ($current_val < $new_val) {
-                if ( $current_val <= $value[$sort_key] && $new_val >= $value[$sort_key] ) {
-                    $data_sources[$key][$sort_key] = --$value[$sort_key];
-                }
-            }
-            else if ($current_val > $new_val) {
-                if ( $current_val >= $value[$sort_key] && $new_val <= $value[$sort_key] ) {
-                    $data_sources[$key][$sort_key] = ++$value[$sort_key];
-                }
-            }
-            $status = true;
-        }
-        $data_sources[$current_val-1][$sort_key] = $new_val;
-
-        if ($mode == "delete") {
-            $status = true;
-            unset($data_sources[$current_val-1]);
-        }
-        else {
-            $data_sources[$current_val-1][$sort_key] = $new_val;
-        }
-        $data_sources['status'] = $status;
-        
-        echo "Line no @333"."<br>";
-        echo "<pre>";
-        echo "AFTER"."<br>";
-        print_r($data_sources);
-        echo "</pre>";
-        // exit("@@@@");
+        echo '<pre>';print_r('testing');'</pre>';exit;
     }
     
     public function welcome()
@@ -132,7 +50,7 @@ class UserController extends Controller
 
     public function logout()
     {
-        if(Auth::check()){
+        if(\Auth::check()){
             
             $posted_data['device_id'] = \Session::getId();
             $posted_data['user_id'] = \Auth::user()->id;
@@ -141,7 +59,7 @@ class UserController extends Controller
             if($get_notification_tokens){
                 $this->FcnTokenObj->deleteFCM_Token($get_notification_tokens->id);
             }
-            Auth::logout();
+            \Auth::logout();
 
         }
         return redirect('/login');
@@ -197,7 +115,7 @@ class UserController extends Controller
         $posted_data = array();
         $posted_data['orderBy_name'] = 'name';
         $posted_data['orderBy_value'] = 'Asc';
-        $data['roles'] = Role::getRoles($posted_data);
+        $data['roles'] = $this->RoleObj->getRoles($posted_data);
 
         return view('dashboard', compact('data'));
     }
@@ -206,18 +124,24 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $data = array();
-        $data['all_roles'] = Role::getRoles(['roles_not_in' => [1]]);
+        $data['all_roles'] = $this->RoleObj->getRoles(['roles_not_in' => [1]]);
         $data['assigned_roles'] = \Auth::user()->getRoleNames();
 
-        $posted_data = array();
+        $posted_data = $request->all();
         $posted_data['paginate'] = 10;
         $posted_data['users_not_in'] = [1];
-        $data['users'] = User::getUser($posted_data);
+        // $posted_data['printsql'] = true;
+        $data['users'] = $this->UserObj->getUser($posted_data);
 
         $data['html'] = view('user.ajax_records', compact('data'));
+
+        if($request->ajax()){
+            return $data['html'];
+        }
+
         return view('user.list', compact('data'));
     }
 
@@ -232,7 +156,7 @@ class UserController extends Controller
         $posted_data = array();
         $posted_data['orderBy_name'] = 'name';
         $posted_data['orderBy_value'] = 'Asc';
-        $data['roles'] = Role::getRoles($posted_data);
+        $data['roles'] = $this->RoleObj->getRoles($posted_data);
         
         return view('user.add',compact('data'));
     }
@@ -311,14 +235,14 @@ class UserController extends Controller
                     }
                 }
                 
-                $latest_user = User::saveUpdateUser($posted_data);
+                $latest_user = $this->UserObj->saveUpdateUser($posted_data);
                 
                 $latest_user->assignRole($posted_data['role']);
 
-                Session::flash('message', 'User Register Successfully!');
+                \Session::flash('message', 'User Register Successfully!');
 
             } catch (Exception $e) {
-                Session::flash('error_message', $e->getMessage());
+                \Session::flash('error_message', $e->getMessage());
                 // dd("Error: ". $e->getMessage());
             }
             // return redirect()->back()->withInput();
@@ -332,35 +256,20 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function ajax_get_users(Request $request) {
-
-        $posted_data = $request->all();
-        $posted_data['paginate'] = 10;
-        $data['users'] = $this->UserObj->getUser($posted_data);
-
-        return view('user.ajax_records', compact('data'));
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function theme_layout(Request $request) {
 
         $posted_data = $request->all();
-        $posted_data['update_id'] = Auth::user()->id;
+        $posted_data['update_id'] = \Auth::user()->id;
 
 
-        if(Auth::user()->theme_mode == 'Light'){
+        if(\Auth::user()->theme_mode == 'Light'){
             $posted_data['theme_mode'] = 'Dark';
         }
         else{
             $posted_data['theme_mode'] = 'Light';
         }
     //    echo '<pre>';print_r($posted_data);echo '</pre>';exit;
-        User::saveUpdateUser($posted_data);
+    $this->UserObj->saveUpdateUser($posted_data);
         // echo '<pre>';print_r($response);echo '</pre>';exit;
         return response()->json(['message' => 'Data submitted', 'record' => $posted_data]);
 
@@ -377,12 +286,12 @@ class UserController extends Controller
         $posted_data = array();
         $posted_data['id'] = $id;
         $posted_data['detail'] = true;
-        $data = User::getUser($posted_data);
+        $data = $this->UserObj->getUser($posted_data);
  
         $posted_data = array();
         $posted_data['orderBy_name'] = 'name';
         $posted_data['orderBy_value'] = 'Asc';
-        $data['roles'] = Role::getRoles($posted_data);
+        $data['roles'] = $this->RoleObj->getRoles($posted_data);
         $data['user_role'] = count(\Auth::user()->getRoleNames()) > 0 ? \Auth::user()->getRoleNames()[0] : '';
         
         return view('user.add',compact('data'));
@@ -395,12 +304,12 @@ class UserController extends Controller
         $posted_data = array();
         $posted_data['id'] = $id;
         $posted_data['detail'] = true;
-        $data = User::getUser($posted_data);
+        $data = $this->UserObj->getUser($posted_data);
 
         $posted_data = array();
         $posted_data['orderBy_name'] = 'name';
         $posted_data['orderBy_value'] = 'Asc';
-        $data['roles'] = Role::getRoles($posted_data);
+        $data['roles'] = $this->RoleObj->getRoles($posted_data);
 
         // echo '<pre>';print_r($data);echo '</pre>';exit;
         return view('user.add',compact('data'));
@@ -444,7 +353,7 @@ class UserController extends Controller
                 $posted_data['update_id'] = $id;
                 $posted_data['role'] = $posted_data['user_role'];
 
-                $user = User::getUser(['id' => $id, 'detail' => true]);
+                $user = $this->UserObj->getUser(['id' => $id, 'detail' => true]);
 
                 if ($user) {
                     $pre_role = count($user->getRoleNames()) > 0 ? $user->getRoleNames()[0] : '';
@@ -485,12 +394,12 @@ class UserController extends Controller
                     }
                 }
 
-                User::saveUpdateUser($posted_data);
-                Session::flash('message', 'User Update Successfully!');
+                $this->UserObj->saveUpdateUser($posted_data);
+                \Session::flash('message', 'User Update Successfully!');
                 return redirect()->back();
 
             } catch (Exception $e) {
-                Session::flash('error_message', $e->getMessage());
+                \Session::flash('error_message', $e->getMessage());
                 // dd("Error: ". $e->getMessage());
             }
             return redirect()->back()->withInput();
@@ -515,10 +424,10 @@ class UserController extends Controller
         if ( isset($posted_data['user_status']) )
             $user_data['user_status'] = $posted_data['user_status'];
 
-        User::saveUpdateUser($user_data);
+            $this->UserObj->saveUpdateUser($user_data);
 
 
-        Session::flash('message', 'User Updated Successfully!');
+        \Session::flash('message', 'User Updated Successfully!');
         return redirect()->back();
     }
 
@@ -530,22 +439,6 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        // $user = User::find($id);
-        // if($user){
-            
-        //     $base_url = public_path();
-        //     if (!empty($user->profile_image)) {
-        //         $url = $base_url.'/'.$user->profile_image;
-        //         if (file_exists($url)) {
-        //             unlink($url);
-        //         }
-        //     }
-
-        //     User::deleteUser($id); 
-        //     Session::flash('message', 'User deleted successfully!');
-        // }else{
-        //     Session::flash('error_message', 'User already deleted!');
-        // }
         $user->delete(); 
         \Session::flash('message', 'User deleted successfully!');
         return redirect('/user');
@@ -560,14 +453,14 @@ class UserController extends Controller
         ]);
         // $credentials['role'] = 1;
 
-        if (Auth::attempt($credentials)) {
+        if (\Auth::attempt($credentials)) {
 
 
-            // if(Auth::user()->role == 1){
+            // if(\Auth::user()->role == 1){
                 return redirect('/dashboard');
-            // }else if(Auth::user()->role == 2){
+            // }else if(\Auth::user()->role == 2){
             //     return redirect('/client');
-            // }else if(Auth::user()->role == 3){
+            // }else if(\Auth::user()->role == 3){
             //     return redirect('/staff');
             // }
         }else{
@@ -596,11 +489,11 @@ class UserController extends Controller
                 $posted_data['role'] = 2;
                 $posted_data['name'] = $posted_data['user_name'];
 
-                User::saveUpdateUser($posted_data);
-                Session::flash('message', 'User Register Successfully!');
+                $this->UserObj->saveUpdateUser($posted_data);
+                \Session::flash('message', 'User Register Successfully!');
 
             } catch (Exception $e) {
-                Session::flash('error_message', $e->getMessage());
+                \Session::flash('error_message', $e->getMessage());
                 // dd("Error: ". $e->getMessage());
             }
             return redirect('/login');
@@ -609,7 +502,7 @@ class UserController extends Controller
     
     public function accountResetPassword(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        $validator = \Validator::make($request->all(), [
             // 'email' => 'required|email|unique:users',
             'email' => 'required|email',
         ]);
@@ -618,7 +511,7 @@ class UserController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         } else {
 
-            $users = User::where('email', '=', $request->input('email'))->first();
+            $users = $this->UserObj::where('email', '=', $request->input('email'))->first();
             if ($users === null) {
                 // echo 'User does not exist';
                 return back()->withErrors([
@@ -630,14 +523,14 @@ class UserController extends Controller
                 // echo 'User exits';
                 $random_hash = substr(md5(uniqid(rand(), true)), 10, 10); 
                 $email = $request->get('email');
-                $password = Hash::make($random_hash);
+                $password = \Hash::make($random_hash);
 
                 // $userObj = new user();
                 // $posted_data['email'] = $email;
                 // $posted_data['password'] = $password;
                 // $userObj->updateUser($posted_data);
 
-                DB::update('update users set password = ? where email = ?',[$password,$email]);
+                \DB::update('update users set password = ? where email = ?',[$password,$email]);
 
                 $data = [
                     'new_password' => $random_hash,
@@ -645,11 +538,11 @@ class UserController extends Controller
                     'email' => $email
                 ];
 
-                Mail::send('emails.reset_password', $data, function($message) use ($data) {
+                \Mail::send('emails.reset_password', $data, function($message) use ($data) {
                     $message->to($data['email'])
                     ->subject($data['subject']);
                 });
-                Session::flash('message', 'Your password has been changed successfully please check you email!');
+                \Session::flash('message', 'Your password has been changed successfully please check you email!');
                 return redirect('/login');
             }
 

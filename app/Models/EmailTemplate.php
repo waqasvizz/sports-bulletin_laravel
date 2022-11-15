@@ -17,12 +17,15 @@ class EmailTemplate extends Model
 {
     use HasFactory;
     use SoftDeletes;
-
-    public const Email_Send_On_Constants = [
-        1 => 'Register',
-        2 => 'Reset Password',
-    ];
     
+    public function getMessageAttribute($value){
+        return decrypt($value);
+    }
+    
+    public function setMessageAttribute($value){
+        $this->attributes['message'] = encrypt($value);
+    }
+
     public static function getEmailTemplates($posted_data = array())
     {
         $query = EmailTemplate::latest();

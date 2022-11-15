@@ -1,17 +1,8 @@
 <?php
-
-   /**
-    *  @author  DANISH HUSSAIN <danishhussain9525@hotmail.com>
-    *  @link    Author Website: https://danishhussain.w3spaces.com/
-    *  @link    Author LinkedIn: https://pk.linkedin.com/in/danish-hussain-285345123
-    *  @since   2020-03-01
-   **/
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
-use PhpOffice\PhpSpreadsheet\Calculation\Category;
 
 class PermissionController extends Controller
 {
@@ -29,12 +20,12 @@ class PermissionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
+    public function index(Request $request) {
+        $posted_data = $request->all();
         // $posted_data = array();
         // $posted_data['orderBy_name'] = 'sort_order';
         // $posted_data['orderBy_value'] = 'ASC';
-        // $posted_data['paginate'] = 10;
+        $posted_data['paginate'] = 10;
 
         // $data['records'] = $this->PermissionObj->getPermissions($posted_data);
 
@@ -44,11 +35,14 @@ class PermissionController extends Controller
         // $data['statuses'] = $this->PermissionObj::Permission_Status_Constants;
 
         $data['permissions'] = $this->PermissionObj->getPermissions();
-        $data['records'] = $this->PermissionObj->getPermissions([
-            'paginate' => 10,
-        ]);
+        $data['records'] = $this->PermissionObj->getPermissions($posted_data);
 
         $data['html'] = view('permission.ajax_records', compact('data'));
+
+        if($request->ajax()){
+            return $data['html'];
+        }
+
         return view('permission.list', compact('data'));
     }
 
@@ -95,7 +89,7 @@ class PermissionController extends Controller
             if( isset($posted_data['is_crud']) ) {
                 $permissions_list[] = $slug."-create";
                 $permissions_list[] = $slug."-list";
-                $permissions_list[] = $slug."-edit";
+                $permissions_list[] = $slug."-update";
                 $permissions_list[] = $slug."-delete";
             }
             else {
@@ -234,15 +228,6 @@ class PermissionController extends Controller
             \Session::flash('message', 'Permission deleted successfully!');
             return redirect('/permission');
         }
-    }
-
-    public function ajax_get_permissions(Request $request) {
-
-        $posted_data = $request->all();
-        $posted_data['paginate'] = 10;
-        $data['records'] = $this->PermissionObj->getPermissions($posted_data);
-        
-        return view('permission.ajax_records', compact('data'));
     }
 
     public function update_sorting($posted_data = array())

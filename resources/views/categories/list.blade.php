@@ -19,14 +19,14 @@
                         </div>
                         
                         <div class="card-body">
-                            <form method="POST" id="catFilterform">
+                            <form method="GET" id="filterForm" action="{{ url('/category') }}">
                                 @csrf
-                                <input name="page" id="catFltrPage" value="1" type="hidden">
+                                <input name="page" id="filterPage" value="1" type="hidden">
                                 <div class="row">
                                     <div class="col-md-6 mb-1">
     
                                         <label class="form-label" for="select2-basic">Category</label>
-                                        <select class="cat_fltr select2 form-select" name="title" id="select2-cat">
+                                        <select class="formFilter select2 form-select" name="title" id="select2-cat">
                                             <option value=""> ---- Choose Category ---- </option>
                                             @foreach ($data['categories'] as $key => $cat_obj)
                                                 <option value="{{$cat_obj['title']}}">{{$cat_obj['title']}}</option>
@@ -37,7 +37,7 @@
                                     <div class="col-md-6 mb-1">
                                         
                                         <label class="form-label" for="select2-basic">Status</label>
-                                        <select class="cat_fltr select2 form-select" name="status" id="select2-account-cat-status">
+                                        <select class="formFilter select2 form-select" name="status" id="select2-account-cat-status">
                                             <option value=""> ---- Choose Status ---- </option>
                                             @foreach ($data['statuses'] as $key => $status_obj) 
                                                 <option value="{{$status_obj}}">{{$status_obj}}</option>
@@ -61,7 +61,7 @@
         <div class="alert alert-danger"><b>Sorry: </b>{{ Session::get('error_message') }}</div>
         @endif
 
-        <div id="all_categories">
+        <div id="table_data">
             {{ $data['html'] }}
         </div>
 

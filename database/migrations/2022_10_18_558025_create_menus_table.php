@@ -19,8 +19,8 @@ class CreateMenusTable extends Migration
             $table->string('url', 100);
             $table->string('slug', 100);
             $table->integer('sort_order');
-            $table->string('status', 50)->default('Draft');
-            $table->string('asset_type', 40)->default('Icon');
+            $table->enum('status', ['Draft', 'Published'])->default('Draft');
+            $table->enum('asset_type', ['Icon', 'Image'])->default('Icon');
             $table->string('asset_value')->nullable();
             $table->softDeletes();
             $table->timestamps();

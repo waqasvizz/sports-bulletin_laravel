@@ -35,8 +35,6 @@ class UserSeeder extends Seeder
                         [
                             'first_name' => 'Vizz',
                             'last_name' => 'Super Admin',
-                            'full_name' => 'Vizz Super Admin',
-                            'user_type' => 'super-admin',
                             'email' => 'vizzsuperadmin@gmail.com',
                             'password' => bcrypt('12345678@w'),
                             'created_at' => now(),
@@ -45,8 +43,6 @@ class UserSeeder extends Seeder
                         [
                             'first_name' => 'Vizz',
                             'last_name' => 'Admin',
-                            'full_name' => 'Vizz Admin',
-                            'user_type' => 'admin',
                             'email' => 'vizzadmin@gmail.com',
                             'password' => bcrypt('12345678@w'),
                             'created_at' => now(),

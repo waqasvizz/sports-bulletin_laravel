@@ -19,16 +19,6 @@ class AssignPermission extends Model
     use HasFactory;
     protected $table = 'role_has_permissions';
 
-    // public const AssignPermission_Status_Constants = [
-    //     'draft' => 'Draft',
-    //     'published' => 'Published',
-    // ];
-
-    // public const AssignPermission_Asset_Type_Constants = [
-    //     'icon' => 'Icon',
-    //     'image' => 'Image',
-    // ];
-
     public function getAssignPermissions($posted_data = array())
     {
         $query = AssignPermission::latest();

@@ -1,26 +1,16 @@
 <?php
-
-   /**
-    *  @author  DANISH HUSSAIN <danishhussain9525@hotmail.com>
-    *  @link    Author Website: https://danishhussain.w3spaces.com/
-    *  @link    Author LinkedIn: https://pk.linkedin.com/in/danish-hussain-285345123
-    *  @since   2020-03-01
-   **/
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
-use PhpOffice\PhpSpreadsheet\Calculation\Category;
 
 class AssignPermissionController extends Controller
 {
     function __construct()
     {
         parent::__construct();
-        $this->middleware('permission:assign-permission', ['only' => ['index', 'ajax_get_assign_permissions', 'store']]);
+        $this->middleware('permission:assign-permission', ['only' => ['index', 'store']]);
     }
 
     /**
@@ -28,8 +18,8 @@ class AssignPermissionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
+    public function index(Request $request) {
+        $posted_data = $request->all();
         // $posted_data = array();
         // $posted_data['orderBy_name'] = 'sort_order';
         // $posted_data['orderBy_value'] = 'ASC';
@@ -45,11 +35,20 @@ class AssignPermissionController extends Controller
         // $data['permissions'] = $this->AssignPermissionObj->getAssignPermissions();
 
         $data['roles'] = $this->RoleObj->getRoles();
-        $data['permissions'] = $this->PermissionObj->getPermissions([
-            // 'paginate' => 10,
-        ]);
+
+        if( isset($posted_data['role']) && $posted_data['role'] != '') {
+            $role = Role::where('name', $posted_data['role'])->first();
+            $data['role'] = $role;
+        }
+
+        $data['permissions'] = $this->PermissionObj->getPermissions($posted_data);
 
         $data['html'] = view('assign_permission.ajax_permissions', compact('data'));
+
+        if($request->ajax()){
+            return $data['html'];
+        }
+        
         return view('assign_permission.list', compact('data'));
     }
 
@@ -230,19 +229,7 @@ class AssignPermissionController extends Controller
             return redirect('/permission');
         }
     }
-
-    public function ajax_get_assign_permissions(Request $request) {
-        $posted_data = $request->all();
-        
-        if( isset($posted_data['role']) && $posted_data['role'] != '') {
-            $role = Role::where('name', $posted_data['role'])->first();
-            $data['role'] = $role;
-        }
     
-        $data['permissions'] = Permission::all();
-
-        return view('assign_permission.ajax_permissions', compact('data'));
-    }
 
     public function update_sorting($posted_data = array())
     {

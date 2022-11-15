@@ -1,17 +1,8 @@
 <?php
-
-   /**
-    *  @author  DANISH HUSSAIN <danishhussain9525@hotmail.com>
-    *  @link    Author Website: https://danishhussain.w3spaces.com/
-    *  @link    Author LinkedIn: https://pk.linkedin.com/in/danish-hussain-285345123
-    *  @since   2020-03-01
-   **/
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Categorie;
-use PhpOffice\PhpSpreadsheet\Calculation\Category;
 
 class CategorieController extends Controller
 {
@@ -29,9 +20,9 @@ class CategorieController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $posted_data = array();
+        $posted_data = $request->all();
         $posted_data['orderBy_name'] = 'sort_order';
         $posted_data['orderBy_value'] = 'ASC';
         $posted_data['paginate'] = 10;
@@ -40,9 +31,14 @@ class CategorieController extends Controller
         unset($posted_data['paginate']);
         $data['categories'] = $this->CategorieObj->all();
 
-        $data['statuses'] = $this->CategorieObj::Categorie_Constants;
+        $data['statuses'] = $this->CategorieObj::statusConst;
 
         $data['html'] = view('categories.ajax_records', compact('data'));
+        
+        if($request->ajax()){
+            return $data['html'];
+        }
+
         return view('categories.list', compact('data'));
     }
 
@@ -132,7 +128,7 @@ class CategorieController extends Controller
         }
 
         $data['all_opts'] = $arr;
-        $data['statuses'] = $this->CategorieObj::Categorie_Constants;
+        $data['statuses'] = $this->CategorieObj::statusConst;
 
         // echo "Line no @"."<br>";
         // echo "<pre>";
@@ -222,14 +218,6 @@ class CategorieController extends Controller
             \Session::flash('message', 'Category deleted successfully!');
             return redirect('/category');
         }
-    }
-
-    public function ajax_get_categories(Request $request) {
-
-        $posted_data = $request->all();
-        $posted_data['paginate'] = 10;
-        $data['records'] = $this->CategorieObj->getCategories($posted_data);
-        return view('categories.ajax_records', compact('data'));
     }
 
     public function update_sorting($posted_data = array())

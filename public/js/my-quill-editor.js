@@ -1,3 +1,4 @@
+
 var quill = new Quill('#editor-container', {
     modules: {
         toolbar: [
@@ -36,13 +37,14 @@ function updateHtmlOutput() {
 
 updateHtmlOutput();
 
-$(document).on('submit', '#email_msg_form, #blog_form, #news_form', function (event) {
+
+$(document).on('submit', '#email_msg_form', function (event) {
     var html = quill.root.innerHTML;
     $("#editorClone").val(html);
 });
 
 
-// Add email Shortcodes
+
 $("#emaiil_short_codes").change(function (e) {
     quill.focus();
     var symbol = e.target.value;

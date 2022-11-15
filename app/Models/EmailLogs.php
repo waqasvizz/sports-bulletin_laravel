@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class EmailLogs extends Model
 {
     use HasFactory;
+
     public static function getEmailLogs($posted_data = array())
     {
         $query = EmailLogs::latest();

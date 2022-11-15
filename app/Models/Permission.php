@@ -17,18 +17,6 @@ use DB;
 class Permission extends Model
 {
     use HasFactory;
-    // protected $table = 'permissions';
-
-    // public const Permission_Status_Constants = [
-    //     'draft' => 'Draft',
-    //     'published' => 'Published',
-    // ];
-
-    // public const Permission_Asset_Type_Constants = [
-    //     'icon' => 'Icon',
-    //     'image' => 'Image',
-    // ];
-
     public function getPermissions($posted_data = array())
     {
         $query = Permission::latest();

@@ -18,12 +18,6 @@ class Categorie extends Model
 {
     use HasFactory;
     use SoftDeletes;
-    // protected $table = 'categories';
-
-    public const Categorie_Constants = [
-        'draft' => 'Draft',
-        'published' => 'Published',
-    ];
 
     public function getCategories($posted_data = array())
     {

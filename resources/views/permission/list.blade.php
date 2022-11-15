@@ -19,14 +19,14 @@
                         </div>
                         
                         <div class="card-body">
-                            <form method="POST" id="permissionFilterform">
+                            <form method="GET" id="filterForm" action="{{ url('/permission') }}">
                                 @csrf
-                                <input name="page" id="permissionFltrPage" value="1" type="hidden">
+                                <input name="page" id="filterPage" value="1" type="hidden">
                                 <div class="row">
                                     <div class="col-md-6 mb-1">
     
                                         <label class="form-label" for="select2-basic">Permission</label>
-                                        <select class="permission_fltr select2 form-select" name="name" id="select2-permission">
+                                        <select class="formFilter select2 form-select" name="name" id="select2-permission">
                                             <option value=""> ---- Choose Permission ---- </option>
                                             @if (isset($data['permissions']) && count($data['permissions']) > 0 )
                                                 @foreach ($data['permissions'] as $key => $perm_obj)
@@ -52,7 +52,7 @@
         <div class="alert alert-danger"><b>Sorry: </b>{{ Session::get('error_message') }}</div>
         @endif
 
-        <div id="all_permissions">
+        <div id="table_data">
             {{ $data['html'] }}
         </div>
 

@@ -17,7 +17,7 @@ class CreateCategoriesTable extends Migration
             $table->bigIncrements('id');
             $table->string('title', 100);
             $table->integer('sort_order');
-            $table->string('status', 50)->default('Draft');
+            $table->enum('status', ['Draft', 'Published'])->default('Draft');
             $table->string('image')->nullable();
             $table->softDeletes();
             $table->timestamps();

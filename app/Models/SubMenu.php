@@ -17,17 +17,6 @@ class SubMenu extends Model
 {
     use HasFactory;
     use SoftDeletes;
-    // protected $table = 'menus';
-   
-    public const SubMenu_Status_Constants = [
-        'draft' => 'Draft',
-        'published' => 'Published',
-    ];
-
-    public const SubMenu_Asset_Type_Constants = [
-        'icon' => 'Icon',
-        'image' => 'Image',
-    ];
 
     public function menu_details()
     {

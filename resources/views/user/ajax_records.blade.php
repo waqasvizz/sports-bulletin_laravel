@@ -59,7 +59,7 @@
                     <td>{{ date('M d, Y H:i A', strtotime($item->created_at)) }}</td>
                     
                     <td>
-                        @canany(['user-edit', 'user-delete', 'user-status'])
+                        @canany(['user-edit', 'user-delet   e', 'user-status'])
                         <div class="dropdown">
                             {{-- @if ( $item->hasRole('Admin') ) --}}
                                 <button type="button" class="btn btn-sm dropdown-toggle hide-arrow waves-effect waves-float waves-light" data-toggle="dropdown">
@@ -130,7 +130,7 @@
         </tbody>
     </table>
     
-    <div class="users_links">
+    <div class="pagination_links">
         {{-- {!! $data['users']->links() !!} --}}
         @if (isset($data['users']) && count($data['users'])>0)
             {{ $data['users']->links('vendor.pagination.bootstrap-4') }}

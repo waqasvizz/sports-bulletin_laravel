@@ -20,10 +20,10 @@ class CreateEmailLogsTable extends Migration
             $table->string('email', 100)->nullable();
             $table->text('email_message')->nullable();
             $table->string('email_subject', 100)->nullable();
-            $table->tinyInteger('email_status')->comment('1=Pending, 2=Send, 3=Stop')->default(1);
+            $table->enum('email_status', ['Pending', 'Send', 'Stop'])->default('Pending');
             $table->timestamp('send_at')->nullable();
             $table->timestamp('stop_at')->nullable();
-            $table->enum('send_email_after', ['Daily', '6 Month', '6 Weeks'])->default('Daily');
+            $table->enum('send_email_after', ['Daily', '6-Months', '6-Weeks'])->default('Daily');
             $table->timestamps();
         });
     }

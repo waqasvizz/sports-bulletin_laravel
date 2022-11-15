@@ -12,10 +12,12 @@ use Carbon;
 use Laravel\Passport\HasApiTokens;
 use DB;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
+    use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -57,17 +59,17 @@ class User extends Authenticatable
     //     return $this->belongsTo(Role::class, 'role')
     //         ->select(['id', 'name']);
     // }
-    public function getUserStatusAttribute($value)
-    {
-        $status ='';
-        if($value == 1){
-            $status = 'Active';
-        }
-        else if($value == 2){
-            $status = 'Block';
-        }
-        return $status;
-    }
+    // public function getUserStatusAttribute($value)
+    // {
+    //     $status ='';
+    //     if($value == 1){
+    //         $status = 'Active';
+    //     }
+    //     else if($value == 2){
+    //         $status = 'Block';
+    //     }
+    //     return $status;
+    // }
 
     public static function getUser($posted_data = array())
     {

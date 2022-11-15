@@ -58,7 +58,7 @@
                                                     <label for="send_on">Email Send On</label>
                                                     <select class="form-control @error('send_on') is-invalid @enderror" id="send_on"  name="send_on">
                                                         <option value="">Choose email send on</option>
-                                                        @foreach (App\Models\EmailTemplate::Email_Send_On_Constants as $key => $item)
+                                                        @foreach (Config::get('constants.sendOn') as $key => $item)
                                                             <option {{ old('send_on') == $item || (isset($data->send_on) && $data->send_on == $item )? 'selected': '' }} value="{{ $item }}">{{ $item }}</option>
                                                         @endforeach
                                                     </select>
@@ -72,11 +72,6 @@
                                             <div class="col-md-12 col-12">
                                                 <div class="form-group">
                                                     <label for="last_name">Email Template</label>
-        
-                                                    {{--
-                                                    <textarea id="email_message" class="form-control email_messages @error('message') is-invalid @enderror"  placeholder="Email message" name="message">{{old('message', isset($data->message)? $data->message: '')}}</textarea>
-                                                    --}}
-
                                                     <select class="form-control @error('emaiil_short_codes') is-invalid @enderror" id="emaiil_short_codes" >
                                                         <option value="">Choose short code</option>
                                                         @if (isset($data['short_codes']) && count($data['short_codes'])>0)
@@ -85,29 +80,9 @@
                                                             @endforeach
                                                         @endif
                                                     </select>
-
-
-                                                    {{-- <div id="full-container">
-                                                        <div class="editor"></div>
-                                                        <div class="toolbar"></div>
-                                                    </div> --}}
-
-                                                    {{-- <textarea name="message" id="editorClone"></textarea> --}}
                                                     <textarea name="message" style="display:none" id="editorClone"></textarea>
-                                                    
-
-                                                    <div id="editor-container">{!! old('message', isset($data->message)? decrypt($data->message): '') !!}</div>
-                                                    
-                                                    {{-- <pre><code id="output-html"></code></pre> --}}
-                                                    <div id="output-html" style="display:none">{!! old('message', isset($data->message)? decrypt($data->message): '') !!}</div>
-
-
-                                                    {{--
-                                                    <textarea class="getPos"></textarea>
-                                                    <input class="posStart" />
-                                                    <input class="posEnd" />
-                                                    --}}
-                                                    
+                                                    <div id="editor-container">{!! old('message', isset($data->message)? $data->message: '') !!}</div>
+                                                    <div id="output-html" style="display:none">{!! old('message', isset($data->message)? $data->message: '') !!}</div>
                                                     @error('message')
                                                         <span class="invalid-feedback" role="alert">
                                                             <strong>{{ $message }}</strong>

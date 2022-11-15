@@ -27,22 +27,20 @@
                     <div class="card">
                         
                         {{-- <form method="POST" id="assignPermissionFilterform"> --}}
-                        <form class="form" id="assignPermissionFilterform" action="{{ route('assign_permission.store') }}" method="post" enctype="multipart/form-data">
+                        {{-- <form class="form" id="assignPermissionFilterform" action="{{ route('assign_permission.store') }}" method="post" enctype="multipart/form-data"> --}}
+                        <form method="GET" id="filterForm" action="{{ url('/assign_permission') }}">
                         @csrf
+                            <input name="page" id="filterPage" value="1" type="hidden">
                             <div class="card-header">
                                 <h4 class="card-title">Filter Assign Permission</h4>
                             </div>
                             
                             <div class="card-body">
-                            
-                                @csrf
-                                {{--<input name="page" id="assignPermissionFltrPage" value="1" type="hidden">--}}
-
                                 <div class="row">
                                     <div class="col-md-6 mb-1">
         
                                         <label class="form-label" for="select2-basic">Select Role</label>
-                                        <select class="role_fltr select2 form-select" name="role" id="select2-user">
+                                        <select class="formFilter role_fltr select2 form-select" name="role" id="select2-user">
                                             <option value=""> ---- Choose Role ---- </option>
                                             @if (isset($data['roles']) && count($data['roles']) > 0 )
                                                 @foreach ($data['roles'] as $key => $role_obj)
@@ -83,7 +81,7 @@
                             </div>
                             --}}
                             
-                            <div class="card-body assign_permissions_list" style="display: block; padding-top: 0px">
+                            <div id="table_data" class="card-body assign_permissions_list" style="display: block; padding-top: 0px">
                                 {{ $data['html'] }}
                             </div>
                         </form>

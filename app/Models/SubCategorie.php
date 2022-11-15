@@ -17,12 +17,6 @@ class SubCategorie extends Model
 {
     use HasFactory;
     use SoftDeletes;
-    // protected $table = 'categories';
-   
-    public const SubCategorie_Constants = [
-        'draft' => 'Draft',
-        'published' => 'Published',
-    ];
 
     public function category_details()
     {

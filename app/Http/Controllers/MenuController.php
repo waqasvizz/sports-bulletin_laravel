@@ -1,18 +1,10 @@
 <?php
 
-   /**
-    *  @author  DANISH HUSSAIN <danishhussain9525@hotmail.com>
-    *  @link    Author Website: https://danishhussain.w3spaces.com/
-    *  @link    Author LinkedIn: https://pk.linkedin.com/in/danish-hussain-285345123
-    *  @since   2020-03-01
-   **/
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Menu;
-use PhpOffice\PhpSpreadsheet\Calculation\Category;
 use Spatie\Permission\Models\Permission;
+use App\Models\Menu;
 
 class MenuController extends Controller
 {
@@ -31,9 +23,8 @@ class MenuController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        $posted_data = array();
+    public function index(Request $request) {
+        $posted_data = $request->all();
         $posted_data['orderBy_name'] = 'sort_order';
         $posted_data['orderBy_value'] = 'ASC';
         $posted_data['paginate'] = 10;
@@ -42,15 +33,20 @@ class MenuController extends Controller
         unset($posted_data['paginate']);
         $data['menus'] = $this->MenuObj->all();
 
-        $data['statuses'] = $this->MenuObj::Menu_Status_Constants;
+        $data['statuses'] = \Config::get('constants.statusDraftPublished');
 
         $data['html'] = view('menu.ajax_records', compact('data'));
+
+        if($request->ajax()){
+            return $data['html'];
+        }
+
         return view('menu.list', compact('data'));
     }
 
     public function create()
     {
-        $data['asset_types'] = $this->MenuObj::Menu_Asset_Type_Constants;
+        $data['asset_types'] = \Config::get('constants.assetType');
         $data['all_permissions'] = Permission::pluck('name', 'id')->all();
 
         return view('menu.add', compact('data'));
@@ -159,8 +155,8 @@ class MenuController extends Controller
         }
 
         $data['all_opts'] = $arr;
-        $data['statuses'] = $this->MenuObj::Menu_Status_Constants;
-        $data['asset_types'] = $this->MenuObj::Menu_Asset_Type_Constants;
+        $data['statuses'] = \Config::get('constants.statusDraftPublished');
+        $data['asset_types'] = \Config::get('constants.assetType');
 
         return view('menu.add',compact('data'));
     }
@@ -250,14 +246,6 @@ class MenuController extends Controller
             \Session::flash('message', 'Menu deleted successfully!');
             return redirect('/menu');
         }
-    }
-
-    public function ajax_get_menus(Request $request) {
-
-        $posted_data = $request->all();
-        $posted_data['paginate'] = 10;
-        $data['records'] = $this->MenuObj->getMenus($posted_data);
-        return view('menu.ajax_records', compact('data'));
     }
 
     public function update_sorting($posted_data = array())
