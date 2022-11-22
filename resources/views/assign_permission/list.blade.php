@@ -37,7 +37,7 @@
                             
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-md-6 mb-1">
+                                    <div class="col-md-3 mb-1">
         
                                         <label class="form-label" for="select2-basic">Select Role</label>
                                         <select class="formFilter role_fltr select2 form-select" name="role" id="select2-user">
@@ -49,10 +49,23 @@
                                             @endif
                                         </select>
                                     </div>
-
-                                    <div class="col-md-6 col-12">
-                                        <div class="form-group">
-                                        </div>
+                                    <div class="col-md-3 mb-1">    
+                                        <label class="form-label" for="orderBy_name">Sort By Name</label>
+                                        <select class="formFilter select2 form-select" name="orderBy_name" id="orderBy_name">
+                                            <option value=""> ---- Choose an option ---- </option>
+                                            <option value="permissions.id">ID</option>
+                                            <option value="permissions.name">Name</option>
+                                            <option value="permissions.created_at">Created At</option>
+                                            <option value="permissions.updated_at">Updated At</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3 mb-1">    
+                                        <label class="form-label" for="orderBy_value">Sort By Value</label>
+                                        <select class="formFilter select2 form-select" name="orderBy_value" id="orderBy_value">
+                                            <option value=""> ---- Choose an option ---- </option>
+                                            <option value="ASC">ASC</option>
+                                            <option value="DESC">DESC</option>
+                                        </select>
                                     </div>
                                 </div>
 

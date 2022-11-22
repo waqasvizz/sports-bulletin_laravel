@@ -3,7 +3,7 @@ use App\Models\User;
 use Laravel\Ui\Presets\Vue;
 
 if (! function_exists('is_image_exist')) {
-    function is_image_exist($image_path = '', $type = "image", $is_public_path = false) {
+    function is_image_exist($image_path = '', $type = "image", $is_public_path = false, $inStorage = true) {
 
         $default_asset = ($type == "image") ? 'default-image.png' : 'default-profile-image.png';
 
@@ -15,12 +15,18 @@ if (! function_exists('is_image_exist')) {
       
         $asset_url = $base_url.'/app-assets/images/default-assets/'.$default_asset;
 
+        $storagePath = '';
+        if($inStorage){
+            $storagePath = 'storage/';
+        }
+        
+
         if($image_path == '' || is_null($image_path)){
             return $asset_url;
         }else if($is_public_path && (file_exists($_SERVER['DOCUMENT_ROOT'].'/'.$image_path) || file_exists(public_path().'/'.$image_path))){
             return $base_url.'/'.$image_path;
-        }else if(!$is_public_path && (file_exists($_SERVER['DOCUMENT_ROOT'].'/storage/'.$image_path) || file_exists(public_path().'/storage/'.$image_path))){
-            return $base_url.'/storage/'.$image_path;
+        }else if(!$is_public_path && (file_exists($_SERVER['DOCUMENT_ROOT'].'/'.$storagePath.''.$image_path) || file_exists(public_path().'/'.$storagePath.''.$image_path))){
+            return $base_url.'/'.$storagePath.''.$image_path;
         }else{
             return $asset_url;
         }
@@ -376,5 +382,77 @@ if (! function_exists('generateRandomNumbers')) {
             $randomNumbers .= $characters[rand(0, $charactersLength - 1)];
         }
         return $randomNumbers;
+    }
+}
+
+if (! function_exists('uploadAssets')) {
+    function uploadAssets($imageData, $original = false, $optimized = false, $thumbnail = false, $inStorage = true) {
+        
+        if(isset($imageData['fileName']) && isset($imageData['uploadfileObj']) && isset($imageData['fileObj']) && isset($imageData['folderName'])){
+            $fileName = $imageData['fileName'];
+            $uploadfileObj = $imageData['uploadfileObj'];
+            $fileObj = $imageData['fileObj'];
+            $folderName = $imageData['folderName'];
+            $storagePath = '';
+            if($inStorage){
+                $storagePath = 'storage/';
+            }
+
+            if($original){
+                $destinationPath = public_path('/'.$storagePath.''.$folderName);
+                if (!file_exists($destinationPath)) {
+                    mkdir($destinationPath, 0777, true);
+                }
+                $uploadfileObj->move($destinationPath, $fileName);
+                $imagePath = $folderName.'/'.$fileName;
+            }
+
+            if($optimized){
+                $destinationPath = public_path('/'.$storagePath.''.$folderName.'/optimized');
+                if (!file_exists($destinationPath)) {
+                    mkdir($destinationPath, 0777, true);
+                }
+                $fileObj->save($destinationPath.'/'.$fileName, 25);
+                $imagePath = $folderName.'/optimized/'.$fileName;
+            }
+
+            if($thumbnail){
+                $destinationPath = public_path('/'.$storagePath.''.$folderName.'/thumbnail');
+                if (!file_exists($destinationPath)) {
+                    mkdir($destinationPath, 0777, true);
+                }
+                $fileObj->resize(200, 200, function ($constraint) {
+                    $constraint->aspectRatio();
+                })->save($destinationPath.'/'.$fileName);
+            }
+            
+        }
+        
+
+        if(isset($imagePath)){
+            return $imagePath;
+        }else{
+            return false;
+        }
+    }
+}
+
+if (! function_exists('unlinkUploadedAssets')) {
+    function unlinkUploadedAssets($imageData, $inStorage = true) {
+        
+        if(isset($imageData['imagePath'])){
+            $imagePath = $imageData['imagePath'];
+            $base_url = public_path();
+            $storagePath = '';
+            if($inStorage){
+                $storagePath = 'storage/';
+            }
+            $url = $base_url.'/'.$storagePath.''.$imagePath;
+            
+            if (file_exists($url)) {
+                unlink($url);
+            }            
+        }
+        return true;
     }
 }

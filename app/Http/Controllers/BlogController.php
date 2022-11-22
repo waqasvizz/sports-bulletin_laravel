@@ -1,8 +1,8 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Blog;
 
 class BlogController extends Controller
 {
@@ -66,9 +66,21 @@ class BlogController extends Controller
                 $extension = $request->blog_image->getClientOriginalExtension();
                 if($extension == 'jpg' || $extension == 'jpeg' || $extension == 'png'){
                     
-                    $file_name = time().'_'.$request->blog_image->getClientOriginalName();
-                    $file_path = $request->file('blog_image')->storeAs('blog_images', $file_name, 'public');
-                    $requested_data['blog_image'] = $file_path;
+                    $imageData = array();
+                    // $imageData['fileName'] = time().'_'.$request->blog_image->getClientOriginalName();
+                    $imageData['fileName'] = time().'_'.rand(1000000,9999999).'.'.$extension;
+                    $imageData['uploadfileObj'] = $request->file('blog_image');
+                    $imageData['fileObj'] = \Image::make($request->file('blog_image')->getRealPath());
+                    $imageData['folderName'] = 'blog_image';
+                    
+                    $uploadAssetRes = uploadAssets($imageData, $original = false, $optimized = true, $thumbnail = false);
+                    $requested_data['blog_image'] = $uploadAssetRes;
+                    if(!$uploadAssetRes){
+                        return back()->withErrors([
+                            'blog_image' => 'Something wrong with your image, please try again later!',
+                        ])->withInput();
+                    }
+                    
                 } else {
                     return back()->withErrors([
                         'blog_image' => 'The image format is not correct you can only upload (jpg, jpeg, png).',
@@ -145,15 +157,24 @@ class BlogController extends Controller
         if($request->file('blog_image')) {
             $extension = $request->blog_image->getClientOriginalExtension();
             if($extension == 'jpg' || $extension == 'jpeg' || $extension == 'png'){
-                if (!is_null($update_rec['blog_image'])) {
-                    $url = $base_url.'/'.$update_rec['blog_image'];
-                    if (file_exists($url)) {
-                        unlink($url);
-                    }
+                
+                $imageData = array();
+                $imageData['fileName'] = time().'_'.rand(1000000,9999999).'.'.$extension;
+                $imageData['uploadfileObj'] = $request->file('blog_image');
+                $imageData['fileObj'] = \Image::make($request->file('blog_image')->getRealPath());
+                $imageData['folderName'] = 'blog_image';
+                
+                $uploadAssetRes = uploadAssets($imageData, $original = false, $optimized = true, $thumbnail = false);
+                $requested_data['blog_image'] = $uploadAssetRes;
+                if(!$uploadAssetRes){
+                    return back()->withErrors([
+                        'blog_image' => 'Something wrong with your image, please try again later!',
+                    ])->withInput();
                 }
-                $file_name = time().'_'.$request->blog_image->getClientOriginalName();
-                $file_path = $request->file('blog_image')->storeAs('blog_images', $file_name, 'public');
-                $requested_data['blog_image'] = $file_path;
+                $imageData = array();
+                $imageData['imagePath'] = $update_rec['blog_image'];
+                unlinkUploadedAssets($imageData);
+                
             } else {
                 return back()->withErrors([
                     'blog_image' => 'The image format is not correct you can only upload (jpg, jpeg, png).',
@@ -175,13 +196,10 @@ class BlogController extends Controller
      */
     public function destroy(Blog $blog)
     {
-        $base_url = public_path();
-        if (!is_null($blog->blog_image)) {
-            $url = $base_url.'/'.$blog->blog_image;
-            if (file_exists($url)) {
-                unlink($url);
-            }
-        }
+        unlinkUploadedAssets([
+            'imagePath' => $blog->blog_image
+        ]);
+
         $blog->delete();
 
         \Session::flash('message', 'Blog deleted successfully!');

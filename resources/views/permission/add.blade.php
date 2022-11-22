@@ -38,9 +38,17 @@
                             @endif
                                 @csrf
                                 <div class="row">
-                                    <div class="col-md-6 col-12">
+                                    <div class="col-md-3 col-12">
                                         <div class="form-group">
-                                            <label for="first_name">Permission Title</label>
+                                            <p class="mb-0"><span style="color: #5e5873; font-size: 0.9rem;">Permission Title</span>
+
+                                                 @if (!isset($data->id))
+                                                    <span class="float-right">
+                                                        <input type="checkbox" id="is_crud_opt" name="is_crud">
+                                                        <label for="is_crud_opt">Is CRUD?</label>
+                                                    </span>
+                                                @endif
+                                            </p>
                                             <input value="{{old('title', isset($data->name)? $data->name: '')}}" type="text" id="title" class="form-control @error('title') is-invalid @enderror" placeholder="Permission Title" name="name">
                                             @error('title')
                                                 <span class="invalid-feedback" role="alert">
@@ -50,8 +58,8 @@
                                         </div>
                                     </div>
 
-                                    @if (!isset($data->id))
-                                    <div class="col-md-6 col-12">
+                                    {{-- @if (!isset($data->id))
+                                    <div class="col-md-8 col-12">
                                         <div class="form-group">
                                             <label for="first_name">Is CRUD?</label>
                                             <div class="demo-inline-spacing">
@@ -62,7 +70,7 @@
                                             </div>                                            
                                         </div>
                                     </div>
-                                    @endif
+                                    @endif --}}
                                 </div>
 
                                 <div class="row">

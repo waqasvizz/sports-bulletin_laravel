@@ -59,7 +59,7 @@
                     <td>{{ date('M d, Y H:i A', strtotime($item->created_at)) }}</td>
                     
                     <td>
-                        @canany(['user-edit', 'user-delet   e', 'user-status'])
+                        @canany(['user-edit', 'user-delete', 'user-status'])
                         <div class="dropdown">
                             {{-- @if ( $item->hasRole('Admin') ) --}}
                                 <button type="button" class="btn btn-sm dropdown-toggle hide-arrow waves-effect waves-float waves-light" data-toggle="dropdown">
@@ -68,7 +68,7 @@
                                 @php $any_permission_found = true; @endphp
                                 <div class="dropdown-menu">
                                     @can('user-status')
-                                    <form action="{{ url('update_user')}}" method="Post" enctype="multipart/form-data">
+                                    <form action="{{ url('blockUnblockUser')}}" method="Post" enctype="multipart/form-data">
                                     @method('POST')
                                     @csrf
                                         @if ( $item->user_status == 'Active' )

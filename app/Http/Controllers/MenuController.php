@@ -25,8 +25,8 @@ class MenuController extends Controller
      */
     public function index(Request $request) {
         $posted_data = $request->all();
-        $posted_data['orderBy_name'] = 'sort_order';
-        $posted_data['orderBy_value'] = 'ASC';
+        // $posted_data['orderBy_name'] = 'sort_order';
+        // $posted_data['orderBy_value'] = 'ASC';
         $posted_data['paginate'] = 10;
         $data['records'] = $this->MenuObj->getMenus($posted_data);
 
@@ -102,10 +102,22 @@ class MenuController extends Controller
             if( $request->file('asset_value') && $posted_data['asset_type'] == 'Image' ) {
                 $extension = $request->asset_value->getClientOriginalExtension();
                 if($extension == 'jpg' || $extension == 'jpeg' || $extension == 'png'){
+
+                    $imageData = array();
+                    // $imageData['fileName'] = time().'_'.$request->asset_value->getClientOriginalName();
+                    $imageData['fileName'] = time().'_'.rand(1000000,9999999).'.'.$extension;
+                    $imageData['uploadfileObj'] = $request->file('asset_value');
+                    $imageData['fileObj'] = \Image::make($request->file('asset_value')->getRealPath());
+                    $imageData['folderName'] = 'menu_images';
                     
-                    $file_name = time().'_'.$request->asset_value->getClientOriginalName();
-                    $file_path = $request->file('asset_value')->storeAs('other_images', $file_name, 'public');
-                    $data['asset_value'] = $file_path;
+                    $uploadAssetRes = uploadAssets($imageData, $original = false, $optimized = true, $thumbnail = false);
+                    $data['asset_value'] = $uploadAssetRes;
+                    if(!$uploadAssetRes){
+                        return back()->withErrors([
+                            'asset_value' => 'Something wrong with your icon image, please try again later!',
+                        ])->withInput();
+                    }
+                    
                 } else {
                     return back()->withErrors([
                         'asset_value' => 'The image format is not correct you can only upload (jpg, jpeg, png).',
@@ -198,16 +210,24 @@ class MenuController extends Controller
             $extension = $request->asset_value->getClientOriginalExtension();
             if($extension == 'jpg' || $extension == 'jpeg' || $extension == 'png'){
 
-                if (!is_null($update_rec['asset_value'])) {
-                    $url = $base_url.'/'.$update_rec['asset_value'];
-                    if (file_exists($url)) {
-                        unlink($url);
-                    }
-                }   
+                $imageData = array();
+                // $imageData['fileName'] = time().'_'.$request->asset_value->getClientOriginalName();
+                $imageData['fileName'] = time().'_'.rand(1000000,9999999).'.'.$extension;
+                $imageData['uploadfileObj'] = $request->file('asset_value');
+                $imageData['fileObj'] = \Image::make($request->file('asset_value')->getRealPath());
+                $imageData['folderName'] = 'menu_images';
                 
-                $file_name = time().'_'.$request->asset_value->getClientOriginalName();
-                $file_path = $request->file('asset_value')->storeAs('other_images', $file_name, 'public');
-                $requested_data['asset_value'] = $file_path;
+                $uploadAssetRes = uploadAssets($imageData, $original = false, $optimized = true, $thumbnail = false);
+                $requested_data['asset_value'] = $uploadAssetRes;
+                if(!$uploadAssetRes){
+                    return back()->withErrors([
+                        'asset_value' => 'Something wrong with your icon image, please try again later!',
+                    ])->withInput();
+                }
+                $imageData = array();
+                $imageData['imagePath'] = $update_rec['asset_value'];
+                unlinkUploadedAssets($imageData);
+                
             } else {
                 return back()->withErrors([
                     'asset_value' => 'The image format is not correct you can only upload (jpg, jpeg, png).',
@@ -241,8 +261,15 @@ class MenuController extends Controller
      */
     public function destroy($id)
     {
+        $data = $this->MenuObj->getMenus([
+            'id' => $id,
+            'detail' => true,
+        ]);
         $response = $this->MenuObj->deleteMenu($id);
         if($response) {
+            unlinkUploadedAssets([
+                'imagePath' => $data->asset_value
+            ]);
             \Session::flash('message', 'Menu deleted successfully!');
             return redirect('/menu');
         }

@@ -37,53 +37,8 @@
                             @endif
                                 @csrf
                                 <div class="row">
-                                    <div class="col-md-12 col-12">
-                                        <div class="row">
-                                            <div class="col-md-6 col-12">
-                                                <label for="profile_image">Profile Image</label>
-                                                <div class="input-group">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text basic-addon">
-                                                            <div class="display_images preview_profile_image">
-                                                                @if (isset($data->profile_image) && !empty($data->profile_image))
-                                                                    <a data-fancybox="demo" data-src="{{ is_image_exist($data->profile_image) }}"><img title="{{ $data->name }}" src="{{ is_image_exist($data->profile_image) }}" height="100"></a>
-                                                                @endif
-                                                            </div>
-                                                        </span>
-                                                        </div>
-                                                    <input type="file" id="profile_image" data-img-val="preview_profile_image" class="form-control @error('profile_image') is-invalid @enderror" placeholder="Profile Image" name="profile_image">
-                                                    @error('profile_image')
-                                                        <span class="invalid-feedback" role="alert">
-                                                            <strong>{{ $message }}</strong>
-                                                        </span>
-                                                    @enderror
-                                                  </div>
-                                            </div>
-                                            <div class="col-md-6 col-12">
-                                                <div class="form-group">
-                                                    <label for="user_role">User Role</label>
-                                                    <select class="form-control @error('user_role') is-invalid @enderror" name="user_role" id="user_role">
-                                                        <option value="">Choose an option</option>
-                                                        @if (isset($data['roles']) && count($data['roles'])>0)
-                                                            @foreach ($data['roles'] as $item)
-
-                                                                @if ( $item['name'] == 'Super Admin' )
-                                                                    @continue
-                                                                @endif
-                                                                <option {{ old('user_role') == $item['name'] || (isset($data->user_role) && $data->user_role==$item['name'])? 'selected': '' }} value="{{ $item['name'] }}">{{ $item['name'] }}</option>
-                                                            @endforeach
-                                                        @endif
-                                                    </select>
-                                                    @error('user_role')
-                                                        <span class="invalid-feedback" role="alert">
-                                                            <strong>{{ $message }}</strong>
-                                                        </span>
-                                                    @enderror
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-12">
+                                        
+                                    <div class="col-md-4 col-12">
                                         <div class="form-group">
                                             <label for="first_name">First Name</label>
                                             <input value="{{old('first_name', isset($data->first_name)? $data->first_name: '')}}" type="text" id="first_name" class="form-control @error('first_name') is-invalid @enderror" placeholder="First Name" name="first_name">
@@ -94,7 +49,8 @@
                                             @enderror
                                         </div>
                                     </div>
-                                    <div class="col-md-6 col-12">
+
+                                    <div class="col-md-4 col-12">
                                         <div class="form-group">
                                             <label for="last_name">Last Name</label>
                                             <input value="{{old('last_name', isset($data->last_name)? $data->last_name: '')}}" type="text" id="last_name" class="form-control @error('last_name') is-invalid @enderror" placeholder="Last Name" name="last_name">
@@ -105,7 +61,8 @@
                                             @enderror
                                         </div>
                                     </div>
-                                    <div class="col-md-6 col-12">
+
+                                    <div class="col-md-4 col-12">
                                         <div class="form-group">
                                             <label for="email">Email</label>
                                             <input value="{{old('email', isset($data->email)? $data->email: '')}}" type="email" id="email" class="form-control @error('email') is-invalid @enderror" placeholder="Email" name="email">
@@ -116,7 +73,8 @@
                                             @enderror
                                         </div>
                                     </div>
-                                    <div class="col-md-6 col-12">
+
+                                    <div class="col-md-4 col-12">
                                         <div class="form-group">
                                             <label for="password">Password</label>
                                             <input type="password" id="password" value="{{old('password')}}" class="form-control @error('password') is-invalid @enderror" placeholder="Password" name="password">
@@ -127,11 +85,56 @@
                                             @enderror
                                         </div>
                                     </div>
-                                    <div class="col-md-6 col-12">
+
+                                    <div class="col-md-4 col-12">
                                         <div class="form-group">
                                             <label for="phone_number">Confirm password</label>
                                             <input type="password" id="confirm_password" value="{{old('confirm_password')}}" class="form-control @error('confirm_password') is-invalid @enderror" placeholder="Confirm password" name="confirm_password">
                                             @error('confirm_password')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 col-12">
+                                        <label for="profile_image">Profile Image</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text basic-addon">
+                                                    <div class="display_images preview_profile_image">
+                                                        @if (isset($data->profile_image) && !empty($data->profile_image))
+                                                            <a data-fancybox="demo" data-src="{{ is_image_exist($data->profile_image) }}"><img title="{{ $data->name }}" src="{{ is_image_exist($data->profile_image) }}" height="100"></a>
+                                                        @endif
+                                                    </div>
+                                                </span>
+                                                </div>
+                                            <input type="file" id="profile_image" data-img-val="preview_profile_image" class="form-control @error('profile_image') is-invalid @enderror" placeholder="Profile Image" name="profile_image">
+                                            @error('profile_image')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group">
+                                            <label for="user_role">User Role</label>
+                                            <select class="form-control @error('user_role') is-invalid @enderror" name="user_role" id="user_role">
+                                                <option value="">Choose an option </option>
+                                                @if (isset($data['roles']) && count($data['roles'])>0)
+                                                    @foreach ($data['roles'] as $item)
+
+                                                        @if ( $item['name'] == 'Super Admin' )
+                                                            @continue
+                                                        @endif
+                                                        <option {{ old('user_role') == $item['name'] || (isset($data->user_role) && $data->user_role==$item['name'])? 'selected': '' }} value="{{ $item['name'] }}">{{ $item['name'] }}</option>
+                                                    @endforeach
+                                                @endif
+                                            </select>
+                                            @error('user_role')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
                                                 </span>

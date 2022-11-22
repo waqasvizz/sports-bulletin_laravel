@@ -38,7 +38,7 @@
                             @endif
                                 @csrf
                                 <div class="row">
-                                    <div class="col-md-6 col-12">
+                                    <div class="col-md-4 col-12">
                                         <div class="form-group">
                                             <label for="first_name">Category Title</label>
                                             <input value="{{old('title', isset($data->title)? $data->title: '')}}" type="text" id="title" class="form-control @error('title') is-invalid @enderror" placeholder="Category Title" name="title">
@@ -50,7 +50,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-6 col-12">
+                                    <div class="col-md-4 col-12">
                                         <label for="image">Image</label>
                                         <div class="input-group">
                                             <div class="input-group-prepend">
@@ -70,11 +70,9 @@
                                             @enderror
                                         </div>
                                     </div>
-                                </div>
 
-                                @if (isset($data->id))
-                                <div class="row">
-                                    <div class="col-md-6 col-12">
+                                    @if (isset($data->id))
+                                    <div class="col-md-4 col-12">
                                         <div class="form-group">
                                             <label for="ordering">Sort Order</label>
                                             <select class="form-control @error('ordering') is-invalid @enderror" name="ordering" id="ordering">
@@ -93,7 +91,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-6 col-12">
+                                    <div class="col-md-4 col-12">
                                         <div class="form-group">
                                             <label for="status">Status</label>
                                             <select class="form-control @error('status') is-invalid @enderror" name="status" id="status">
@@ -110,13 +108,12 @@
                                                 </span>
                                             @enderror
                                         </div>
-                                    </div>
-                                </div>
-                                @endif
+                                    </div>                                    
+                                    @endif
 
-                                <div class="col-12">
-                                    <button type="submit" class="btn btn-primary mr-1 waves-effect waves-float waves-light">{{ isset($data->id)? 'Update':'Add' }}</button>
-                                </div>
+                                    <div class="col-12">
+                                        <button type="submit" class="btn btn-primary mr-1 waves-effect waves-float waves-light">{{ isset($data->id)? 'Update':'Add' }}</button>
+                                    </div>
                             </form>
                         </div>
                     </div>

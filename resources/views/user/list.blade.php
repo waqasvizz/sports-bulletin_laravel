@@ -23,26 +23,42 @@
                                 @csrf
                                 <input name="page" id="filterPage" value="1" type="hidden">
                                 <div class="row">
-                                    <div class="col-md-6 mb-1">
-
-                                        <label class="form-label" for="select2-basic">Roles</label>
+                                    <div class="col-md-3 mb-1">
+                                        <label class="form-label" for="select2-roles">Roles</label>
                                         <select class="formFilter select2 form-select" name="roles" id="select2-roles">
                                             <option value=""> ---- Choose Role ---- </option>
                                             @foreach ($data['all_roles'] as $key => $role_obj)
                                                 <option value="{{$role_obj['name']}}">{{$role_obj['name']}}</option>
                                             @endforeach
                                         </select>
-
                                     </div>
-                                    <div class="col-md-6 mb-1">
-                                        <label class="form-label" for="select2-basic">Account Status</label>
+                                    <div class="col-md-3 mb-1">
+                                        <label class="form-label" for="select2-account-status">Account Status</label>
                                         <select class="formFilter select2 form-select" name="user_status" id="select2-account-status">
                                             <option value=""> ---- Choose Status ---- </option>
                                             @foreach (Config::get('constants.statusActiveBlock') as $key => $item)
                                                 <option value="{{ $key }}">{{ $item }}</option>
                                             @endforeach
                                         </select>
-
+                                    </div>
+                                    <div class="col-md-3 mb-1">    
+                                        <label class="form-label" for="orderBy_name">Sort By Name</label>
+                                        <select class="formFilter select2 form-select" name="orderBy_name" id="orderBy_name">
+                                            <option value=""> ---- Choose an option ---- </option>
+                                            <option value="users.id">ID</option>
+                                            <option value="users.first_name">First Name</option>
+                                            <option value="users.last_name">Last Name</option>
+                                            <option value="users.created_at">Created At</option>
+                                            <option value="users.updated_at">Updated At</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3 mb-1">    
+                                        <label class="form-label" for="orderBy_value">Sort By Value</label>
+                                        <select class="formFilter select2 form-select" name="orderBy_value" id="orderBy_value">
+                                            <option value=""> ---- Choose an option ---- </option>
+                                            <option value="ASC">ASC</option>
+                                            <option value="DESC">DESC</option>
+                                        </select>
                                     </div>
                                 </div>
                             </form>

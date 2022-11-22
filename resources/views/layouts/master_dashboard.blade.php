@@ -81,6 +81,10 @@
         .ql-editor{
             min-height: 100px !important;
         }
+        .swal-title{
+            padding-left: 30px;
+            padding-right: 30px;
+        }
     </style>
 </head>
 <!-- END: Head-->
@@ -204,7 +208,11 @@
 
                 @php
                     $sub_menu = false;
-                    $data_arr = \App\Models\Menu::getMenus();
+                    $data_arr = \App\Models\Menu::getMenus([
+                        'orderBy_name' => 'sort_order',
+                        'orderBy_value' => 'ASC',
+                        'status' => 'Published'
+                    ]);
                     $request_url = Request::path();
                 @endphp
                 
@@ -242,19 +250,21 @@
                             @if ($childs_count > 0 )
                                 <ul class="menu-content">                    
                                     @foreach ($data_obj->sub_menus as $key => $sub_menu_obj)
-                                        @can($sub_menu_obj->slug)
-                                            @php
-                                            // $class = ($request_url == $sub_menu_obj->url) ? 'active' : '';
-                                            $slug =  str_replace_first('/', '', $sub_menu_obj->url);
-                                            $class = ($request_url == $slug) ? 'active' : '';
-                                            @endphp
-                                            <li class="{{ $class }}">
-                                                <a class="d-flex align-items-center" href="{{ url($sub_menu_obj->url) }}">
-                                                    <i data-feather="circle"></i>
-                                                    <span class="menu-item text-truncate" data-i18n="{{ $sub_menu_obj->title }}">{{ $sub_menu_obj->title }}</span>
-                                                </a>
-                                            </li>
-                                        @endcan
+                                        @if ($sub_menu_obj->status == 'Published')
+                                            @can($sub_menu_obj->slug)
+                                                @php
+                                                // $class = ($request_url == $sub_menu_obj->url) ? 'active' : '';
+                                                $slug =  str_replace_first('/', '', $sub_menu_obj->url);
+                                                $class = ($request_url == $slug) ? 'active' : '';
+                                                @endphp
+                                                <li class="{{ $class }}">
+                                                    <a class="d-flex align-items-center" href="{{ url($sub_menu_obj->url) }}">
+                                                        <i data-feather="circle"></i>
+                                                        <span class="menu-item text-truncate" data-i18n="{{ $sub_menu_obj->title }}">{{ $sub_menu_obj->title }}</span>
+                                                    </a>
+                                                </li>
+                                            @endcan
+                                        @endif
                                     @endforeach
                                 </ul>
                             @endif  

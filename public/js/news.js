@@ -6,9 +6,13 @@ $(document).on('change', '#category', function(event) {
 function getSubCategoryList() {
     $('.loaderOverlay').fadeIn();
 
+    var sdata = 'category='+ $("#category").val();
     jQuery.ajax({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
         url: "/get_sub_categories",
-        data: $("#news_form").serializeArray(),
+        data: sdata,
         method: 'POST',
         dataType: 'html',
         success: function(response) {

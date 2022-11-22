@@ -1,15 +1,8 @@
 <?php
-
-   /**
-    *  @author  DANISH HUSSAIN <danishhussain9525@hotmail.com>
-    *  @link    Author Website: https://danishhussain.w3spaces.com/
-    *  @link    Author LinkedIn: https://pk.linkedin.com/in/danish-hussain-285345123
-    *  @since   2020-03-01
-   **/
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\News;
 
 class NewsController extends Controller
 {
@@ -32,8 +25,8 @@ class NewsController extends Controller
     {
         $posted_data = $request->all();
         // $posted_data['orderBy_name'] = 'sort_order';
-        $posted_data['orderBy_name'] = 'id';
-        $posted_data['orderBy_value'] = 'ASC';
+        // $posted_data['orderBy_name'] = 'id';
+        // $posted_data['orderBy_value'] = 'ASC';
         $posted_data['paginate'] = 10;
         // $posted_data['printsql'] = true;
         $data['records'] = $this->NewsObj->getNews($posted_data);
@@ -95,9 +88,20 @@ class NewsController extends Controller
                 $extension = $request->news_image->getClientOriginalExtension();
                 if($extension == 'jpg' || $extension == 'jpeg' || $extension == 'png'){
                     
-                    $file_name = time().'_'.$request->news_image->getClientOriginalName();
-                    $file_path = $request->file('news_image')->storeAs('other_images', $file_name, 'public');
-                    $data['image_path'] = $file_path;
+                    $imageData = array();
+                    $imageData['fileName'] = time().'_'.rand(1000000,9999999).'.'.$extension;
+                    $imageData['uploadfileObj'] = $request->file('news_image');
+                    $imageData['fileObj'] = \Image::make($request->file('news_image')->getRealPath());
+                    $imageData['folderName'] = 'news_image';
+                    
+                    $uploadAssetRes = uploadAssets($imageData, $original = false, $optimized = true, $thumbnail = false);
+                    $data['image_path'] = $uploadAssetRes;
+                    if(!$uploadAssetRes){
+                        return back()->withErrors([
+                            'news_image' => 'Something wrong with your image, please try again later!',
+                        ])->withInput();
+                    }
+                    
                 } else {
                     return back()->withErrors([
                         'news_image' => 'The image format is not correct you can only upload (jpg, jpeg, png).',
@@ -137,6 +141,9 @@ class NewsController extends Controller
         ]);
         
         $data['categories'] = $this->CategorieObj::getCategories();
+        $data['sub_categories'] = $this->SubCategorieObj::getSubCategories([
+            'category_id' => $data['news_detail']->category_id,
+        ]);
         $data['news_status_const'] = $this->NewsObj::News_Status_Constants;
 
         return view('news.add',compact('data'));
@@ -152,20 +159,28 @@ class NewsController extends Controller
     public function update(Request $request)
     {
         $requested_data = $request->all();
+        // echo '<pre>';print_r($requested_data);echo '</pre>';exit;
    
         $validator = \Validator::make($requested_data, [
-            'categories_id' => 'required',
-            'sub_categories_id' => 'required',
-            'title' => 'required',
+            'category' => 'required',
+            'sub_category' => 'required',
+            'news_title' => 'required',
             'status' => 'required|in:Draft,Published',
             'news_date' => 'required',
-            'image_path' => 'required',
             'news_description' => 'required',
         ]);
    
         if($validator->fails()){
             return redirect()->back()->withErrors($validator)->withInput();   
         }
+
+        $data = array();
+        $data['categories_id'] = $requested_data['category'];
+        $data['sub_categories_id'] = $requested_data['sub_category'];
+        $data['title'] = $requested_data['news_title'];
+        $data['status'] = $requested_data['status'];
+        $data['news_date'] = $requested_data['news_date'];
+        $data['news_description'] = $requested_data['news_description'];
         
         $posted_data = array();
         $posted_data['id'] = $requested_data['update_id'];
@@ -173,38 +188,45 @@ class NewsController extends Controller
         $update_rec = $this->NewsObj::getNews($posted_data)->toArray();
 
         $base_url = public_path();
-        if($request->file('asset_value')) {
-            $extension = $request->asset_value->getClientOriginalExtension();
+        if($request->file('news_image')) {
+            $extension = $request->news_image->getClientOriginalExtension();
             if($extension == 'jpg' || $extension == 'jpeg' || $extension == 'png'){
-
-                if (!is_null($update_rec['asset_value'])) {
-                    $url = $base_url.'/'.$update_rec['asset_value'];
-                    if (file_exists($url)) {
-                        unlink($url);
-                    }
-                }   
                 
-                $file_name = time().'_'.$request->asset_value->getClientOriginalName();
-                $file_path = $request->file('asset_value')->storeAs('other_images', $file_name, 'public');
-                $requested_data['asset_value'] = $file_path;
+                $imageData = array();
+                $imageData['fileName'] = time().'_'.rand(1000000,9999999).'.'.$extension;
+                $imageData['uploadfileObj'] = $request->file('news_image');
+                $imageData['fileObj'] = \Image::make($request->file('news_image')->getRealPath());
+                $imageData['folderName'] = 'news_image';
+                
+                $uploadAssetRes = uploadAssets($imageData, $original = false, $optimized = true, $thumbnail = false);
+                $requested_data['image_path'] = $uploadAssetRes;
+                if(!$uploadAssetRes){
+                    return back()->withErrors([
+                        'news_image' => 'Something wrong with your image, please try again later!',
+                    ])->withInput();
+                }
+                $imageData = array();
+                $imageData['imagePath'] = $update_rec['image_path'];
+                unlinkUploadedAssets($imageData);
+                
             } else {
                 return back()->withErrors([
-                    'asset_value' => 'The image format is not correct you can only upload (jpg, jpeg, png).',
+                    'news_image' => 'The image format is not correct you can only upload (jpg, jpeg, png).',
                 ])->withInput();
             }
         }
 
-        if ($update_rec) {
-            if ($update_rec['sort_order'] != $requested_data['ordering']) {
-                $posted_data = array();
-                $posted_data['orderBy_name'] = 'sort_order';
-                $posted_data['orderBy_value'] = 'ASC';
-                $data_sources = $this->NewsObj::getNews($posted_data)->toArray();
+        // if ($update_rec) {
+        //     if ($update_rec['sort_order'] != $requested_data['ordering']) {
+        //         $posted_data = array();
+        //         $posted_data['orderBy_name'] = 'sort_order';
+        //         $posted_data['orderBy_value'] = 'ASC';
+        //         $data_sources = $this->NewsObj::getNews($posted_data)->toArray();
     
-                $result_rec = swap_array_indexes($data_sources, 'sort_order', $update_rec['sort_order'], $requested_data['ordering']);
-                $response = $this->update_sorting($result_rec);
-            }
-        }
+        //         $result_rec = swap_array_indexes($data_sources, 'sort_order', $update_rec['sort_order'], $requested_data['ordering']);
+        //         $response = $this->update_sorting($result_rec);
+        //     }
+        // }
 
         $update_rec = $this->NewsObj::saveUpdateNews($requested_data);
 

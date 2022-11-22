@@ -95,7 +95,7 @@ class Notification extends Model
         $query->select('notifications.*');
         
         $query->getQuery()->orders = null;
-        if (isset($posted_data['orderBy_name'])) {
+        if (isset($posted_data['orderBy_name']) && isset($posted_data['orderBy_value'])) {
             $query->orderBy($posted_data['orderBy_name'], $posted_data['orderBy_value']);
         } else {
             $query->orderBy('id', 'DESC');

@@ -36,7 +36,27 @@
                             @endif
                                 @csrf
                                 <div class="row">
-                                    <div class="col-md-6 col-12">
+
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group">
+                                            <label for="category">Category</label>
+                                            <select class="form-control @error('category') is-invalid @enderror" name="category" id="category">
+                                                <option value="">Choose an option</option>
+                                                @if (isset($data['categories']) && count($data['categories'])>0)
+                                                    @foreach ($data['categories'] as $item)
+                                                        <option {{ old('category') == $item->id || (isset($data->category_id) && $data->category_id == $item->id)? 'selected': '' }} value="{{ $item->id }}">{{ $item->title }}</option>
+                                                    @endforeach
+                                                @endif
+                                            </select>
+                                            @error('category')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 col-12">
                                         <div class="form-group">
                                             <label for="first_name">Sub-Category Title</label>
                                             <input value="{{old('title', isset($data->title)? $data->title: '')}}" type="text" id="title" class="form-control @error('title') is-invalid @enderror" placeholder="Sub Category Title" name="title">
@@ -48,7 +68,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-6 col-12">
+                                    <div class="col-md-4 col-12">
                                         <label for="image">Image</label>
                                         <div class="input-group">
                                             <div class="input-group-prepend">
@@ -68,71 +88,47 @@
                                             @enderror
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6 col-12">
-                                        <div class="form-group">
-                                            <label for="category">Category</label>
-                                            <select class="form-control @error('category') is-invalid @enderror" name="category" id="category">
-                                                <option value="">Choose an option</option>
-                                                @if (isset($data['categories']) && count($data['categories'])>0)
-                                                    @foreach ($data['categories'] as $item)
-                                                        <option {{ old('category') == $item->id || (isset($data->category_id) && $data->category_id == $item->id)? 'selected': '' }} value="{{ $item->id }}">{{ $item->title }}</option>
-                                                    @endforeach
-                                                @endif
-                                            </select>
-                                            @error('category')
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                            @enderror
-                                        </div>
-                                    </div>
+                                    
 
                                     @if (isset($data->id))
-                                    <div class="col-md-6 col-12">
-                                        <div class="form-group">
-                                            <label for="ordering">Sort Order</label>
-                                            <select class="form-control @error('ordering') is-invalid @enderror" name="ordering" id="ordering">
-                                                <option value="">Choose an option</option>
-                                                @if (isset($data['sort_order']) && count($data['all_opts'])>0)
-                                                    @foreach ($data['all_opts'] as $item)
-                                                        <option {{ old('all_opts') == $item || (isset($data->sort_order) && $data->sort_order == $item)? 'selected': '' }} value="{{ $item }}">{{ $item }}</option>
-                                                    @endforeach
-                                                @endif
-                                            </select>
-                                            @error('ordering')
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                            @enderror
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group">
+                                                <label for="ordering">Sort Order</label>
+                                                <select class="form-control @error('ordering') is-invalid @enderror" name="ordering" id="ordering">
+                                                    <option value="">Choose an option</option>
+                                                    @if (isset($data['sort_order']) && count($data['all_opts'])>0)
+                                                        @foreach ($data['all_opts'] as $item)
+                                                            <option {{ old('all_opts') == $item || (isset($data->sort_order) && $data->sort_order == $item)? 'selected': '' }} value="{{ $item }}">{{ $item }}</option>
+                                                        @endforeach
+                                                    @endif
+                                                </select>
+                                                @error('ordering')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </div>
                                         </div>
-                                    </div>
-                                    @endif
-                                </div>
 
-                                <div class="row">
-                                    @if (isset($data->id))
-                                    <div class="col-md-6 col-12">
-                                        <div class="form-group">
-                                            <label for="status">Status</label>
-                                            <select class="form-control @error('status') is-invalid @enderror" name="status" id="status">
-                                                <option value="">Choose an option</option>
-                                                @if ( isset($data['status']) && count($data['statuses']) > 0 )
-                                                    @foreach ($data['statuses'] as $key => $item)
-                                                        <option {{ old('status') == $item || (isset($data->status) && $data->status == $item )? 'selected': '' }} value="{{ $item }}">{{ $item }}</option>
-                                                    @endforeach
-                                                @endif
-                                            </select>
-                                            @error('status')
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                            @enderror
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group">
+                                                <label for="status">Status</label>
+                                                <select class="form-control @error('status') is-invalid @enderror" name="status" id="status">
+                                                    <option value="">Choose an option</option>
+                                                    @if ( isset($data['status']) && count($data['statuses']) > 0 )
+                                                        @foreach ($data['statuses'] as $key => $item)
+                                                            <option {{ old('status') == $item || (isset($data->status) && $data->status == $item )? 'selected': '' }} value="{{ $item }}">{{ $item }}</option>
+                                                        @endforeach
+                                                    @endif
+                                                </select>
+                                                @error('status')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </div>
                                         </div>
-                                    </div>
                                     @endif
-                                </div>
 
                                 <div class="col-12">
                                     <button type="submit" class="btn btn-primary mr-1 waves-effect waves-float waves-light">{{ isset($data->id)? 'Update':'Add' }}</button>

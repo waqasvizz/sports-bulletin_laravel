@@ -46,8 +46,7 @@
                                                 <option value="">Choose an option</option>
                                                 @if (isset($data['categories']) && count($data['categories'])>0)
                                                     @foreach ($data['categories'] as $key => $item)
-                                                        <option {{ (isset($data['news_detail']->categories_id) && $data->categories_id == $item->id)? 'selected': '' }} value="{{ $item->id }}">{{ $item->title }}</option>
-                                                        <!-- <option {{ old('category') == $item->id || (isset($data['news_detail']->categories_id) && $data->categories_id == $item->id)? 'selected': '' }} value="{{ $item->id }}">{{ $item->title }}</option> -->
+                                                        <option {{ (isset($data['news_detail']->categories_id) && $data['news_detail']->categories_id == $item->id)? 'selected': '' }} value="{{ $item->id }}">{{ $item->title }}</option>
                                                     @endforeach
                                                 @endif
                                             </select>
@@ -63,6 +62,11 @@
                                             <label for="sub_category">Select Sub Category</label>
                                             <select class="form-control @error('sub_category') is-invalid @enderror" name="sub_category" id="sub_category">
                                                 <option value="">Choose an option</option>
+                                                @if (isset($data['sub_categories']) && count($data['sub_categories'])>0)
+                                                    @foreach ($data['sub_categories'] as $key => $item)
+                                                        <option {{ (isset($data['news_detail']->sub_categories_id) && $data['news_detail']->sub_categories_id == $item->id)? 'selected': '' }} value="{{ $item->id }}">{{ $item->title }}</option>
+                                                    @endforeach
+                                                @endif
                                             </select>
                                             @error('sub_category')
                                                 <span class="invalid-feedback" role="alert">
@@ -75,7 +79,7 @@
                                     <div class="col-md-6 col-12">
                                         <div class="form-group">
                                             <label for="news_title">News Title</label>
-                                            <input value="{{old('news_title', isset($data['news_detail']->news_title)? $data['news_detail']->news_title: '')}}" type="text" id="news_title" class="form-control @error('news_title') is-invalid @enderror" placeholder="News Title" name="news_title">
+                                            <input value="{{old('news_title', isset($data['news_detail']->title)? $data['news_detail']->title: '')}}" type="text" id="news_title" class="form-control @error('news_title') is-invalid @enderror" placeholder="News Title" name="news_title">
                                             @error('news_title')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
@@ -115,15 +119,25 @@
                                     </div>
                                     
                                     <div class="col-md-6 col-12">
-                                        <div class="form-group">
-                                            <label for="news_image">News Image</label>
-                                            <input value="{{old('news_image', isset($data['news_detail']->news_image)? $data['news_detail']->news_image: '')}}" type="file" id="news_image" class="form-control @error('news_image') is-invalid @enderror" name="news_image">
+                                        <label for="news_image">News Image</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text basic-addon">
+                                                    <div class="display_images preview_news_image">
+                                                        @if (isset($data['news_detail']->image_path) && !empty($data['news_detail']->image_path))
+                                                            <a data-fancybox="demo" data-src="{{ is_image_exist($data['news_detail']->image_path) }}"><img title="{{ $data['news_detail']->name }}" src="{{ is_image_exist($data['news_detail']->image_path) }}" height="100"></a>
+                                                        @endif
+                                                    </div>
+                                                </span>
+                                                </div>
+                                            <input type="file" id="news_image" data-img-val="preview_news_image" class="form-control @error('news_image') is-invalid @enderror" placeholder="Profile Image" name="news_image">
                                             @error('news_image')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
                                                 </span>
                                             @enderror
                                         </div>
+
                                     </div>
                                     
                                     <div class="col-md-12 col-12">

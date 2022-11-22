@@ -2,7 +2,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\SubCategorie;
+use App\Models\SubMenu;
 
 class SubMenuController extends Controller
 {
@@ -23,8 +23,8 @@ class SubMenuController extends Controller
     public function index(Request $request)
     {
         $posted_data = $request->all();
-        $posted_data['orderBy_name'] = 'menu_id';
-        $posted_data['orderBy_value'] = 'ASC';
+        // $posted_data['orderBy_name'] = 'menu_id';
+        // $posted_data['orderBy_value'] = 'ASC';
         $posted_data['paginate'] = 10;
         // $data['records'] = $this->SubMenuObj->getSubMenus($posted_data)->toArray();
         $data['records'] = $this->SubMenuObj->getSubMenus($posted_data);
@@ -90,10 +90,22 @@ class SubMenuController extends Controller
             if($request->file('image')) {
                 $extension = $request->image->getClientOriginalExtension();
                 if($extension == 'jpg' || $extension == 'jpeg' || $extension == 'png'){
+
+                    $imageData = array();
+                    // $imageData['fileName'] = time().'_'.$request->image->getClientOriginalName();
+                    $imageData['fileName'] = time().'_'.rand(1000000,9999999).'.'.$extension;
+                    $imageData['uploadfileObj'] = $request->file('image');
+                    $imageData['fileObj'] = \Image::make($request->file('image')->getRealPath());
+                    $imageData['folderName'] = 'sub_menu_images';
                     
-                    $file_name = time().'_'.$request->image->getClientOriginalName();
-                    $file_path = $request->file('image')->storeAs('other_images', $file_name, 'public');
-                    $data['image'] = $file_path;
+                    $uploadAssetRes = uploadAssets($imageData, $original = false, $optimized = true, $thumbnail = false);
+                    $data['asset_value'] = $uploadAssetRes;
+                    if(!$uploadAssetRes){
+                        return back()->withErrors([
+                            'image' => 'Something wrong with your icon image, please try again later!',
+                        ])->withInput();
+                    }
+                    
                 } else {
                     return back()->withErrors([
                         'image' => 'The image format is not correct you can only upload (jpg, jpeg, png).',
@@ -225,16 +237,24 @@ class SubMenuController extends Controller
             $extension = $request->image->getClientOriginalExtension();
             if($extension == 'jpg' || $extension == 'jpeg' || $extension == 'png'){
 
-                if (!is_null($update_rec['asset_value'])) {
-                    $url = $base_url.'/'.$update_rec['asset_value'];
-                    if (file_exists($url)) {
-                        unlink($url);
-                    }
-                }   
+                $imageData = array();
+                // $imageData['fileName'] = time().'_'.$request->image->getClientOriginalName();
+                $imageData['fileName'] = time().'_'.rand(1000000,9999999).'.'.$extension;
+                $imageData['uploadfileObj'] = $request->file('image');
+                $imageData['fileObj'] = \Image::make($request->file('image')->getRealPath());
+                $imageData['folderName'] = 'sub_menu_images';
                 
-                $file_name = time().'_'.$request->image->getClientOriginalName();
-                $file_path = $request->file('image')->storeAs('other_images', $file_name, 'public');
-                $requested_data['asset_value'] = $file_path;
+                $uploadAssetRes = uploadAssets($imageData, $original = false, $optimized = true, $thumbnail = false);
+                $requested_data['asset_value'] = $uploadAssetRes;
+                if(!$uploadAssetRes){
+                    return back()->withErrors([
+                        'image' => 'Something wrong with your icon image, please try again later!',
+                    ])->withInput();
+                }
+                $imageData = array();
+                $imageData['imagePath'] = $update_rec['asset_value'];
+                unlinkUploadedAssets($imageData);
+                
             } else {
                 return back()->withErrors([
                     'image' => 'The image format is not correct you can only upload (jpg, jpeg, png).',
@@ -259,8 +279,15 @@ class SubMenuController extends Controller
      */
     public function destroy($id)
     {
+        $data = $this->SubMenuObj->getSubMenus([
+            'id' => $id,
+            'detail' => true,
+        ]);
         $response = $this->SubMenuObj->deleteSubMenu($id);
         if($response) {
+            unlinkUploadedAssets([
+                'imagePath' => $data->asset_value
+            ]);
             \Session::flash('message', 'Sub Menu deleted successfully!');
             return redirect('/sub_menu');
         }

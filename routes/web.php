@@ -114,7 +114,8 @@ Route::post('/resetPassword', [UserController::class, 'accountResetPassword'])->
 
 Route::middleware(['auth'])->group(function () {
      
-    Route::post('/update_user', [UserController::class, 'update_records']);
+    Route::post('/blockUnblockUser', [UserController::class, 'blockUnblockUser']);
+    Route::post('/get_sub_categories', [SubCategorieController::class, 'ajax_get_sub_categories']);
     Route::post('/theme_mode', [UserController::class, 'theme_layout']);
     Route::post('/notification_token', [NotificationController::class, 'get_notificatiion_token']);
 

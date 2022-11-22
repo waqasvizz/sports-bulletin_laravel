@@ -23,15 +23,15 @@ class CategorieController extends Controller
     public function index(Request $request)
     {
         $posted_data = $request->all();
-        $posted_data['orderBy_name'] = 'sort_order';
-        $posted_data['orderBy_value'] = 'ASC';
+        // $posted_data['orderBy_name'] = 'sort_order';
+        // $posted_data['orderBy_value'] = 'ASC';
         $posted_data['paginate'] = 10;
         $data['records'] = $this->CategorieObj->getCategories($posted_data);
 
         unset($posted_data['paginate']);
         $data['categories'] = $this->CategorieObj->all();
 
-        $data['statuses'] = $this->CategorieObj::statusConst;
+        $data['statuses'] = \Config::get('constants.statusDraftPublished');
 
         $data['html'] = view('categories.ajax_records', compact('data'));
         
@@ -76,10 +76,22 @@ class CategorieController extends Controller
             if($request->file('image')) {
                 $extension = $request->image->getClientOriginalExtension();
                 if($extension == 'jpg' || $extension == 'jpeg' || $extension == 'png'){
+
+                    $imageData = array();
+                    // $imageData['fileName'] = time().'_'.$request->image->getClientOriginalName();
+                    $imageData['fileName'] = time().'_'.rand(1000000,9999999).'.'.$extension;
+                    $imageData['uploadfileObj'] = $request->file('image');
+                    $imageData['fileObj'] = \Image::make($request->file('image')->getRealPath());
+                    $imageData['folderName'] = 'category_images';
                     
-                    $file_name = time().'_'.$request->image->getClientOriginalName();
-                    $file_path = $request->file('image')->storeAs('other_images', $file_name, 'public');
-                    $data['image'] = $file_path;
+                    $uploadAssetRes = uploadAssets($imageData, $original = false, $optimized = true, $thumbnail = false);
+                    $data['image'] = $uploadAssetRes;
+                    if(!$uploadAssetRes){
+                        return back()->withErrors([
+                            'image' => 'Something wrong with your image, please try again later!',
+                        ])->withInput();
+                    }
+                    
                 } else {
                     return back()->withErrors([
                         'image' => 'The image format is not correct you can only upload (jpg, jpeg, png).',
@@ -128,7 +140,7 @@ class CategorieController extends Controller
         }
 
         $data['all_opts'] = $arr;
-        $data['statuses'] = $this->CategorieObj::statusConst;
+        $data['statuses'] = \Config::get('constants.statusDraftPublished');
 
         // echo "Line no @"."<br>";
         // echo "<pre>";
@@ -164,22 +176,31 @@ class CategorieController extends Controller
         $posted_data['id'] = $requested_data['update_id'];
         $posted_data['detail'] = true;
         $update_rec = Categorie::getCategories($posted_data)->toArray();
+        
 
         $base_url = public_path();
         if($request->file('image')) {
             $extension = $request->image->getClientOriginalExtension();
             if($extension == 'jpg' || $extension == 'jpeg' || $extension == 'png'){
 
-                if (!is_null($update_rec['image'])) {
-                    $url = $base_url.'/'.$update_rec['image'];
-                    if (file_exists($url)) {
-                        unlink($url);
-                    }
-                }   
+                $imageData = array();
+                // $imageData['fileName'] = time().'_'.$request->image->getClientOriginalName();
+                $imageData['fileName'] = time().'_'.rand(1000000,9999999).'.'.$extension;
+                $imageData['uploadfileObj'] = $request->file('image');
+                $imageData['fileObj'] = \Image::make($request->file('image')->getRealPath());
+                $imageData['folderName'] = 'category_images';
                 
-                $file_name = time().'_'.$request->image->getClientOriginalName();
-                $file_path = $request->file('image')->storeAs('other_images', $file_name, 'public');
-                $requested_data['image'] = $file_path;
+                $uploadAssetRes = uploadAssets($imageData, $original = false, $optimized = true, $thumbnail = false);
+                $requested_data['image'] = $uploadAssetRes;
+                if(!$uploadAssetRes){
+                    return back()->withErrors([
+                        'image' => 'Something wrong with your image, please try again later!',
+                    ])->withInput();
+                }
+                $imageData = array();
+                $imageData['imagePath'] = $update_rec['image'];
+                unlinkUploadedAssets($imageData);
+
             } else {
                 return back()->withErrors([
                     'image' => 'The image format is not correct you can only upload (jpg, jpeg, png).',
@@ -213,8 +234,16 @@ class CategorieController extends Controller
      */
     public function destroy($id)
     {
+        $data = $this->CategorieObj->getCategories([
+            'id' => $id,
+            'detail' => true,
+        ]);
+        
         $response = $this->CategorieObj->deleteCategorie($id);
         if($response) {
+            unlinkUploadedAssets([
+                'imagePath' => $data->image
+            ]);
             \Session::flash('message', 'Category deleted successfully!');
             return redirect('/category');
         }

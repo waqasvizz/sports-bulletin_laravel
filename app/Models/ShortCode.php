@@ -29,10 +29,10 @@ class ShortCode extends Model
         $query->select('short_codes.*');
         
         $query->getQuery()->short_codes = null;
-        if (isset($posted_data['orderBy_name'])) {
+        if (isset($posted_data['orderBy_name']) && isset($posted_data['orderBy_value'])) {
             $query->orderBy($posted_data['orderBy_name'], $posted_data['orderBy_value']);
         } else {
-            $query->orderBy('id', 'ASC');
+            $query->orderBy('id', 'DESC');
         }
 
         if (isset($posted_data['paginate'])) {

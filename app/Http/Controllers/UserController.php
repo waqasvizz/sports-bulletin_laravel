@@ -218,16 +218,20 @@ class UserController extends Controller
                     $extension = $request->profile_image->getClientOriginalExtension();
                     if($extension == 'jpg' || $extension == 'jpeg' || $extension == 'png'){
 
-                        // if (!empty(\Auth::user()->profile_image)) {
-                        //     $url = $base_url.'/'.\Auth::user()->profile_image;
-                        //     if (file_exists($url)) {
-                        //         unlink($url);
-                        //     }
-                        // }   
+                        $imageData = array();
+                        // $imageData['fileName'] = time().'_'.$request->profile_image->getClientOriginalName();
+                        $imageData['fileName'] = time().'_'.rand(1000000,9999999).'.'.$extension;
+                        $imageData['uploadfileObj'] = $request->file('profile_image');
+                        $imageData['fileObj'] = \Image::make($request->file('profile_image')->getRealPath());
+                        $imageData['folderName'] = 'profile_image';
                         
-                        $file_name = time().'_'.$request->profile_image->getClientOriginalName();
-                        $filePath = $request->file('profile_image')->storeAs('profile_image', $file_name, 'public');
-                        $posted_data['profile_image'] = 'profile_image/'.$file_name;
+                        $uploadAssetRes = uploadAssets($imageData, $original = false, $optimized = true, $thumbnail = false);
+                        $posted_data['profile_image'] = $uploadAssetRes;
+                        if(!$uploadAssetRes){
+                            return back()->withErrors([
+                                'profile_image' => 'Something wrong with your image, please try again later!',
+                            ])->withInput();
+                        }
                     }else{
                         return back()->withErrors([
                             'profile_image' => 'The Profile image format is not correct you can only upload (jpg, jpeg, png).',
@@ -292,7 +296,7 @@ class UserController extends Controller
         $posted_data['orderBy_name'] = 'name';
         $posted_data['orderBy_value'] = 'Asc';
         $data['roles'] = $this->RoleObj->getRoles($posted_data);
-        $data['user_role'] = count(\Auth::user()->getRoleNames()) > 0 ? \Auth::user()->getRoleNames()[0] : '';
+        $data['user_role'] = count($data->getRoleNames()) > 0 ? $data->getRoleNames()[0] : '';
         
         return view('user.add',compact('data'));
     }
@@ -347,8 +351,6 @@ class UserController extends Controller
             // ->withInput($request->except('password'));
         } else {
 
-
-
             try{
                 $posted_data['update_id'] = $id;
                 $posted_data['role'] = $posted_data['user_role'];
@@ -377,16 +379,29 @@ class UserController extends Controller
                     $extension = $request->profile_image->getClientOriginalExtension();
                     if($extension == 'jpg' || $extension == 'jpeg' || $extension == 'png'){
 
-                        // if (!empty(\Auth::user()->profile_image)) {
-                        //     $url = $base_url.'/'.\Auth::user()->profile_image;
-                        //     if (file_exists($url)) {
-                        //         unlink($url);
-                        //     }
-                        // }   
+                        $update_rec = $this->UserObj->getUser([
+                            'id' => $posted_data['update_id'],
+                            'detail' => true
+                        ])->toArray();
+
+                        $imageData = array();
+                        // $imageData['fileName'] = time().'_'.$request->profile_image->getClientOriginalName();
+                        $imageData['fileName'] = time().'_'.rand(1000000,9999999).'.'.$extension;
+                        $imageData['uploadfileObj'] = $request->file('profile_image');
+                        $imageData['fileObj'] = \Image::make($request->file('profile_image')->getRealPath());
+                        $imageData['folderName'] = 'profile_image';
                         
-                        $file_name = time().'_'.$request->profile_image->getClientOriginalName();
-                        $filePath = $request->file('profile_image')->storeAs('profile_image', $file_name, 'public');
-                        $posted_data['profile_image'] = 'profile_image/'.$file_name;
+                        $uploadAssetRes = uploadAssets($imageData, $original = false, $optimized = true, $thumbnail = false);
+                        $posted_data['profile_image'] = $uploadAssetRes;
+                        if(!$uploadAssetRes){
+                            return back()->withErrors([
+                                'profile_image' => 'Something wrong with your image, please try again later!',
+                            ])->withInput();
+                        }
+                        $imageData = array();
+                        $imageData['imagePath'] = $update_rec['profile_image'];
+                        unlinkUploadedAssets($imageData);
+                        
                     }else{
                         return back()->withErrors([
                             'profile_image' => 'The Profile image format is not correct you can only upload (jpg, jpeg, png).',
@@ -413,19 +428,22 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update_records(Request $request) {
+    public function blockUnblockUser(Request $request)
+    {
+        $posted_data = $request->all(); 
         
-        $posted_data = $request->all();
+        $rules = array(
+            'update_id' => 'required',
+            'user_status' => 'required'
+        );
 
-        $user_data = array();
+        $validator = \Validator::make($posted_data, $rules);
 
-        if ( isset($posted_data['update_id']) )
-            $user_data['update_id'] = $posted_data['update_id'];
-        if ( isset($posted_data['user_status']) )
-            $user_data['user_status'] = $posted_data['user_status'];
-
-            $this->UserObj->saveUpdateUser($user_data);
-
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+        
+        $this->UserObj->saveUpdateUser($posted_data);
 
         \Session::flash('message', 'User Updated Successfully!');
         return redirect()->back();
@@ -439,6 +457,9 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
+        unlinkUploadedAssets([
+            'imagePath' => $user->profile_image
+        ]);
         $user->delete(); 
         \Session::flash('message', 'User deleted successfully!');
         return redirect('/user');

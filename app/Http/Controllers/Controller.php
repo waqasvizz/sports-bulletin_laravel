@@ -37,6 +37,7 @@ use Validator;
 use Auth;
 use Session;
 use Carbon;
+use Image;
 
 class Controller extends BaseController
 {

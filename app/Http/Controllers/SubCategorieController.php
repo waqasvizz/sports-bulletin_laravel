@@ -2,7 +2,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\SubMenu;
+use App\Models\SubCategorie;
 
 class SubCategorieController extends Controller
 {
@@ -23,8 +23,8 @@ class SubCategorieController extends Controller
     public function index(Request $request)
     {
         $posted_data = $request->all();
-        $posted_data['orderBy_name'] = 'category_id';
-        $posted_data['orderBy_value'] = 'ASC';
+        // $posted_data['orderBy_name'] = 'category_id';
+        // $posted_data['orderBy_value'] = 'ASC';
         $posted_data['paginate'] = 10;
         $data['records'] = $this->SubCategorieObj->getSubCategories($posted_data);
 
@@ -37,7 +37,7 @@ class SubCategorieController extends Controller
         unset($posted_data['paginate']);
         $data['categories'] = $this->CategorieObj->all();
 
-        $data['statuses'] = $this->SubCategorieObj::statusConst;
+        $data['statuses'] = \Config::get('constants.statusDraftPublished');
     
         return view('sub_categories.list', compact('data'));
     }
@@ -67,7 +67,6 @@ class SubCategorieController extends Controller
 
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
-            // ->withInput($request->except('password'));
         } else {
             $posted_data = $request->all();
             $data = array();
@@ -76,16 +75,27 @@ class SubCategorieController extends Controller
             $data['title'] = $posted_data['title'];
             $data['category_id'] = $posted_data['category'];
             $data['sort_order'] = ++$count;
-            // $data['status'] = $this->SubCategorieObj::statusConst['draft'];
 
             $base_url = public_path();
             if($request->file('image')) {
                 $extension = $request->image->getClientOriginalExtension();
                 if($extension == 'jpg' || $extension == 'jpeg' || $extension == 'png'){
+
+                    $imageData = array();
+                    // $imageData['fileName'] = time().'_'.$request->image->getClientOriginalName();
+                    $imageData['fileName'] = time().'_'.rand(1000000,9999999).'.'.$extension;
+                    $imageData['uploadfileObj'] = $request->file('image');
+                    $imageData['fileObj'] = \Image::make($request->file('image')->getRealPath());
+                    $imageData['folderName'] = 'sub_category_images';
                     
-                    $file_name = time().'_'.$request->image->getClientOriginalName();
-                    $file_path = $request->file('image')->storeAs('other_images', $file_name, 'public');
-                    $data['image'] = $file_path;
+                    $uploadAssetRes = uploadAssets($imageData, $original = false, $optimized = true, $thumbnail = false);
+                    $data['image'] = $uploadAssetRes;
+                    if(!$uploadAssetRes){
+                        return back()->withErrors([
+                            'image' => 'Something wrong with your image, please try again later!',
+                        ])->withInput();
+                    }
+                    
                 } else {
                     return back()->withErrors([
                         'image' => 'The image format is not correct you can only upload (jpg, jpeg, png).',
@@ -137,7 +147,7 @@ class SubCategorieController extends Controller
         }
 
         $data['all_opts'] = $arr;
-        $data['statuses'] = $this->SubCategorieObj::statusConst;
+        $data['statuses'] = \Config::get('constants.statusDraftPublished');
 
         return view('sub_categories.add',compact('data'));
     }
@@ -211,16 +221,24 @@ class SubCategorieController extends Controller
             $extension = $request->image->getClientOriginalExtension();
             if($extension == 'jpg' || $extension == 'jpeg' || $extension == 'png'){
 
-                if (!is_null($update_rec['image'])) {
-                    $url = $base_url.'/'.$update_rec['image'];
-                    if (file_exists($url)) {
-                        unlink($url);
-                    }
-                }   
+                $imageData = array();
+                // $imageData['fileName'] = time().'_'.$request->image->getClientOriginalName();
+                $imageData['fileName'] = time().'_'.rand(1000000,9999999).'.'.$extension;
+                $imageData['uploadfileObj'] = $request->file('image');
+                $imageData['fileObj'] = \Image::make($request->file('image')->getRealPath());
+                $imageData['folderName'] = 'sub_category_images';
                 
-                $file_name = time().'_'.$request->image->getClientOriginalName();
-                $file_path = $request->file('image')->storeAs('other_images', $file_name, 'public');
-                $requested_data['image'] = $file_path;
+                $uploadAssetRes = uploadAssets($imageData, $original = false, $optimized = true, $thumbnail = false);
+                $requested_data['image'] = $uploadAssetRes;
+                if(!$uploadAssetRes){
+                    return back()->withErrors([
+                        'image' => 'Something wrong with your image, please try again later!',
+                    ])->withInput();
+                }
+                $imageData = array();
+                $imageData['imagePath'] = $update_rec['image'];
+                unlinkUploadedAssets($imageData);
+
             } else {
                 return back()->withErrors([
                     'image' => 'The image format is not correct you can only upload (jpg, jpeg, png).',
@@ -245,11 +263,31 @@ class SubCategorieController extends Controller
      */
     public function destroy($id)
     {
+        $data = $this->SubCategorieObj->getSubCategories([
+            'id' => $id,
+            'detail' => true,
+        ]);
         $response = $this->SubCategorieObj->deleteSubCategorie($id);
         if($response) {
+            unlinkUploadedAssets([
+                'imagePath' => $data->image
+            ]);
             \Session::flash('message', 'Sub Category deleted successfully!');
             return redirect('/sub_category');
         }
+    }
+    
+    public function ajax_get_sub_categories(Request $request)
+    {
+        $posted_data = array();
+        $posted_data['category_id'] = $request->get('category');
+        $data = $this->SubCategorieObj->getSubCategories($posted_data);
+
+        $html = '<option value="">Choose an option</option>';
+        foreach ($data as $key => $value) {
+            $html .= '<option value="'.$value->id.'">'.$value->title.'</option>';
+        }
+        return $html;
     }
 
     public function update_sorting($posted_data = array())

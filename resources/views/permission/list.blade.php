@@ -23,11 +23,10 @@
                                 @csrf
                                 <input name="page" id="filterPage" value="1" type="hidden">
                                 <div class="row">
-                                    <div class="col-md-6 mb-1">
-    
-                                        <label class="form-label" for="select2-basic">Permission</label>
+                                    <div class="col-md-3 mb-1">    
+                                        <label class="form-label" for="select2-permission">Permission</label>
                                         <select class="formFilter select2 form-select" name="name" id="select2-permission">
-                                            <option value=""> ---- Choose Permission ---- </option>
+                                            <option value=""> ---- Choose an option ---- </option>
                                             @if (isset($data['permissions']) && count($data['permissions']) > 0 )
                                                 @foreach ($data['permissions'] as $key => $perm_obj)
                                                     <option value="{{$perm_obj['name']}}">{{$perm_obj['name']}}</option>
@@ -35,6 +34,24 @@
                                             @endif
                                         </select>
     
+                                    </div>
+                                    <div class="col-md-3 mb-1">    
+                                        <label class="form-label" for="orderBy_name">Sort By Name</label>
+                                        <select class="formFilter select2 form-select" name="orderBy_name" id="orderBy_name">
+                                            <option value=""> ---- Choose an option ---- </option>
+                                            <option value="permissions.id">ID</option>
+                                            <option value="permissions.name">Name</option>
+                                            <option value="permissions.created_at">Created At</option>
+                                            <option value="permissions.updated_at">Updated At</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3 mb-1">    
+                                        <label class="form-label" for="orderBy_value">Sort By Value</label>
+                                        <select class="formFilter select2 form-select" name="orderBy_value" id="orderBy_value">
+                                            <option value=""> ---- Choose an option ---- </option>
+                                            <option value="ASC">ASC</option>
+                                            <option value="DESC">DESC</option>
+                                        </select>
                                     </div>
                                 </div>
                             </form>

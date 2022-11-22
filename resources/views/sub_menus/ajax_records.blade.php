@@ -38,12 +38,12 @@
                         <td>{{ $item['title'] }}</td>
                         <td>{{ $item->menu_details->title }}</td>
                         <td><span class="role-badge" style="background-color: {{ $color }}">{{ $item['status'] }}</span></td>
-                        <td>{{ $item['sort_order'] }}</td>
+                        <td>{{ $item['sort_order'] }} </td>
                         <td>
                             <div class="display_images_list">
                                 <span class="avatar-color">
-                                    <a data-fancybox="demo" data-src="{{ is_image_exist($item['image']) }}">
-                                        <img title="{{ $item['title'] }}" src="{{ is_image_exist($item['image']) }}" height="100">
+                                    <a data-fancybox="demo" data-src="{{ is_image_exist($item['asset_value']) }}">
+                                        <img title="{{ $item['title'] }}" src="{{ is_image_exist($item['asset_value']) }}" height="100">
                                     </a>
                                 </span>
                             </div>

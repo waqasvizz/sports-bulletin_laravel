@@ -1,12 +1,4 @@
 <?php
-
-   /**
-    *  @author  DANISH HUSSAIN <danishhussain9525@hotmail.com>
-    *  @link    Author Website: https://danishhussain.w3spaces.com/
-    *  @link    Author LinkedIn: https://pk.linkedin.com/in/danish-hussain-285345123
-    *  @since   2020-03-01
-   **/
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -74,10 +66,10 @@ class News extends Model
         $query->select('news.*');
         
         $query->getQuery()->orders = null;
-        if (isset($posted_data['orderBy_name'])) {
+        if (isset($posted_data['orderBy_name']) && isset($posted_data['orderBy_value'])) {
             $query->orderBy($posted_data['orderBy_name'], $posted_data['orderBy_value']);
         } else {
-            $query->orderBy('id', 'ASC');
+            $query->orderBy('id', 'DESC');
         }
 
         if (isset($posted_data['paginate'])) {
@@ -131,7 +123,7 @@ class News extends Model
             $data->image_path = $posted_data['image_path'];
         }
         if (isset($posted_data['news_description'])) {
-            $data->news_description = encrypt($posted_data['news_description']);
+            $data->news_description = $posted_data['news_description'];
         }
 
         $data->save();
