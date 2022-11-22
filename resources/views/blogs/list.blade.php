@@ -23,8 +23,7 @@
                                 @csrf
                                 <input name="page" id="filterPage" value="1" type="hidden">
                                 <div class="row">
-                                    <div class="col-md-6 mb-1">
-                                        
+                                    <div class="col-md-3 mb-1">
                                         <label class="form-label" for="select2-basic">Status</label>
                                         <select class="filterForm select2 form-select" name="blog_status" id="select2-account-menu-status">
                                             <option value=""> ---- Choose Status ---- </option>
@@ -32,8 +31,28 @@
                                                 <option {{ old('blog_status') == $item || (isset($data->blog_status) && $data->blog_status == $item )? 'selected': '' }} value="{{ $item }}">{{ $item }}</option>
                                             @endforeach
                                         </select>
-    
                                     </div>
+
+                                    <div class="col-md-3 mb-1">    
+                                        <label class="form-label" for="orderBy_name">Sort By Name</label>
+                                        <select class="formFilter select2 form-select" name="orderBy_name" id="orderBy_name">
+                                            <option value=""> ---- Choose an option ---- </option>
+                                            <option value="blogs.id">ID</option>
+                                            <option value="blogs.blog_title">Title</option>
+                                            <option value="blogs.created_at">Created At</option>
+                                            <option value="blogs.updated_at">Updated At</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-3 mb-1">    
+                                        <label class="form-label" for="orderBy_value">Sort By Value</label>
+                                        <select class="formFilter select2 form-select" name="orderBy_value" id="orderBy_value">
+                                            <option value=""> ---- Choose an option ---- </option>
+                                            <option value="ASC">ASC</option>
+                                            <option value="DESC">DESC</option>
+                                        </select>
+                                    </div>
+
                                 </div>
                             </form>
                         </div>

@@ -65,9 +65,19 @@
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-12">
-                                        <div class="form-group">
-                                            <label for="blog_image">Blog Image</label>
-                                            <input value="{{old('blog_image', isset($data->blog_image)? $data->blog_image: '')}}" type="file" id="blog_image" class="form-control @error('blog_image') is-invalid @enderror" name="blog_image">
+                                        <label for="blog_image">Blog Image</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text basic-addon">
+                                                    <div class="display_images preview_blog_image">
+                                                        @if (isset($data->blog_image) && !empty($data->blog_image))
+                                                            <a data-fancybox="demo" data-src="{{ is_image_exist($data->blog_image) }}">
+                                                                <img title="{{ $data->blog_title }}" src="{{ is_image_exist($data->blog_image) }}" height="100"></a>
+                                                        @endif
+                                                    </div>
+                                                </span>
+                                                </div>
+                                            <input type="file" id="blog_image" data-img-val="preview_blog_image" class="form-control @error('blog_image') is-invalid @enderror" placeholder="Profile Image" name="blog_image">
                                             @error('blog_image')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
@@ -75,6 +85,7 @@
                                             @enderror
                                         </div>
                                     </div>
+                                    
                                     <div class="col-md-12 col-12">
                                         <div class="form-group">
                                             <label for="blog_description">Blog Description</label>

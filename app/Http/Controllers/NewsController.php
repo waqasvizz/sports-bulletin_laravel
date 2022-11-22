@@ -242,8 +242,15 @@ class NewsController extends Controller
      */
     public function destroy($id)
     {
+        $data = $this->NewsObj->getNews([
+            'id' => $id,
+            'detail' => true,
+        ]);
         $response = $this->NewsObj->deleteNews($id);
         if($response) {
+            unlinkUploadedAssets([
+                'imagePath' => $data->image_path
+            ]);
             \Session::flash('message', 'News deleted successfully!');
             return redirect('/news');
         }

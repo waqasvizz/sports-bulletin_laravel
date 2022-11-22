@@ -220,7 +220,7 @@ class UserController extends Controller
 
                         $imageData = array();
                         // $imageData['fileName'] = time().'_'.$request->profile_image->getClientOriginalName();
-                        $imageData['fileName'] = time().'_'.rand(1000000,9999999).'.'.$extension;
+                        $imageData['fileName'] = time().'.'.$extension;
                         $imageData['uploadfileObj'] = $request->file('profile_image');
                         $imageData['fileObj'] = \Image::make($request->file('profile_image')->getRealPath());
                         $imageData['folderName'] = 'profile_image';
@@ -229,7 +229,7 @@ class UserController extends Controller
                         $posted_data['profile_image'] = $uploadAssetRes;
                         if(!$uploadAssetRes){
                             return back()->withErrors([
-                                'profile_image' => 'Something wrong with your image, please try again later!',
+                                'profile_image' => 'Something wrong with your icon image, please try again later!',
                             ])->withInput();
                         }
                     }else{
@@ -296,7 +296,7 @@ class UserController extends Controller
         $posted_data['orderBy_name'] = 'name';
         $posted_data['orderBy_value'] = 'Asc';
         $data['roles'] = $this->RoleObj->getRoles($posted_data);
-        $data['user_role'] = count($data->getRoleNames()) > 0 ? $data->getRoleNames()[0] : '';
+        $data['user_role'] = count(\Auth::user()->getRoleNames()) > 0 ? \Auth::user()->getRoleNames()[0] : '';
         
         return view('user.add',compact('data'));
     }
@@ -379,14 +379,9 @@ class UserController extends Controller
                     $extension = $request->profile_image->getClientOriginalExtension();
                     if($extension == 'jpg' || $extension == 'jpeg' || $extension == 'png'){
 
-                        $update_rec = $this->UserObj->getUser([
-                            'id' => $posted_data['update_id'],
-                            'detail' => true
-                        ])->toArray();
-
                         $imageData = array();
                         // $imageData['fileName'] = time().'_'.$request->profile_image->getClientOriginalName();
-                        $imageData['fileName'] = time().'_'.rand(1000000,9999999).'.'.$extension;
+                        $imageData['fileName'] = time().'.'.$extension;
                         $imageData['uploadfileObj'] = $request->file('profile_image');
                         $imageData['fileObj'] = \Image::make($request->file('profile_image')->getRealPath());
                         $imageData['folderName'] = 'profile_image';
@@ -395,7 +390,7 @@ class UserController extends Controller
                         $posted_data['profile_image'] = $uploadAssetRes;
                         if(!$uploadAssetRes){
                             return back()->withErrors([
-                                'profile_image' => 'Something wrong with your image, please try again later!',
+                                'profile_image' => 'Something wrong with your icon image, please try again later!',
                             ])->withInput();
                         }
                         $imageData = array();
