@@ -31,6 +31,8 @@ use App\Models\Permission;
 use App\Models\AssignPermission;
 use App\Models\News;
 use App\Models\Blog;
+use App\Models\Staff;
+use App\Models\OwnAd;
 
 use DB;
 use Validator;
@@ -62,6 +64,8 @@ class Controller extends BaseController
     public $AssignPermissionObj;
     public $NewsObj;
     public $BlogObj;
+    public $StaffObj;
+    public $OwnAdObj;
 
 
     public function __construct() {
@@ -82,6 +86,8 @@ class Controller extends BaseController
         $this->AssignPermissionObj = new AssignPermission();
         $this->NewsObj = new News();
         $this->BlogObj = new Blog();
+        $this->StaffObj = new Staff();
+        $this->OwnAdObj = new OwnAd();
     }
 
     /**

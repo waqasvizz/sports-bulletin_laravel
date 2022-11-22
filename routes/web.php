@@ -14,6 +14,8 @@ use App\Http\Controllers\SubMenuController;
 use App\Http\Controllers\SubCategorieController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\StaffController;
+use App\Http\Controllers\OwnAdController;
 //
 /*
 |--------------------------------------------------------------------------
@@ -137,4 +139,6 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('short_codes', EmailShortCodeController::class);
     Route::resource('news', NewsController::class);
     Route::resource('blog', BlogController::class);
+    Route::resource('staff', StaffController::class);
+    Route::resource('ownAd', OwnAdController::class);
 });
