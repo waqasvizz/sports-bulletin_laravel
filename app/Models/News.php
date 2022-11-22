@@ -12,10 +12,6 @@ class News extends Model
     use SoftDeletes;
     // protected $table = 'news';
 
-    public const News_Status_Constants = [
-        'draft' => 'Draft',
-        'published' => 'Published',
-    ];
 
     public function category()
     {

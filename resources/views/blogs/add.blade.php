@@ -53,7 +53,7 @@
                                         <div class="form-group">
                                             <label for="blog_status">Status</label>
                                             <select class="form-control @error('blog_status') is-invalid @enderror" id="blog_status"  name="blog_status">
-                                                @foreach (App\Models\Blog::statusConst as $key => $item)
+                                                @foreach (\Config::get('constants.statusDraftPublished') as $key => $item)
                                                     <option {{ old('blog_status') == $item || (isset($data->blog_status) && $data->blog_status == $item )? 'selected': '' }} value="{{ $item }}">{{ $item }}</option>
                                                 @endforeach
                                             </select>

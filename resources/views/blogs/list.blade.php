@@ -25,9 +25,9 @@
                                 <div class="row">
                                     <div class="col-md-3 mb-1">
                                         <label class="form-label" for="select2-basic">Status</label>
-                                        <select class="filterForm select2 form-select" name="blog_status" id="select2-account-menu-status">
+                                        <select class="formFilter select2 form-select" name="blog_status" id="select2-account-menu-status">
                                             <option value=""> ---- Choose Status ---- </option>
-                                            @foreach (App\Models\Blog::statusConst as $key => $item)
+                                            @foreach (\Config::get('constants.statusDraftPublished') as $key => $item)
                                                 <option {{ old('blog_status') == $item || (isset($data->blog_status) && $data->blog_status == $item )? 'selected': '' }} value="{{ $item }}">{{ $item }}</option>
                                             @endforeach
                                         </select>

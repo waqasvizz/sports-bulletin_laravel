@@ -25,7 +25,7 @@
                                 <div class="row">
                                     <div class="col-md-3 mb-1">
                                         <label class="form-label" for="select2-account-menu-status">Status</label>
-                                        <select class="filterForm select2 form-select" name="status" id="select2-account-menu-status">
+                                        <select class="formFilter select2 form-select" name="status" id="select2-account-menu-status">
                                             <option value=""> ---- Choose Status ---- </option>
                                             @if (isset($data['statuses']) && count($data['statuses']) > 0 )
                                                 @foreach ($data['statuses'] as $key => $status_obj) 

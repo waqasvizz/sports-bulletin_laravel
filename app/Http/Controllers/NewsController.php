@@ -30,7 +30,7 @@ class NewsController extends Controller
         $posted_data['paginate'] = 10;
         // $posted_data['printsql'] = true;
         $data['records'] = $this->NewsObj->getNews($posted_data);
-        $data['statuses'] = $this->NewsObj::News_Status_Constants;
+        $data['statuses'] = \Config::get('constants.statusDraftPublished');
 
         $data['html'] = view('news.ajax_records', compact('data'));
         
@@ -44,7 +44,7 @@ class NewsController extends Controller
     public function create()
     {
         $data['categories'] = $this->CategorieObj::getCategories();
-        $data['news_status_const'] = $this->NewsObj::News_Status_Constants;
+        $data['news_status_const'] = \Config::get('constants.statusDraftPublished');
 
         return view('news.add', compact('data'));
     }
@@ -144,7 +144,7 @@ class NewsController extends Controller
         $data['sub_categories'] = $this->SubCategorieObj::getSubCategories([
             'category_id' => $data['news_detail']->category_id,
         ]);
-        $data['news_status_const'] = $this->NewsObj::News_Status_Constants;
+        $data['news_status_const'] = \Config::get('constants.statusDraftPublished');
 
         return view('news.add',compact('data'));
     }
