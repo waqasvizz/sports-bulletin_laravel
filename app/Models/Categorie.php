@@ -18,6 +18,13 @@ class Categorie extends Model
 {
     use HasFactory;
     use SoftDeletes;
+    
+
+    public function setTitleAttribute($value)
+    {
+        $this->attributes['title'] = $value;
+        $this->attributes['slug'] = str_slug($value);
+    }
 
     public function getCategories($posted_data = array())
     {
@@ -39,7 +46,8 @@ class Categorie extends Model
             $query = $query->where('categories.title', 'like', '%' . $posted_data['title'] . '%');
         }
         if (isset($posted_data['status'])) {
-            $query = $query->where('categories.status', 'like', '%' . $posted_data['status'] . '%');
+            $query = $query->where('categories.status', $posted_data['status']);
+            // $query = $query->where('categories.status', 'like', '%' . $posted_data['status'] . '%');
         }
 
         $query->select('categories.*');

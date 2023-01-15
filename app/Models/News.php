@@ -58,8 +58,19 @@ class News extends Model
         if (isset($posted_data['status'])) {
             $query = $query->where('news.status', 'like', '%' . $posted_data['status'] . '%');
         }
+        if (isset($posted_data['news_slug'])) {
+            $query = $query->where('news.news_slug', $posted_data['news_slug']);
+        }
+        if (isset($posted_data['category_slug'])) {
+            $query = $query->where('categories.slug', $posted_data['category_slug']);
+        }
+        if (isset($posted_data['sub_category_slug'])) {
+            $query = $query->where('sub_categories.slug', $posted_data['sub_category_slug']);
+        }
 
         $query->select('news.*');
+        $query->join('categories', 'categories.id', '=' ,'news.categories_id');
+        $query->join('sub_categories', 'sub_categories.id', '=' ,'news.sub_categories_id');
         
         $query->getQuery()->orders = null;
         if (isset($posted_data['orderBy_name']) && isset($posted_data['orderBy_value'])) {

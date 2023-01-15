@@ -12,7 +12,7 @@
         <tbody>
             @if (isset($data['records']) && count($data['records'])>0)
 
-                @php $any_ownAd_found = false; @endphp
+                @php $any_own_ad_found = false; @endphp
                 @foreach ($data['records'] as $key=>$item)
                     @php
                         $sr_no = $key + 1;
@@ -26,14 +26,14 @@
                         <td>
                             <div class="display_images_list">
                                 <span class="avatar-color">
-                                    <a data-fancybox="demo" data-src="{{ is_image_exist($item['ownAd_image']) }}">
-                                        <img title="{{ $item['ownAd_title'] }}" src="{{ is_image_exist($item['ownAd_image']) }}" height="100">
+                                    <a data-fancybox="demo" data-src="{{ is_image_exist($item['own_ad_image']) }}">
+                                        <img title="{{ $item['own_ad_title'] }}" src="{{ is_image_exist($item['own_ad_image']) }}" height="100">
                                     </a>
                                 </span>                            
                             </div>
                         </td>
-                        <td>{{ $item['ownAd_title'] }}</td>
-                        <td><span class="role-badge" style="background-color: {{ $item['ownAd_status'] == 'Published'? '#455356':'#b4b5af' }}">{{ $item['ownAd_status'] }}</span></td>
+                        <td>{{ $item['own_ad_title'] }}</td>
+                        <td><span class="role-badge" style="background-color: {{ $item['own_ad_status'] == 'Published'? '#455356':'#b4b5af' }}">{{ $item['own_ad_status'] }}</span></td>
                         <td>
                             @canany(['ownAd-edit', 'ownAd-delete'])
                             <div class="dropdown">
@@ -44,7 +44,7 @@
                                         <circle cx="12" cy="19" r="1"></circle>
                                     </svg>
                                 </button>
-                                @php $any_ownAd_found = true; @endphp
+                                @php $any_own_ad_found = true; @endphp
                                 <div class="dropdown-menu">
                                     @can('ownAd-edit')
                                     <a class="dropdown-item" href="{{ url('ownAd')}}/{{$item['id']}}/edit" >
@@ -72,7 +72,7 @@
                                 </div>
                             </div>
                             @endcanany
-                            @if (!$any_ownAd_found)
+                            @if (!$any_own_ad_found)
                                 {{ 'Not Available' }}
                             @endif
                         </td>

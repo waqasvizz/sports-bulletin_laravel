@@ -136,7 +136,7 @@ class StaffController extends Controller
         $requested_data = $request->all();
         $requested_data['update_id'] = $id;
         $rules = array(
-            'update_id' => 'required|exists:staffs,id',
+            'update_id' => 'required|exists:staff,id',
             'staff_title' => 'required',
             'staff_status' => 'required|in:Draft,Published',
             // 'staff_image' => 'required',

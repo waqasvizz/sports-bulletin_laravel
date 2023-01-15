@@ -40,9 +40,9 @@
                                 <div class="row">
                                     <div class="col-md-6 col-12">
                                         <div class="form-group">
-                                            <label for="ownAd_title">OwnAd Title</label>
-                                            <input value="{{old('ownAd_title', isset($data->ownAd_title)? $data->ownAd_title: '')}}" type="text" id="ownAd_title" class="form-control @error('ownAd_title') is-invalid @enderror" placeholder="OwnAd Title" name="ownAd_title">
-                                            @error('ownAd_title')
+                                            <label for="own_ad_title">OwnAd Title</label>
+                                            <input value="{{old('own_ad_title', isset($data->own_ad_title)? $data->own_ad_title: '')}}" type="text" id="own_ad_title" class="form-control @error('own_ad_title') is-invalid @enderror" placeholder="OwnAd Title" name="own_ad_title">
+                                            @error('own_ad_title')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
                                                 </span>
@@ -51,13 +51,13 @@
                                     </div>
                                     <div class="col-md-6 col-12">
                                         <div class="form-group">
-                                            <label for="ownAd_status">Status</label>
-                                            <select class="form-control @error('ownAd_status') is-invalid @enderror" id="ownAd_status"  name="ownAd_status">
+                                            <label for="own_ad_status">Status</label>
+                                            <select class="form-control @error('own_ad_status') is-invalid @enderror" id="own_ad_status"  name="own_ad_status">
                                                 @foreach (\Config::get('constants.statusDraftPublished') as $key => $item)
-                                                    <option {{ old('ownAd_status') == $item || (isset($data->ownAd_status) && $data->ownAd_status == $item )? 'selected': '' }} value="{{ $item }}">{{ $item }}</option>
+                                                    <option {{ old('own_ad_status') == $item || (isset($data->own_ad_status) && $data->own_ad_status == $item )? 'selected': '' }} value="{{ $item }}">{{ $item }}</option>
                                                 @endforeach
                                             </select>
-                                            @error('ownAd_status')
+                                            @error('own_ad_status')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
                                                 </span>
@@ -65,20 +65,20 @@
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-12">
-                                        <label for="ownAd_image">OwnAd Image</label>
+                                        <label for="own_ad_image">OwnAd Image</label>
                                         <div class="input-group">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text basic-addon">
-                                                    <div class="display_images preview_ownAd_image">
-                                                        @if (isset($data->ownAd_image) && !empty($data->ownAd_image))
-                                                            <a data-fancybox="demo" data-src="{{ is_image_exist($data->ownAd_image) }}">
-                                                                <img title="{{ $data->ownAd_title }}" src="{{ is_image_exist($data->ownAd_image) }}" height="100"></a>
+                                                    <div class="display_images preview_own_ad_image">
+                                                        @if (isset($data->own_ad_image) && !empty($data->own_ad_image))
+                                                            <a data-fancybox="demo" data-src="{{ is_image_exist($data->own_ad_image) }}">
+                                                                <img title="{{ $data->own_ad_title }}" src="{{ is_image_exist($data->own_ad_image) }}" height="100"></a>
                                                         @endif
                                                     </div>
                                                 </span>
                                                 </div>
-                                            <input type="file" id="ownAd_image" data-img-val="preview_ownAd_image" class="form-control @error('ownAd_image') is-invalid @enderror" placeholder="Profile Image" name="ownAd_image">
-                                            @error('ownAd_image')
+                                            <input type="file" id="own_ad_image" data-img-val="preview_own_ad_image" class="form-control @error('own_ad_image') is-invalid @enderror" placeholder="Profile Image" name="own_ad_image">
+                                            @error('own_ad_image')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
                                                 </span>
@@ -88,16 +88,15 @@
                                     
                                     <div class="col-md-12 col-12 mt-1">
                                         <div class="form-group">
-                                            <label for="ownAd_description">OwnAd Description</label>
-                                            <textarea name="ownAd_description" style="display:none" id="editorClone"></textarea>
-                                            <div id="editor-container">{!! old('ownAd_description', isset($data->ownAd_description)? $data->ownAd_description: '') !!}</div>
-                                            <div id="output-html" style="display:none">{!! old('ownAd_description', isset($data->ownAd_description)? $data->ownAd_description: '') !!}</div>
-                                            <!-- <input value="{{old('ownAd_description', isset($data->ownAd_description)? $data->ownAd_description: '')}}" type="text" id="ownAd_description" class="form-control @error('ownAd_description') is-invalid @enderror" placeholder="OwnAd Description" name="ownAd_description"> -->
-                                            @error('ownAd_description')
+                                            <label for="own_ad_description">OwnAd Description</label>
+
+                                            <textarea id="own_ad_description" class="form-control @error('own_ad_description') is-invalid @enderror" placeholder="OwnAd Description" name="own_ad_description">{{old('own_ad_description', isset($data->own_ad_description)? $data->own_ad_description: '')}}</textarea>
+                                            @error('own_ad_description')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
                                                 </span>
                                             @enderror
+ 
                                         </div>
                                     </div>
                                 </div>

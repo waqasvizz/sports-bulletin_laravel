@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\Controller;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\EmailShortCodeController;
@@ -89,10 +90,10 @@ Route::get('/clear-cache', function() {
 
 // Auth::routes();
 
-Route::get('/', function () {
-    redirect()->route('clear-cache');
-    return view('auth_v1.login');
-})->name('welcome');
+// Route::get('/', function () {
+//     redirect()->route('clear-cache');
+//     return view('auth_v1.login');
+// })->name('welcome');
 
 Route::get('/login', function () {
     redirect()->route('clear-cache');
@@ -105,6 +106,21 @@ Route::get('/test', [UserController::class, 'testing']);
 Route::get('/logout', [UserController::class, 'logout']);
 Route::get('/send_notification', [UserController::class, 'sendNotification']);
 // ->name('logout');
+
+
+Route::get('/', [Controller::class, 'welcome']);
+Route::get('/news/{category_slug}/{sub_category_slug?}', [Controller::class, 'news']);
+Route::get('/news-detail/{slug}', [Controller::class, 'newsDetail']);
+Route::get('/news-category/{slug}', [Controller::class, 'newsCategory']);
+Route::get('/news-sub-category/{slug}', [Controller::class, 'newsSubCategory']);
+Route::get('/about', [Controller::class, 'aboutPage']);
+Route::get('/privacy', [Controller::class, 'privacyPage']);
+Route::get('/terms', [Controller::class, 'termsPage']);
+Route::get('/contact_us', [Controller::class, 'contactUsPage']);
+Route::get('/our-staff', [Controller::class, 'ourStaffPage']);
+Route::get('/events/{event_slug?}', [Controller::class, 'events']);
+Route::POST('/contactUsSubmit', [Controller::class, 'contactUsSubmit']);
+Route::POST('/search_list', [Controller::class, 'searchCategorylist']);
 
 Route::get('/register', [UserController::class, 'register'])->name('register');
 Route::get('/forgot-password', [UserController::class, 'forgotPassword'])->name('forgotPassword');

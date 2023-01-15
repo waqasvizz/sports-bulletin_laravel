@@ -9,20 +9,20 @@ class OwnAd extends Model
 {
     use HasFactory;
 
-    public function setOwnAdDescriptionAttribute($value)
-    {
-        $this->attributes['ownAd_description'] = encrypt($value);
-    }
+    // public function setOwnAdDescriptionAttribute($value)
+    // {
+    //     $this->attributes['own_ad_description'] = encrypt($value);
+    // }
 
-    public function getOwnAdDescriptionAttribute($value)
-    {
-        return decrypt($value);
-    }
+    // public function getOwnAdDescriptionAttribute($value)
+    // {
+    //     return decrypt($value);
+    // }
 
     public function setOwnAdTitleAttribute($value)
     {
-        $this->attributes['ownAd_title'] = $value;
-        $this->attributes['ownAd_slug'] = str_slug($value);
+        $this->attributes['own_ad_title'] = $value;
+        $this->attributes['own_ad_slug'] = str_slug($value);
     }
 
     public static function getOwnAd($posted_data = array())
@@ -30,17 +30,17 @@ class OwnAd extends Model
         $query = OwnAd::latest();
 
         if (isset($posted_data['id'])) {
-            $query = $query->where('ownAds.id', $posted_data['id']);
+            $query = $query->where('own_ads.id', $posted_data['id']);
         }
-        if (isset($posted_data['ownAd_status'])) {
-            $query = $query->where('ownAds.ownAd_status', $posted_data['ownAd_status']);
+        if (isset($posted_data['own_ad_status'])) {
+            $query = $query->where('own_ads.own_ad_status', $posted_data['own_ad_status']);
         }
         
         $query->getQuery()->orders = null;
         if (isset($posted_data['orderBy_name']) && isset($posted_data['orderBy_value'])) {
             $query->orderBy($posted_data['orderBy_name'], $posted_data['orderBy_value']);
         } else {
-            $query->orderBy('ownAds.id', 'DESC');
+            $query->orderBy('own_ads.id', 'DESC');
         }
 
         
@@ -78,9 +78,9 @@ class OwnAd extends Model
 
         if(isset($where_posted_data) && count($where_posted_data)>0){
             $is_updated = false;
-            if (isset($where_posted_data['ownAd_status'])) {
+            if (isset($where_posted_data['own_ad_status'])) {
                 $is_updated = true;
-                $data = $data->where('ownAd_status', $where_posted_data['ownAd_status']);
+                $data = $data->where('own_ad_status', $where_posted_data['own_ad_status']);
             }
 
             if($is_updated){
@@ -91,17 +91,17 @@ class OwnAd extends Model
         }
         
 
-        if (isset($posted_data['ownAd_title'])) {
-            $data->ownAd_title = $posted_data['ownAd_title'];
+        if (isset($posted_data['own_ad_title'])) {
+            $data->own_ad_title = $posted_data['own_ad_title'];
         }
-        if (isset($posted_data['ownAd_description'])) {
-            $data->ownAd_description = $posted_data['ownAd_description'];
+        if (isset($posted_data['own_ad_description'])) {
+            $data->own_ad_description = $posted_data['own_ad_description'];
         }
-        if (isset($posted_data['ownAd_image'])) {
-            $data->ownAd_image = $posted_data['ownAd_image'];
+        if (isset($posted_data['own_ad_image'])) {
+            $data->own_ad_image = $posted_data['own_ad_image'];
         }
-        if (isset($posted_data['ownAd_status'])) {
-            $data->ownAd_status = $posted_data['ownAd_status'];
+        if (isset($posted_data['own_ad_status'])) {
+            $data->own_ad_status = $posted_data['own_ad_status'];
         }
         $data->save();
         
@@ -123,9 +123,9 @@ class OwnAd extends Model
         }
 
         if(isset($where_posted_data) && count($where_posted_data)>0){
-            if (isset($where_posted_data['ownAd_status'])) {
+            if (isset($where_posted_data['own_ad_status'])) {
                 $is_deleted = true;
-                $data = $data->where('ownAd_status', $where_posted_data['ownAd_status']);
+                $data = $data->where('own_ad_status', $where_posted_data['own_ad_status']);
             }
         }
         

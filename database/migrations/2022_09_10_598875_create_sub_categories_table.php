@@ -18,6 +18,7 @@ class CreateSubCategoriesTable extends Migration
             $table->unsignedBigInteger('category_id');
             $table->foreign('category_id')->references('id')->on('categories')->onUpdate('cascade')->onDelete('cascade');
             $table->string('title', 100);
+            $table->string('slug');
             $table->integer('sort_order');
             $table->enum('status', ['Draft', 'Published'])->default('Draft');
             $table->string('image')->nullable();

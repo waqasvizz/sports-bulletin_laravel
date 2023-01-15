@@ -16,6 +16,7 @@ class CreateCategoriesTable extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('title', 100);
+            $table->string('slug');
             $table->integer('sort_order');
             $table->enum('status', ['Draft', 'Published'])->default('Draft');
             $table->string('image')->nullable();

@@ -38,7 +38,7 @@ function updateHtmlOutput() {
 updateHtmlOutput();
 
 
-$(document).on('submit', '#email_msg_form, #news_form, #blog_form, #staff_form, #ownAd_form', function (event) {
+$(document).on('submit', '#email_msg_form, #news_form, #blog_form', function (event) {
     var html = quill.root.innerHTML;
     $("#editorClone").val(html);
 });

@@ -89,9 +89,9 @@
                                     <div class="col-md-12 col-12 mt-1">
                                         <div class="form-group">
                                             <label for="staff_description">Staff Description</label>
-                                            <textarea name="staff_description" style="display:none" id="editorClone"></textarea>
-                                            <div id="editor-container">{!! old('staff_description', isset($data->staff_description)? $data->staff_description: '') !!}</div>
-                                            <div id="output-html" style="display:none">{!! old('staff_description', isset($data->staff_description)? $data->staff_description: '') !!}</div>
+                                            <textarea name="staff_description" class="form-control @error('staff_description') is-invalid @enderror">{{old('staff_description', isset($data->staff_description)? $data->staff_description: '')}}</textarea>
+                                            <!-- <div id="editor-container">{!! old('staff_description', isset($data->staff_description)? $data->staff_description: '') !!}</div> -->
+                                            <!-- <div id="output-html" style="display:none">{!! old('staff_description', isset($data->staff_description)? $data->staff_description: '') !!}</div> -->
                                             <!-- <input value="{{old('staff_description', isset($data->staff_description)? $data->staff_description: '')}}" type="text" id="staff_description" class="form-control @error('staff_description') is-invalid @enderror" placeholder="Staff Description" name="staff_description"> -->
                                             @error('staff_description')
                                                 <span class="invalid-feedback" role="alert">

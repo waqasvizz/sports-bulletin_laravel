@@ -50,12 +50,13 @@ class OwnAdController extends Controller
     {
         $requested_data = $request->all();
         $rules = array(
-            'ownAd_title' => 'required',
-            'ownAd_status' => 'required|in:Draft,Published',
-            'ownAd_image' => 'required',
-            'ownAd_description' => 'required'
+            'own_ad_title' => 'required',
+            'own_ad_status' => 'required|in:Draft,Published',
+            'own_ad_image' => 'required',
+            'own_ad_description' => 'required'
         );
 
+        // echo '<pre>';print_r($requested_data);echo '</pre>';exit;
         $validator = \Validator::make($requested_data, $rules);
 
         if ($validator->fails()) {
@@ -63,28 +64,28 @@ class OwnAdController extends Controller
         } else {
             
             $base_url = public_path();
-            if($request->file('ownAd_image')) {
-                $extension = $request->ownAd_image->getClientOriginalExtension();
+            if($request->file('own_ad_image')) {
+                $extension = $request->own_ad_image->getClientOriginalExtension();
                 if($extension == 'jpg' || $extension == 'jpeg' || $extension == 'png'){
                     
                     $imageData = array();
-                    // $imageData['fileName'] = time().'_'.$request->ownAd_image->getClientOriginalName();
+                    // $imageData['fileName'] = time().'_'.$request->own_ad_image->getClientOriginalName();
                     $imageData['fileName'] = time().'_'.rand(1000000,9999999).'.'.$extension;
-                    $imageData['uploadfileObj'] = $request->file('ownAd_image');
-                    $imageData['fileObj'] = \Image::make($request->file('ownAd_image')->getRealPath());
-                    $imageData['folderName'] = 'ownAd_image';
+                    $imageData['uploadfileObj'] = $request->file('own_ad_image');
+                    $imageData['fileObj'] = \Image::make($request->file('own_ad_image')->getRealPath());
+                    $imageData['folderName'] = 'own_ad_image';
                     
                     $uploadAssetRes = uploadAssets($imageData, $original = false, $optimized = true, $thumbnail = false);
-                    $requested_data['ownAd_image'] = $uploadAssetRes;
+                    $requested_data['own_ad_image'] = $uploadAssetRes;
                     if(!$uploadAssetRes){
                         return back()->withErrors([
-                            'ownAd_image' => 'Something wrong with your image, please try again later!',
+                            'own_ad_image' => 'Something wrong with your image, please try again later!',
                         ])->withInput();
                     }
                     
                 } else {
                     return back()->withErrors([
-                        'ownAd_image' => 'The image format is not correct you can only upload (jpg, jpeg, png).',
+                        'own_ad_image' => 'The image format is not correct you can only upload (jpg, jpeg, png).',
                     ])->withInput();
                 }
             }
@@ -136,11 +137,11 @@ class OwnAdController extends Controller
         $requested_data = $request->all();
         $requested_data['update_id'] = $id;
         $rules = array(
-            'update_id' => 'required|exists:ownAds,id',
-            'ownAd_title' => 'required',
-            'ownAd_status' => 'required|in:Draft,Published',
-            // 'ownAd_image' => 'required',
-            'ownAd_description' => 'required'
+            'update_id' => 'required|exists:own_ads,id',
+            'own_ad_title' => 'required',
+            'own_ad_status' => 'required|in:Draft,Published',
+            // 'own_ad_image' => 'required',
+            'own_ad_description' => 'required'
         );
         $validator = \Validator::make($requested_data, $rules);
    
@@ -155,30 +156,30 @@ class OwnAdController extends Controller
         ])->toArray();
             
         $base_url = public_path();
-        if($request->file('ownAd_image')) {
-            $extension = $request->ownAd_image->getClientOriginalExtension();
+        if($request->file('own_ad_image')) {
+            $extension = $request->own_ad_image->getClientOriginalExtension();
             if($extension == 'jpg' || $extension == 'jpeg' || $extension == 'png'){
                 
                 $imageData = array();
                 $imageData['fileName'] = time().'_'.rand(1000000,9999999).'.'.$extension;
-                $imageData['uploadfileObj'] = $request->file('ownAd_image');
-                $imageData['fileObj'] = \Image::make($request->file('ownAd_image')->getRealPath());
-                $imageData['folderName'] = 'ownAd_image';
+                $imageData['uploadfileObj'] = $request->file('own_ad_image');
+                $imageData['fileObj'] = \Image::make($request->file('own_ad_image')->getRealPath());
+                $imageData['folderName'] = 'own_ad_image';
                 
                 $uploadAssetRes = uploadAssets($imageData, $original = false, $optimized = true, $thumbnail = false);
-                $requested_data['ownAd_image'] = $uploadAssetRes;
+                $requested_data['own_ad_image'] = $uploadAssetRes;
                 if(!$uploadAssetRes){
                     return back()->withErrors([
-                        'ownAd_image' => 'Something wrong with your image, please try again later!',
+                        'own_ad_image' => 'Something wrong with your image, please try again later!',
                     ])->withInput();
                 }
                 $imageData = array();
-                $imageData['imagePath'] = $update_rec['ownAd_image'];
+                $imageData['imagePath'] = $update_rec['own_ad_image'];
                 unlinkUploadedAssets($imageData);
                 
             } else {
                 return back()->withErrors([
-                    'ownAd_image' => 'The image format is not correct you can only upload (jpg, jpeg, png).',
+                    'own_ad_image' => 'The image format is not correct you can only upload (jpg, jpeg, png).',
                 ])->withInput();
             }
         }
@@ -198,7 +199,7 @@ class OwnAdController extends Controller
     public function destroy(OwnAd $ownAd)
     {
         unlinkUploadedAssets([
-            'imagePath' => $ownAd->ownAd_image
+            'imagePath' => $ownAd->own_ad_image
         ]);
 
         $ownAd->delete();

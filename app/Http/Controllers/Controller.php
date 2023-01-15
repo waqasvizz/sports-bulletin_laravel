@@ -7,6 +7,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\Request;
 
 use App\Models\Role;
 use App\Models\User;
@@ -125,4 +126,170 @@ class Controller extends BaseController
         
         return response()->json($response, $code);
     }
+    
+    public function welcome()
+    {
+        $posted_data = array();
+        $posted_data['paginate'] = 10;
+        $posted_data['status'] = 'Published';
+        // $posted_data['printsql'] = true;
+        $data =  $this->NewsObj->getNews($posted_data);
+        // echo '<pre>';print_r($data->ToArray());echo '</pre>';exit;
+        return view('welcome', compact('data'));
+    }
+    
+    public function newsDetail($slug)
+    {
+        $posted_data = array();
+        $posted_data['detail'] = true;
+        $posted_data['status'] = 'Published';
+        $posted_data['news_slug'] = $slug;
+        // $posted_data['printsql'] = true;
+        $data['news_detail'] =  $this->NewsObj->getNews($posted_data);
+
+
+        
+        $posted_data = array();
+        $posted_data['paginate'] = 6;
+        $posted_data['status'] = 'Published';
+        // $posted_data['news_slug'] = $slug;
+        // $posted_data['printsql'] = true;
+        $data['relevant'] =  $this->NewsObj->getNews($posted_data);
+        // echo '<pre>';print_r($data->ToArray());echo '</pre>';exit;
+        return view('news_detail', compact('data'));
+    }
+    
+    public function news($category_slug, $sub_category_slug = '')
+    {
+        $main_title = slugReverse($category_slug);
+        $posted_data = array();
+        $posted_data['paginate'] = 10;
+        $posted_data['status'] = 'Published';
+        $posted_data['category_slug'] = $category_slug;
+        if(isset($sub_category_slug) && !empty($sub_category_slug)){
+            $posted_data['sub_category_slug'] = $sub_category_slug;
+            $main_title = slugReverse($category_slug).' '.slugReverse($sub_category_slug);
+        }
+        // $posted_data['printsql'] = true;
+        $data =  $this->NewsObj->getNews($posted_data);
+        // echo '<pre>';print_r($data->ToArray());echo '</pre>';exit;
+        return view('welcome', compact('data'), compact('main_title'));
+    }
+    
+    public function events($event_slug = '')
+    {
+        $posted_data = array();
+        $posted_data['status'] = 'Published';
+        $posted_data['blog_slug'] = $event_slug;
+        $posted_data['orderBy_name'] = 'blogs.id';
+        $posted_data['orderBy_value'] = 'desc';
+        if(isset($event_slug) && !empty($event_slug)){
+            $posted_data['detail'] = true;
+            $main_title = slugReverse($event_slug);
+        }else{
+            $posted_data['paginate'] = 10;
+            $main_title = slugReverse('Latest Events');
+        }
+        // $posted_data['printsql'] = true;
+        $data['latest_events'] =  $this->BlogObj->getBlog($posted_data);
+
+        if(isset($event_slug) && !empty($event_slug)){
+            $data['event_detail'] = $data['latest_events'];
+            unset($data['latest_events']);
+        }
+        // echo '<pre>';print_r($data);echo '</pre>';exit;
+        return view('events', compact('data'), compact('main_title'));
+    }
+    
+    public function newsCategory($slug)
+    {
+        $main_title = slugReverse($slug);
+        $posted_data = array();
+        $posted_data['paginate'] = 10;
+        $posted_data['status'] = 'Published';
+        $posted_data['category_slug'] = $slug;
+        // $posted_data['printsql'] = true;
+        $data =  $this->NewsObj->getNews($posted_data);
+        // echo '<pre>';print_r($data->ToArray());echo '</pre>';exit;
+        return view('welcome', compact('data'), compact('main_title'));
+    }
+    
+    public function newsSubCategory($slug)
+    {
+        $main_title = slugReverse($slug);
+        $posted_data = array();
+        $posted_data['paginate'] = 10;
+        $posted_data['status'] = 'Published';
+        $posted_data['sub_category_slug'] = $slug;
+        // $posted_data['printsql'] = true;
+        $data =  $this->NewsObj->getNews($posted_data);
+        // echo '<pre>';print_r($data->ToArray());echo '</pre>';exit;
+        return view('welcome', compact('data'), compact('main_title'));
+    }
+    
+    public function aboutPage()
+    {
+        return view('about');
+    }
+    
+    public function privacyPage()
+    {
+        return view('privacy');
+    }
+    
+    public function termsPage()
+    {
+        return view('terms');
+    }
+    
+    public function contactUsPage()
+    {
+        return view('contact_us');
+    }
+    
+    public function contactUsSubmit(Request $request)
+    {
+        $posted_data = $request->all();
+        
+        // $this->EmailLogObj->saveUpdateEmailLogs([
+        //     'user_id' => $chat->receiver_user_id,
+        //     'template_id' => $temp_rec->id,
+        //     'email' => $chat->rec_user_email,
+        //     'message' => $generated_html,
+        //     'subject' => $temp_rec->title,
+        //     'response' => json_encode($response_data),
+        // ]);
+        
+        echo '<pre>';print_r($posted_data);echo '</pre>';exit;
+    }
+    
+    public function ourStaffPage()
+    {
+        $posted_data = array();
+        $posted_data['paginate'] = 20;
+        $posted_data['staff_status'] = 'Published';
+        // $posted_data['printsql'] = true;
+        $data =  $this->StaffObj->getStaff($posted_data);
+        return view('our_staff', compact('data'));
+    }
+    
+    public function searchCategorylist(Request $request)
+    {
+        $return_ary = array();
+        $return_ary['html'] = '';
+
+        
+        $posted_data = $request->all();
+        $posted_data['orderBy_name'] = 'title';
+        $posted_data['orderBy_value'] = 'ASC';
+        $posted_data['status'] = 'Published';
+        $posted_data['title'] = $request->get('search');
+        $catRecords = $this->CategorieObj->getCategories($posted_data);
+        foreach ($catRecords as $key => $value) {
+            $return_ary['html'] .= '<a href="'.url('/news').'/'.$value->slug.'"><p>'.$value->title.'</p></a>';
+        }
+        
+        return $this->sendResponse($return_ary, 'Success.');
+    }
+    
 }

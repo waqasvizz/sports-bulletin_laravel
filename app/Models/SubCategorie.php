@@ -17,6 +17,13 @@ class SubCategorie extends Model
 {
     use HasFactory;
     use SoftDeletes;
+    
+
+    public function setTitleAttribute($value)
+    {
+        $this->attributes['title'] = $value;
+        $this->attributes['slug'] = str_slug($value);
+    }
 
     public function category_details()
     {
