@@ -86,6 +86,7 @@
             padding-right: 30px;
         }
     </style>
+    @yield('myStyle')
 </head>
 <!-- END: Head-->
 

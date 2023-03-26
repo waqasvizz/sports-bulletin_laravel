@@ -131,6 +131,8 @@ Route::post('/accountLogin', [UserController::class, 'accountLogin'])->name('acc
 Route::post('/resetPassword', [UserController::class, 'accountResetPassword'])->name('accountResetPassword');
 
 Route::middleware(['auth'])->group(function () {
+    Route::get('/google-analytics', [UserController::class, 'googleAnalytics']);
+    Route::post('/google-analytics', [UserController::class, 'googleAnalytics']);
      
     Route::post('/blockUnblockUser', [UserController::class, 'blockUnblockUser']);
     Route::post('/get_sub_categories', [SubCategorieController::class, 'ajax_get_sub_categories']);

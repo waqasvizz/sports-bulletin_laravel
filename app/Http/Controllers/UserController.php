@@ -7,6 +7,9 @@ use Laravel\Passport\Token;
 use App\Exports\ExportData;
 use Illuminate\Support\Arr;
 use App\Models\User;
+use Analytics;
+use Carbon\Carbon;
+use Spatie\Analytics\Period;
 
 class UserController extends Controller
 {
@@ -23,6 +26,55 @@ class UserController extends Controller
         echo '<pre>';print_r('testing');'</pre>';exit;
     }
     
+    public function googleAnalytics(Request $request)
+    {
+        $data = array();
+        $requestData = $request->all();
+        if(isset($requestData['filter_date'])){
+            $endDate = date('d/m/Y', strtotime($requestData['filter_date']));
+            $startDate = date('d/m/Y', strtotime($requestData['filter_date'].' - 30 days'));
+            $previousEndDate = date('d/m/Y', strtotime($requestData['filter_date'].' - 30 days'));
+            $previousStartDate = date('d/m/Y', strtotime($requestData['filter_date'].' - 60 days'));
+        }else{
+            $startDate = date('d/m/Y', strtotime('today - 30 days'));
+            $endDate = date('d/m/Y');
+    
+            $previousStartDate = date('d/m/Y', strtotime('today - 60 days'));
+            $previousEndDate = date('d/m/Y', strtotime('today - 30 days'));
+        }
+        $startDate = Carbon::createFromFormat('d/m/Y', $startDate);
+        $endDate = Carbon::createFromFormat('d/m/Y', $endDate);
+        $diff = $startDate->diffInDays($endDate);
+        $period = Period::create($startDate, $endDate);
+    
+        $previousStartDate = Carbon::createFromFormat('d/m/Y', $previousStartDate);
+        $previousEndDate = Carbon::createFromFormat('d/m/Y', $previousEndDate);
+        $previousPeriod = Period::create($previousStartDate, $previousEndDate);
+    
+        $data['analyticsData'] = Analytics::fetchTotalVisitorsAndPageViews($period)->ToArray();
+        $data['previousAnalyticsData'] = Analytics::fetchTotalVisitorsAndPageViews($previousPeriod)->ToArray();
+        $data['popular'] = Analytics::fetchMostVisitedPages($period, 2000)->ToArray();
+        $data['topReferrers'] = Analytics::fetchTopReferrers($period, 2000)->ToArray();
+        $data['userTypes'] = Analytics::fetchUserTypes($period, 2000)->ToArray();
+        $data['topBrowsers'] = Analytics::fetchTopBrowsers($period, 2000)->ToArray();
+        // echo '<pre>';print_r($data['previousAnalyticsData']);'</pre>';exit;
+        $data['countries'] = Analytics::performQuery(
+            $period,
+            'ga:sessions', // metrics
+            [
+                'metrics' => 'ga:sessions, ga:pageviews, ga:visitors',
+                'dimensions' => 'ga:country',
+                'sort' => '-ga:sessions',
+                'max-results' => 2000,
+            ],
+        );
+        $data['countries'] = $data['countries']->rows;
+    
+    
+        $data['requestData'] = $requestData;
+        return view('analytics', compact('data'));
+    }
+
     public function welcome()
     {
         return view('auth_v1.login');
