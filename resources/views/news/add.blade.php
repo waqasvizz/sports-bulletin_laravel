@@ -30,11 +30,11 @@
                             @endif
 
                             @if (isset($data['news_detail']->id))
-                                <form id="news_form" class="form" action="{{ route('news.update', $data['news_detail']->id) }}" method="post" enctype="multipart/form-data">
+                                <form id="news_form" class="form" action="{{ route('news_content.update', $data['news_detail']->id) }}" method="post" enctype="multipart/form-data">
                                 @method('PUT')
                                 <input type="hidden" name="update_id" value="{{$data['news_detail']->id}}">
                             @else
-                                <form id="news_form" class="form" action="{{ route('news.store') }}" method="POST" enctype="multipart/form-data">
+                                <form id="news_form" class="form" action="{{ route('news_content.store') }}" method="POST" enctype="multipart/form-data">
                             @endif
                                 @csrf
                                 

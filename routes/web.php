@@ -155,7 +155,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('notification', NotificationController::class);
     Route::resource('email_template', EmailTemplateController::class);
     Route::resource('short_codes', EmailShortCodeController::class);
-    Route::resource('news', NewsController::class);
+    Route::resource('news_content', NewsController::class);
     Route::resource('blog', BlogController::class);
     Route::resource('staff', StaffController::class);
     Route::resource('ownAd', OwnAdController::class);

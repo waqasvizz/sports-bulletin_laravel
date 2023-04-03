@@ -112,7 +112,7 @@ class NewsController extends Controller
             $this->NewsObj->saveUpdateNews($data);
 
             \Session::flash('message', 'News created successfully!');
-            return redirect('/news');
+            return redirect('/news_content');
         }
     } 
    
@@ -231,7 +231,7 @@ class NewsController extends Controller
         $update_rec = $this->NewsObj::saveUpdateNews($requested_data);
 
         \Session::flash('message', 'News updated successfully!');
-        return redirect('/news');
+        return redirect('/news_content');
     }
    
     /**
@@ -252,7 +252,7 @@ class NewsController extends Controller
                 'imagePath' => $data->image_path
             ]);
             \Session::flash('message', 'News deleted successfully!');
-            return redirect('/news');
+            return redirect('/news_content');
         }
     }
 

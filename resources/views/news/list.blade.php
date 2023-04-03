@@ -19,7 +19,7 @@
                         </div>
                         
                         <div class="card-body">
-                            <form method="GET" id="filterForm" action="{{ url('/news') }}">
+                            <form method="GET" id="filterForm" action="{{ url('/news_content') }}">
                                 @csrf
                                 <input name="page" id="filterPage" value="1" type="hidden">
                                 <div class="row">
