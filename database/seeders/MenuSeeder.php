@@ -144,7 +144,7 @@ class MenuSeeder extends Seeder
                         ],
                         [
                             'title' => 'News',
-                            'url' => '/news',
+                            'url' => '/news_content',
                             'slug' => 'news-list',
                             'sort_order' => 11,
                             'status' => 'Published',
