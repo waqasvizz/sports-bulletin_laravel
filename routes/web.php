@@ -109,6 +109,8 @@ Route::get('/send_notification', [UserController::class, 'sendNotification']);
 
 
 Route::get('/', [Controller::class, 'welcome']);
+Route::get('/single', [Controller::class, 'single']);
+Route::get('/news', [Controller::class, 'newsGET']);
 Route::get('/news/{category_slug}/{sub_category_slug?}', [Controller::class, 'news']);
 Route::get('/news-detail/{slug}', [Controller::class, 'newsDetail']);
 Route::get('/news-category/{slug}', [Controller::class, 'newsCategory']);

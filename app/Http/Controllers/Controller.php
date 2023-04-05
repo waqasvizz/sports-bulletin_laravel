@@ -159,6 +159,42 @@ class Controller extends BaseController
         return view('news_detail', compact('data'));
     }
     
+    public function single()
+    {
+        $data =  $this->NewsObj->getNews([
+            'id' => $_GET['id'],
+            'detail' => true
+        ]);
+        if($data){
+            return redirect('news-detail/'.$data->news_slug);
+        }else{
+            abort(404);
+        }
+    }
+    
+    public function newsGET()
+    {
+        $posted_data['detail'] = true; 
+        if(isset($_GET['cat_id'])){
+            $posted_data['sub_category_id'] = $_GET['cat_id'];
+        }
+        if(isset($_GET['main_cat_id'])){
+            $posted_data['category_id'] = $_GET['main_cat_id'];
+        }
+        $data =  $this->NewsObj->getNews($posted_data);
+   
+        if($data){
+            
+            if(isset($_GET['main_cat_id'])){
+                return redirect('news/'.$data->category->slug);
+            }else{
+                return redirect('news/'.$data->category->slug.'/'.$data->sub_category->slug);
+            }
+        }else{
+            abort(404);
+        }
+    }
+    
     public function news($category_slug, $sub_category_slug = '')
     {
         $main_title = slugReverse($category_slug);
@@ -168,7 +204,7 @@ class Controller extends BaseController
         $posted_data['category_slug'] = $category_slug;
         if(isset($sub_category_slug) && !empty($sub_category_slug)){
             $posted_data['sub_category_slug'] = $sub_category_slug;
-            $main_title = slugReverse($category_slug).' '.slugReverse($sub_category_slug);
+            $main_title = slugReverse($category_slug).' - '.slugReverse($sub_category_slug);
         }
         // $posted_data['printsql'] = true;
         $data =  $this->NewsObj->getNews($posted_data);

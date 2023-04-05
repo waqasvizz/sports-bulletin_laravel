@@ -67,6 +67,12 @@ class News extends Model
         if (isset($posted_data['sub_category_slug'])) {
             $query = $query->where('sub_categories.slug', $posted_data['sub_category_slug']);
         }
+        if (isset($posted_data['category_id'])) {
+            $query = $query->where('categories.id', $posted_data['category_id']);
+        }
+        if (isset($posted_data['sub_category_id'])) {
+            $query = $query->where('sub_categories.id', $posted_data['sub_category_id']);
+        }
 
         $query->select('news.*');
         $query->join('categories', 'categories.id', '=' ,'news.categories_id');
