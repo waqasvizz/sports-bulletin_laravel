@@ -51,7 +51,7 @@
                     <td>{{ $item->email }}</td>
                     <td>
                         @foreach ($item->getRoleNames() as $role_key => $role_name)
-                            <span class="role-badge" style="background-color: {{ $item->hasRole('Admin')? '#7367F0':'#6e6b7b' }}">{{ $role_name }} </span>
+                            <span class="role-badge" style="background-color: {{ $item->hasRole('Admin')? '#f5bc04':'#6e6b7b' }}">{{ $role_name }} </span>
                         @endforeach
                     </td>
 

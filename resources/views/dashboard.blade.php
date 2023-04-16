@@ -19,7 +19,7 @@
                             <div class="card">
                                 <div class="card-header flex-column align-items-start pb-0">
                                     <div class="avatar bg-light-primary p-50 m-0">
-                                        <a href="javascript:void()" style="color: #7367F0 !important;">
+                                        <a href="javascript:void()" style="color: #f5bc04 !important;">
                                             <div class="avatar-content">
                                                 <i data-feather="lock" class="font-medium-5"></i>
                                             </div>
@@ -53,7 +53,7 @@
                                         <div class="card">
                                             <div class="card-header flex-column align-items-start pb-0">
                                                 <div class="avatar bg-light-primary p-50 m-0">
-                                                    <a href="javascript:void()" style="color: #7367F0 !important;">
+                                                    <a href="javascript:void()" style="color: #f5bc04 !important;">
                                                         <div class="avatar-content">
                                                             <i data-feather="award" class="font-medium-5"></i>
                                                         </div>
@@ -77,7 +77,7 @@
                             <div class="card">
                                 <div class="card-header flex-column align-items-start pb-0">
                                     <div class="avatar bg-light-primary p-50 m-0">
-                                        <a href="javascript:void()" style="color: #7367F0 !important;">
+                                        <a href="javascript:void()" style="color: #f5bc04 !important;">
                                             <div class="avatar-content">
                                                 <i data-feather="lock" class="font-medium-5"></i>
                                             </div>
@@ -96,7 +96,7 @@
                             <div class="card">
                                 <div class="card-header flex-column align-items-start pb-0">
                                     <div class="avatar bg-light-primary p-50 m-0">
-                                        <a href="javascript:void()" style="color: #7367F0 !important;">
+                                        <a href="javascript:void()" style="color: #f5bc04 !important;">
                                             <div class="avatar-content">
                                                 <i data-feather="user" class="font-medium-5"></i>
                                             </div>
@@ -115,7 +115,7 @@
                             <div class="card">
                                 <div class="card-header flex-column align-items-start pb-0">
                                     <div class="avatar bg-light-primary p-50 m-0">
-                                        <a href="javascript:void()" style="color: #7367F0 !important;">
+                                        <a href="javascript:void()" style="color: #f5bc04 !important;">
                                             <div class="avatar-content">
                                                 <i data-feather="menu" class="font-medium-5"></i>
                                             </div>
@@ -133,7 +133,7 @@
                             <div class="card">
                                 <div class="card-header flex-column align-items-start pb-0">
                                     <div class="avatar bg-light-primary p-50 m-0">
-                                        <a href="javascript:void()" style="color: #7367F0 !important;">
+                                        <a href="javascript:void()" style="color: #f5bc04 !important;">
                                             <div class="avatar-content">
                                                 <i data-feather="menu" class="font-medium-5"></i>
                                             </div>
@@ -152,7 +152,7 @@
                             <div class="card">
                                 <div class="card-header flex-column align-items-start pb-0">
                                     <div class="avatar bg-light-primary p-50 m-0">
-                                        <a href="javascript:void()" style="color: #7367F0 !important;">
+                                        <a href="javascript:void()" style="color: #f5bc04 !important;">
                                             <div class="avatar-content">
                                                 <i data-feather="menu" class="font-medium-5"></i>
                                             </div>
@@ -170,7 +170,7 @@
                             <div class="card">
                                 <div class="card-header flex-column align-items-start pb-0">
                                     <div class="avatar bg-light-primary p-50 m-0">
-                                        <a href="javascript:void()" style="color: #7367F0 !important;">
+                                        <a href="javascript:void()" style="color: #f5bc04 !important;">
                                             <div class="avatar-content">
                                                 <i data-feather="menu" class="font-medium-5"></i>
                                             </div>
@@ -189,7 +189,7 @@
                             <div class="card">
                                 <div class="card-header flex-column align-items-start pb-0">
                                     <div class="avatar bg-light-primary p-50 m-0">
-                                        <a href="javascript:void()" style="color: #7367F0 !important;">
+                                        <a href="javascript:void()" style="color: #f5bc04 !important;">
                                             <div class="avatar-content">
                                                 <i data-feather="menu" class="font-medium-5"></i>
                                             </div>
@@ -208,7 +208,7 @@
                             <div class="card">
                                 <div class="card-header flex-column align-items-start pb-0">
                                     <div class="avatar bg-light-primary p-50 m-0">
-                                        <a href="javascript:void()" style="color: #7367F0 !important;">
+                                        <a href="javascript:void()" style="color: #f5bc04 !important;">
                                             <div class="avatar-content">
                                                 <i data-feather="menu" class="font-medium-5"></i>
                                             </div>
@@ -227,7 +227,7 @@
                             <div class="card">
                                 <div class="card-header flex-column align-items-start pb-0">
                                     <div class="avatar bg-light-primary p-50 m-0">
-                                        <a href="javascript:void()" style="color: #7367F0 !important;">
+                                        <a href="javascript:void()" style="color: #f5bc04 !important;">
                                             <div class="avatar-content">
                                                 <i data-feather="menu" class="font-medium-5"></i>
                                             </div>
@@ -246,7 +246,7 @@
                             <div class="card">
                                 <div class="card-header flex-column align-items-start pb-0">
                                     <div class="avatar bg-light-primary p-50 m-0">
-                                        <a href="javascript:void()" style="color: #7367F0 !important;">
+                                        <a href="javascript:void()" style="color: #f5bc04 !important;">
                                             <div class="avatar-content">
                                                 <i data-feather="menu" class="font-medium-5"></i>
                                             </div>
@@ -265,7 +265,7 @@
                             <div class="card">
                                 <div class="card-header flex-column align-items-start pb-0">
                                     <div class="avatar bg-light-primary p-50 m-0">
-                                        <a href="javascript:void()" style="color: #7367F0 !important;">
+                                        <a href="javascript:void()" style="color: #f5bc04 !important;">
                                             <div class="avatar-content">
                                                 <i data-feather="mail" class="font-medium-5"></i>
                                             </div>
@@ -284,7 +284,7 @@
                             <div class="card">
                                 <div class="card-header flex-column align-items-start pb-0">
                                     <div class="avatar bg-light-primary p-50 m-0">
-                                        <a href="javascript:void()" style="color: #7367F0 !important;">
+                                        <a href="javascript:void()" style="color: #f5bc04 !important;">
                                             <div class="avatar-content">
                                                 <i data-feather="code" class="font-medium-5"></i>
                                             </div>

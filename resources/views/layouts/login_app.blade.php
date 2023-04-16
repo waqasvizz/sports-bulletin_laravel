@@ -89,7 +89,7 @@
                                         </g>
                                     </g>
                                 </svg> --}}
-                                <img src="{{ asset('app-assets/images/ico/apple-icon-120.png') }}" style="max-width: 180px; border-radius: 6px;">
+                                <img height="70px" src="{{ asset('app-assets/images/ico/apple-icon-120.png') }}" style="max-width: 180px; border-radius: 6px;">
                                 {{-- <h2 class="brand-text text-primary ml-1">{{ config('app.name') }}</h2> --}}
                             </a>
 

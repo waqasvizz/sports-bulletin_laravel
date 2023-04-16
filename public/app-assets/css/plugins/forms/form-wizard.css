@@ -64,18 +64,18 @@
 
 .bs-stepper .bs-stepper-header .temp-step.active .step-trigger .bs-stepper-box ,
   .bs-stepper .bs-stepper-header .step.active .step-trigger .bs-stepper-box {
-  background-color: #7367F0;
+  background-color: #f5bc04;
   color: #fff;
   box-shadow: 0 3px 6px 0 rgba(115, 103, 240, 0.4); }
 
 .bs-stepper .bs-stepper-header .temp-step.active .step-trigger .bs-stepper-label .bs-stepper-title ,
   .bs-stepper .bs-stepper-header .step.active .step-trigger .bs-stepper-label .bs-stepper-title {
-  color: #7367F0; }
+  color: #f5bc04; }
 
 .bs-stepper .bs-stepper-header .temp-step.crossed .step-trigger .bs-stepper-box ,
   .bs-stepper .bs-stepper-header .step.crossed .step-trigger .bs-stepper-box {
   background-color: rgba(115, 103, 240, 0.12);
-  color: #7367F0 !important; }
+  color: #f5bc04 !important; }
 
 .bs-stepper .bs-stepper-header .temp-step.crossed .step-trigger .bs-stepper-label .bs-stepper-title ,
   .bs-stepper .bs-stepper-header .step.crossed .step-trigger .bs-stepper-label .bs-stepper-title {
@@ -83,7 +83,7 @@
 
 .bs-stepper .bs-stepper-header .temp-step.crossed + .line ,
 .bs-stepper .bs-stepper-header .step.crossed + .line {
-  color: #7367F0; }
+  color: #f5bc04; }
 
 .bs-stepper .bs-stepper-header .temp-step:first-child .step-trigger ,
 .bs-stepper .bs-stepper-header .step:first-child .step-trigger {
@@ -166,13 +166,13 @@
 
 .dark-layout .bs-stepper .bs-stepper-header .temp-step.active .step-trigger .bs-stepper-box ,
 .dark-layout .bs-stepper .bs-stepper-header .step.active .step-trigger .bs-stepper-box {
-  background-color: #7367F0;
+  background-color: #f5bc04;
   color: #fff;
   box-shadow: 0 3px 6px 0 rgba(115, 103, 240, 0.4); }
 
 .dark-layout .bs-stepper .bs-stepper-header .temp-step.active .step-trigger .bs-stepper-label .bs-stepper-title ,
 .dark-layout .bs-stepper .bs-stepper-header .step.active .step-trigger .bs-stepper-label .bs-stepper-title {
-  color: #7367F0; }
+  color: #f5bc04; }
 
   .dark-layout .bs-stepper .bs-stepper-header .temp-step.crossed .step-trigger .bs-stepper-label,
   .dark-layout .bs-stepper .bs-stepper-header .temp-step.crossed .step-trigger .bs-stepper-title,
