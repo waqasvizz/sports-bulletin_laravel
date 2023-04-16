@@ -19,7 +19,7 @@
                             onclick="window.print()"><i style="font-size: 20px" class="fa fa-print"
                                 aria-hidden="true"></i></button><br>
                         <img src="{{ is_image_exist($data['news_detail']->image_path) }}" alt="{{ $data['news_detail']->title }}"
-                            style="border: 2px solid gray; border-radius: 10px; max-width: 100%">
+                            style="border: 2px solid gray; border-radius: 10px; max-width: 100%; max-height: 500px;">
                     </div>
                     <div class="fh5co_heading fh5co_heading_border_bottom py-2 mb-4 text-uppercase text-center">
                         <b>{{ $data['news_detail']->title }}</b>
