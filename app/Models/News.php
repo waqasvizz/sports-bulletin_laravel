@@ -117,6 +117,9 @@ class News extends Model
             $data = new News;
         }
 
+        if (isset($posted_data['id'])) {
+            $data->id = $posted_data['id'];
+        }
         if (isset($posted_data['title'])) {
             $data->title = $posted_data['title'];
         }

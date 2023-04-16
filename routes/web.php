@@ -30,12 +30,12 @@ use App\Http\Controllers\OwnAdController;
 */
 
 Route::get('/clear-cache', function() {
-    Artisan::call('optimize');
+    //Artisan::call('optimize');
     Artisan::call('cache:clear');
     Artisan::call('view:clear');
-    //Artisan::call('route:cache');
-    //Artisan::call('route:clear');
-    //Artisan::call('config:cache');
+    Artisan::call('route:cache');
+    Artisan::call('route:clear');
+    Artisan::call('config:cache');
     return '<h1>Cache facade value cleared</h1>';
 })->name('clear-cache');
 

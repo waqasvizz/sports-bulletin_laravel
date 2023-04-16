@@ -147,7 +147,7 @@
                                         </div>
                                         <a href="{{ url('/news-detail') }}/{{ $value->news_slug }}"
                                             class="fh5co_magna py-2">{{ $value->title }}</a> <br>
-                                        <div class="short_desc">{!! $value->news_description !!}</div>
+                                        <div class="short_desc">{!! strip_tags($value->news_description) !!}</div>
                                     </div>
                                 </div>
                             </div>
