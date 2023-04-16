@@ -91,6 +91,9 @@ class OwnAd extends Model
         }
         
 
+        if (isset($posted_data['id'])) {
+            $data->id = $posted_data['id'];
+        }
         if (isset($posted_data['own_ad_title'])) {
             $data->own_ad_title = $posted_data['own_ad_title'];
         }

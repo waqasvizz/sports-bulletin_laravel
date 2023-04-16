@@ -77,7 +77,7 @@ class UserController extends Controller
         //         $data['sub_categories_id'] = $cat_detail->id;
         //         $data['status'] = 'Published';
         //         $data['news_date'] = $value->news_date;
-        //         $data['image_path'] = 'news_image/'.$value->image;
+        //         $data['image_path'] = 'news_image/optimized/'.$value->image;
         //         $data['news_description'] = $value->description;
         //         $this->NewsObj->saveUpdateNews($data);
         //     }
@@ -97,7 +97,7 @@ class UserController extends Controller
         //         $data['staff_title'] = $value->staff_name;
         //         $data['staff_description'] = $value->staff_detail;
         //         $data['staff_status'] = 'Published';
-        //         $data['staff_image'] = 'staff_image/'.$value->staff_image;
+        //         $data['staff_image'] = 'staff_image/optimized/'.$value->staff_image;
         //         $this->StaffObj->saveUpdateStaff($data);
         //     }
 		// }
@@ -115,7 +115,7 @@ class UserController extends Controller
         //         $data['id'] = $value->ad_id;
         //         $data['own_ad_title'] = $value->ad_name;
         //         $data['own_ad_description'] = $value->ad_detail;
-        //         $data['own_ad_image'] = 'own_ad_image/'.$value->ad_image;
+        //         $data['own_ad_image'] = 'own_ad_image/optimized/'.$value->ad_image;
         //         $data['own_ad_status'] = 'Published';
         //         $this->OwnAdObj->saveUpdateOwnAd($data);
         //     }
