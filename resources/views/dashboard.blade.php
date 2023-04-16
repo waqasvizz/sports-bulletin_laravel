@@ -184,6 +184,82 @@
                     @endcan
 
 
+                    @can('news-list')
+                        <div class="col-lg-3 col-sm-6 col-12">
+                            <div class="card">
+                                <div class="card-header flex-column align-items-start pb-0">
+                                    <div class="avatar bg-light-primary p-50 m-0">
+                                        <a href="javascript:void()" style="color: #7367F0 !important;">
+                                            <div class="avatar-content">
+                                                <i data-feather="menu" class="font-medium-5"></i>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <h2 class="font-weight-bolder mt-1">{{ isset($data['counts']['news'])? $data['counts']['news']:0 }}</h2>
+                                    <p class="card-text mb-1">News</p>
+                                </div>
+                            </div>
+                        </div>
+                    @endcan
+
+
+                    @can('blog-list')
+                        <div class="col-lg-3 col-sm-6 col-12">
+                            <div class="card">
+                                <div class="card-header flex-column align-items-start pb-0">
+                                    <div class="avatar bg-light-primary p-50 m-0">
+                                        <a href="javascript:void()" style="color: #7367F0 !important;">
+                                            <div class="avatar-content">
+                                                <i data-feather="menu" class="font-medium-5"></i>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <h2 class="font-weight-bolder mt-1">{{ isset($data['counts']['blogs'])? $data['counts']['blogs']:0 }}</h2>
+                                    <p class="card-text mb-1">Blogs</p>
+                                </div>
+                            </div>
+                        </div>
+                    @endcan
+
+
+                    @can('staff-list')
+                        <div class="col-lg-3 col-sm-6 col-12">
+                            <div class="card">
+                                <div class="card-header flex-column align-items-start pb-0">
+                                    <div class="avatar bg-light-primary p-50 m-0">
+                                        <a href="javascript:void()" style="color: #7367F0 !important;">
+                                            <div class="avatar-content">
+                                                <i data-feather="menu" class="font-medium-5"></i>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <h2 class="font-weight-bolder mt-1">{{ isset($data['counts']['staff'])? $data['counts']['staff']:0 }}</h2>
+                                    <p class="card-text mb-1">Staffs</p>
+                                </div>
+                            </div>
+                        </div>
+                    @endcan
+
+
+                    @can('ownAd-list')
+                        <div class="col-lg-3 col-sm-6 col-12">
+                            <div class="card">
+                                <div class="card-header flex-column align-items-start pb-0">
+                                    <div class="avatar bg-light-primary p-50 m-0">
+                                        <a href="javascript:void()" style="color: #7367F0 !important;">
+                                            <div class="avatar-content">
+                                                <i data-feather="menu" class="font-medium-5"></i>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <h2 class="font-weight-bolder mt-1">{{ isset($data['counts']['own_ads'])? $data['counts']['own_ads']:0 }}</h2>
+                                    <p class="card-text mb-1">OwnAds</p>
+                                </div>
+                            </div>
+                        </div>
+                    @endcan
+
+
                     @can('email-template-list')
                         <div class="col-lg-3 col-sm-6 col-12">
                             <div class="card">

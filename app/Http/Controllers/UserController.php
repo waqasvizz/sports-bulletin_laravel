@@ -209,6 +209,22 @@ class UserController extends Controller
             'count' => true
         ]);
 
+        $data['counts']['news'] = $this->NewsObj->getNews([
+            'count' => true
+        ]);
+
+        $data['counts']['blogs'] = $this->BlogObj->getBlog([
+            'count' => true
+        ]);
+
+        $data['counts']['staff'] = $this->StaffObj->getStaff([
+            'count' => true
+        ]);
+
+        $data['counts']['own_ads'] = $this->OwnAdObj->getOwnAd([
+            'count' => true
+        ]);
+
 
 
 
