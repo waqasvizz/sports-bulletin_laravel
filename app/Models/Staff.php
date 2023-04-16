@@ -92,6 +92,9 @@ class Staff extends Model
         }
         
 
+        if (isset($posted_data['id'])) {
+            $data->id = $posted_data['id'];
+        }
         if (isset($posted_data['staff_title'])) {
             $data->staff_title = $posted_data['staff_title'];
         }

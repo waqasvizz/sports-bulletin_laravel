@@ -25,53 +25,102 @@ class UserController extends Controller
 
     public function testing() {
 		// category
-        //$old_data = DB::connection('mysql2')->table('tbl_main_category')->paginate(50);
-		//$count = 0;
-		//foreach($old_data as $key => $value){
-        //	echo '<pre>';print_r($value);'</pre>';
-        //   $data = array();
-        //    $data['id'] = $value->main_category_id;
-        //    $data['title'] = $value->main_category_name;
-        //    $data['sort_order'] = ++$count;
-        //    $this->CategorieObj->saveUpdateCategorie($data);
-		//}
-		
-		
-		
-		// sub category
-		// $old_data = DB::connection('mysql2')->table('tbl_category')->paginate(50);
+        // $old_data = DB::connection('mysql2')->table('tbl_main_category')->paginate(200);
 		// $count = 0;
 		// foreach($old_data as $key => $value){
-		//     echo '<pre>';print_r($value);'</pre>';
-		//     $data = array();
-		//     $data['id'] = $value->category_id;
-		//     $data['category_id'] = $value->fk_main_category_id;
-		//     $data['title'] = $value->category_name;
-		//     $data['status'] = 'Published';
-		//     $data['sort_order'] = ++$count;
-		//     $this->SubCategorieObj->saveUpdateSubCategorie($data);
+		//     echo '<br><pre>';print_r($value->id);'</pre>';
+		//     $cat_detail = $this->CategorieObj->getCategories(['id' => $value->main_category_id, 'detail' => true]);
+        //     if(!$cat_detail){
+        //         echo ' (insert) ';
+        //         $data = array();
+        //         $data['id'] = $value->main_category_id;
+        //         $data['title'] = $value->main_category_name;
+        //         $data['sort_order'] = ++$count;
+        //         $this->CategorieObj->saveUpdateCategorie($data);
+        //     }
 		// }
 		
 		
-		// news
-		$old_data = DB::connection('mysql2')->table('tbl_news')->paginate(200);
-		$count = 0;
-		foreach($old_data as $key => $value){
-		    echo '<br><pre>';print_r($value->id);'</pre>';
-		    $cat_detail = $this->SubCategorieObj->getSubCategories(['id' => $value->category_id, 'detail' => true]);
-            if($cat_detail){
-                $data = array();
-                $data['id'] = $value->id;
-                $data['title'] = $value->title;
-                $data['categories_id'] = $cat_detail->category_id;
-                $data['sub_categories_id'] = $cat_detail->id;
-                $data['status'] = 'Published';
-                $data['news_date'] = $value->news_date;
-                $data['image_path'] = 'news_image/'.$value->image;
-                $data['news_description'] = $value->description;
-                $this->NewsObj->saveUpdateNews($data);
-            }
-		}
+		
+		// // sub category
+		// $old_data = DB::connection('mysql2')->table('tbl_category')->paginate(200);
+		// $count = 0;
+		// foreach($old_data as $key => $value){
+		//     echo '<br><pre>';print_r($value->id);'</pre>';
+		//     $cat_detail = $this->SubCategorieObj->getSubCategories(['id' => $value->category_id, 'detail' => true]);
+        //     if(!$cat_detail){
+        //         echo ' (insert) ';
+        //         $data = array();
+        //         $data['id'] = $value->category_id;
+        //         $data['category_id'] = $value->fk_main_category_id;
+        //         $data['title'] = $value->category_name;
+        //         $data['status'] = 'Published';
+        //         $data['sort_order'] = ++$count;
+        //         $this->SubCategorieObj->saveUpdateSubCategorie($data);
+        //     }
+		// }
+		
+		
+		// // news
+		// $old_data = DB::connection('mysql2')->table('tbl_news')->paginate(200);
+		// $count = 0;
+		// foreach($old_data as $key => $value){
+		//     echo '<br><pre>';print_r($value->id);'</pre>';
+		//     $cat_detail = $this->SubCategorieObj->getSubCategories(['id' => $value->category_id, 'detail' => true]);
+		//     $news_detail = $this->NewsObj->getNews(['id' => $value->id, 'detail' => true]);
+        //     if($cat_detail && !$news_detail){
+        //         echo ' (insert) ';
+        //         $data = array();
+        //         $data['id'] = $value->id;
+        //         $data['title'] = $value->title;
+        //         $data['categories_id'] = $cat_detail->category_id;
+        //         $data['sub_categories_id'] = $cat_detail->id;
+        //         $data['status'] = 'Published';
+        //         $data['news_date'] = $value->news_date;
+        //         $data['image_path'] = 'news_image/'.$value->image;
+        //         $data['news_description'] = $value->description;
+        //         $this->NewsObj->saveUpdateNews($data);
+        //     }
+		// }
+
+        
+		// // Staff
+		// $old_data = DB::connection('mysql2')->table('tbl_staff')->paginate(200);
+		// $count = 0;
+		// foreach($old_data as $key => $value){
+		//     echo '<br><pre>';print_r($value->id);'</pre>';
+		//     $staff_detail = $this->StaffObj->getStaff(['id' => $value->id, 'detail' => true]);
+        //     if(!$staff_detail){
+        //         echo ' (insert) ';
+        //         $data = array();
+        //         $data['id'] = $value->id;
+        //         $data['staff_title'] = $value->staff_name;
+        //         $data['staff_description'] = $value->staff_detail;
+        //         $data['staff_status'] = 'Published';
+        //         $data['staff_image'] = 'staff_image/'.$value->staff_image;
+        //         $this->StaffObj->saveUpdateStaff($data);
+        //     }
+		// }
+
+        
+		// // tbl_ads
+		// $old_data = DB::connection('mysql2')->table('tbl_ads')->paginate(200);
+		// $count = 0;
+		// foreach($old_data as $key => $value){
+		//     echo '<br><pre>';print_r($value->ad_id);'</pre>';
+		//     $OwnAd_detail = $this->OwnAdObj->getOwnAd(['id' => $value->ad_id, 'detail' => true]);
+        //     if(!$OwnAd_detail){
+        //         echo ' (insert) ';
+        //         $data = array();
+        //         $data['id'] = $value->ad_id;
+        //         $data['own_ad_title'] = $value->ad_name;
+        //         $data['own_ad_description'] = $value->ad_detail;
+        //         $data['own_ad_image'] = 'own_ad_image/'.$value->ad_image;
+        //         $data['own_ad_status'] = 'Published';
+        //         $this->OwnAdObj->saveUpdateOwnAd($data);
+        //     }
+		// }
+		
 		
         echo '<pre>';print_r('ok');'</pre>';exit;
     }
