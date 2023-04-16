@@ -285,6 +285,7 @@ class Controller extends BaseController
     
     public function contactUsSubmit(Request $request)
     {
+        return redirect()->back();
         $posted_data = $request->all();
         
         // $this->EmailLogObj->saveUpdateEmailLogs([
