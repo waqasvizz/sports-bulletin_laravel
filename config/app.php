@@ -55,20 +55,9 @@ return [
     |
     */
 
-    // 'url' => env('APP_URL', 'http://localhost'),
-
-    // 'asset_url' => env('ASSET_URL', null),
-
-
-
-    // 'url' => env('APP_URL', 'http://localhost:8000'),
-
-    // 'asset_url' => env('ASSET_URL', null),
-
-
-    'url' => env('APP_ENV') == 'local' ? 'http://localhost:8000' : 'https://urbanpods.yopla.co.uk/public/',
-
-    'asset_url' => env('APP_ENV') == 'local' ? '' : 'https://urbanpods.yopla.co.uk/public/',
+     'url' => env('APP_URL', 'http://localhost:8000'),
+     'asset_url' => env('ASSET_URL', null),
+     
     /*
     |--------------------------------------------------------------------------
     | Application Timezone
