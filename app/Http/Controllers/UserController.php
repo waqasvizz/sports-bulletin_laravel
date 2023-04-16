@@ -114,7 +114,7 @@ class UserController extends Controller
             \Auth::logout();
 
         }
-        return redirect('/login');
+        return redirect('/sb-login');
     }
     
 
@@ -564,7 +564,7 @@ class UserController extends Controller
                 \Session::flash('error_message', $e->getMessage());
                 // dd("Error: ". $e->getMessage());
             }
-            return redirect('/login');
+            return redirect('/sb-login');
         }
     }
     
@@ -611,7 +611,7 @@ class UserController extends Controller
                     ->subject($data['subject']);
                 });
                 \Session::flash('message', 'Your password has been changed successfully please check you email!');
-                return redirect('/login');
+                return redirect('/sb-login');
             }
 
         }

@@ -1,3 +1,7 @@
+<script>
+    const base_url = "{{ url('/') }}";
+    const asset_base_url = "{{ asset('/') }}";
+</script>
 <!DOCTYPE html>
 <html class="loading {{  isset(Auth::user()->theme_mode) && Auth::user()->theme_mode  == 'Light' ? 'light-layout':'dark-layout' }}" lang="en" data-textdirection="ltr">
 <!-- BEGIN: Head-->

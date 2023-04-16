@@ -95,10 +95,10 @@ Route::get('/clear-cache', function() {
 //     return view('auth_v1.login');
 // })->name('welcome');
 
-Route::get('/login', function () {
+Route::get('/sb-login', function () {
     redirect()->route('clear-cache');
     return view('auth_v1.login');
-})->name('login');
+})->name('sb-login');
 
 Route::get('/test', [UserController::class, 'testing']);
 // Route::get('/', [UserController::class, 'welcome']);
@@ -124,9 +124,9 @@ Route::get('/events/{event_slug?}', [Controller::class, 'events']);
 Route::POST('/contactUsSubmit', [Controller::class, 'contactUsSubmit']);
 Route::POST('/search_list', [Controller::class, 'searchCategorylist']);
 
-Route::get('/register', [UserController::class, 'register'])->name('register');
-Route::get('/forgot-password', [UserController::class, 'forgotPassword'])->name('forgotPassword');
-Route::get('/reset-password', [UserController::class, 'resetPassword'])->name('resetPassword');
+// Route::get('/register', [UserController::class, 'register'])->name('register');
+// Route::get('/forgot-password', [UserController::class, 'forgotPassword'])->name('forgotPassword');
+// Route::get('/reset-password', [UserController::class, 'resetPassword'])->name('resetPassword');
 
 Route::post('/accountRegister', [UserController::class, 'accountRegister'])->name('accountRegister');
 Route::post('/accountLogin', [UserController::class, 'accountLogin'])->name('accountLogin');

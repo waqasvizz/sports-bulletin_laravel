@@ -44,6 +44,61 @@
     </div>
     @endif
 
+    {{-- @if(Request::path() == '/')
+    <div class="container-fluid top_carousel">
+        <div id="carouselExample" class="carousel slide" data-ride="carousel" data-interval="12000">
+            <div class="carousel-inner row w-100 mx-auto flex-nowrap" role="listbox">
+                @if(isset($data) && count($data)>0)
+                    @php
+                        $is_div_close = true;
+                    @endphp
+                @foreach($data as $key => $value)
+                @php
+                    $is_div_close = false;
+                @endphp
+                @if ($key == 0 || $key == 4)
+                    <div class="carousel-item  col-md-12 {{ $key == 0? 'active' : '' }}">
+                        <div class="row">
+                @endif
+                    <div class="col-md-3 top-carousel-item-inner"
+                        style="background: linear-gradient(0deg, rgba(0, 0, 0, 0.44), rgba(17, 17, 17, 0.44)), url('{{ is_image_exist($value->image_path) }}');background-size: 100% 100%;">
+                        <div class="d-block text-center">
+                            <p><span style="background-color: {{ randomColor() }}"><a
+                                        href="{{ url('/news') }}/{{ $value->category->slug }}">{{ $value->category->title }}
+                                        - </a><a
+                                        href="{{ url('/news') }}/{{ $value->category->slug }}/{{ $value->sub_category->slug }}">{{ $value->sub_category->title }}</a></span>
+                            </p>
+                            <h1><a href="{{ url('/news-detail') }}/{{ $value->news_slug }}">{{ $value->title }}</a></h1>
+                            <h5>{{ date('l, F d, Y', strtotime($value->news_date)) }}</h5>
+                        </div>
+                    </div>
+                @if ($key == 3 || $key == 7)
+                    @php
+                        $is_div_close = true;
+                    @endphp
+                    </div>
+                </div>
+                @endif
+                @endforeach
+                    @if (!$is_div_close)
+                        </div>
+                    </div>   
+                    @endif
+                @endif
+
+            </div>
+            <a class="carousel-control-prev" href="#carouselExample" role="button" data-slide="prev">
+                <i class="fa fa-chevron-left fa-lg text-muted"></i>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next text-faded" href="#carouselExample" role="button" data-slide="next">
+                <i class="fa fa-chevron-right fa-lg text-muted"></i>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
+    </div>
+    @endif --}}
+
 
     <div class="container-fluid pb-4 pt-4 paddding">
         <div class="container paddding">

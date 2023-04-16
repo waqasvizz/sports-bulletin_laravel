@@ -74,7 +74,7 @@
 
 <p class="text-center mt-2">
     <span>Already have an account?</span>
-    <a href="{{ route('login') }}">
+    <a href="{{ route('sb-login') }}">
         <span>Sign in instead</span>
     </a>
 </p>

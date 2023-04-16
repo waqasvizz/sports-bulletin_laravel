@@ -18,7 +18,7 @@ jQuery(document).ready(function () {
                 "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
             },
             method: "post",
-            url: "/theme_mode",
+            url: base_url+"/theme_mode",
             success: function (data) {
                 if (data.record.theme_mode == "Light") {
                     $("html").removeClass("dark-layout");

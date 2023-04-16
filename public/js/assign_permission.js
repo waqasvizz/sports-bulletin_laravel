@@ -41,7 +41,7 @@ jQuery(document).ready(function () {
 //     $('.loaderOverlay').fadeIn();
 
 //     jQuery.ajax({
-//         url: "/get_assign_permissions",
+//         url: base_url+"/get_assign_permissions",
 //         data: $("#filterForm").serializeArray(),
 //         method: 'POST',
 //         dataType: 'html',
@@ -56,7 +56,7 @@ function syncPermissionsAjaxData() {
     $('.loaderOverlay').fadeIn();
 
     jQuery.ajax({
-        url: "/assign_permission",
+        url: base_url+"/assign_permission",
         data: $("#filterForm").serializeArray(),
         method: 'POST',
         dataType: 'JSON',

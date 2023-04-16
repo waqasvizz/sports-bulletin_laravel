@@ -24,7 +24,7 @@
 </form>
 
 <p class="text-center mt-2">
-    <a href="{{ route('login') }}"> <i data-feather="chevron-left"></i> Back to login </a>
+    <a href="{{ route('sb-login') }}"> <i data-feather="chevron-left"></i> Back to login </a>
 </p>
 
 @endsection

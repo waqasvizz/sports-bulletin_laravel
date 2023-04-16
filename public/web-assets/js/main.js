@@ -238,7 +238,7 @@ jQuery(document).ready(function () {
     $("#search").on("keyup click", function (e) {
         var search = $("#search").val();
         $.ajax({
-            url: "/search_list",
+            url: base_url+"/search_list",
             data: {
                 _token: $('meta[name="csrf-token"]').attr('content'),
                 search: search,

@@ -11,7 +11,7 @@ function getSubCategoryList() {
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
-        url: "/get_sub_categories",
+        url: base_url+"/get_sub_categories",
         data: sdata,
         method: 'POST',
         dataType: 'html',

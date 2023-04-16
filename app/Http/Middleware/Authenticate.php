@@ -24,7 +24,7 @@ class Authenticate extends Middleware
                 exit();
             }
             else
-                return route('login');
+                return route('sb-login');
         }
     }
 }

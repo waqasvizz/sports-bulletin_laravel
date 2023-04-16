@@ -21,12 +21,12 @@
     </div>
 
     <div class="form-group">
-        <div class="d-flex justify-content-between">
+        {{-- <div class="d-flex justify-content-between">
             <label for="password">Password</label>
             <a href="{{ route('forgotPassword') }}">
                 <small>Forgot Password?</small>
             </a>
-        </div>
+        </div> --}}
         <div class="input-group input-group-merge form-password-toggle">
             <input required type="password" class="form-control @error('password') is-invalid @enderror form-control-merge" id="password" name="password" tabindex="2" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" />
             @error('password')
@@ -39,12 +39,12 @@
             </div>
         </div>
     </div>
-    <div class="form-group">
+    {{-- <div class="form-group">
         <div class="custom-control custom-checkbox">
             <input class="custom-control-input" type="checkbox" id="remember-me" tabindex="3" />
             <label class="custom-control-label" for="remember-me"> Remember Me </label>
         </div>
-    </div>
+    </div> --}}
     <button class="btn btn-primary btn-block" tabindex="4">Sign in</button>
     <br><br>
 </form>
