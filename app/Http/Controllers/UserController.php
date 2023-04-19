@@ -561,7 +561,7 @@ class UserController extends Controller
                             ])->withInput();
                         }
                         $imageData = array();
-                        $imageData['imagePath'] = $update_rec['profile_image'];
+                        $imageData['imagePath'] = $posted_data['profile_image'];
                         unlinkUploadedAssets($imageData);
                         
                     }else{
