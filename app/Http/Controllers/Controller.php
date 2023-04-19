@@ -285,19 +285,48 @@ class Controller extends BaseController
     
     public function contactUsSubmit(Request $request)
     {
-        return redirect()->back();
         $posted_data = $request->all();
+        $body = "<h2>Hey, It's me ".$posted_data['name']."</h2> 
+        <br>
+            
+        <strong>User details: </strong><br>
+        <strong>Name: </strong>".$posted_data['name']." <br>
+        <strong>Email: </strong>".$posted_data['email']." <br>
+        <strong>Subject: </strong>".$posted_data['subject']." <br>
+        <strong>Message: </strong>".$posted_data['message']." <br><br>
+          
+        Thank you";
         
-        // $this->EmailLogObj->saveUpdateEmailLogs([
-        //     'user_id' => $chat->receiver_user_id,
-        //     'template_id' => $temp_rec->id,
-        //     'email' => $chat->rec_user_email,
-        //     'message' => $generated_html,
-        //     'subject' => $temp_rec->title,
-        //     'response' => json_encode($response_data),
-        // ]);
+        $data = [
+            'email' => 'info@sports-bulletin.com',
+            'subject' => $posted_data['subject'],
+            'body' => $body
+        ];
+
+        Mail::send('emails.email_template', $data, function ($message) use ($data) {
+            $message->to($data['email'])
+                ->subject($data['subject']);
+        });
+
+        \Session::flash('message', 'Your form submitted successfully!');
+        return back();
+
+        // echo '<pre>';print_r($data);echo '</pre>';exit;
+
+        // // return redirect()->back();
+        // $posted_data = $request->all();
+        // echo '<pre>';print_r($posted_data);echo '</pre>';exit;
         
-        echo '<pre>';print_r($posted_data);echo '</pre>';exit;
+        // // $this->EmailLogObj->saveUpdateEmailLogs([
+        // //     'user_id' => $chat->receiver_user_id,
+        // //     'template_id' => $temp_rec->id,
+        // //     'email' => $chat->rec_user_email,
+        // //     'message' => $generated_html,
+        // //     'subject' => $temp_rec->title,
+        // //     'response' => json_encode($response_data),
+        // // ]);
+        
+        // echo '<pre>';print_r($posted_data);echo '</pre>';exit;
     }
     
     public function ourStaffPage()

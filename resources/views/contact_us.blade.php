@@ -70,7 +70,16 @@
             </div>
             <div class="row">
                 <div class="col-12 col-md-6">
+                    
+                    @if (Session::has('message'))
+                        <div class="alert alert-success"><b>Success: </b>{{ Session::get('message') }}</div>
+                    @endif
+                    @if (Session::has('error_message'))
+                        <div class="alert alert-danger"><b>Sorry: </b>{{ Session::get('error_message') }}</div>
+                    @endif
+
                     <form class="row" id="fh5co_contact_form" method="post" action="{{ url('contactUsSubmit') }}">
+
                         @csrf
                         <div class="col-12 py-3">
                             <input type="text" name="name" class="form-control fh5co_contact_text_box" required
@@ -93,7 +102,7 @@
                             <div id="error_msg" class="alert alert-danger"></div>
                         </div> -->
                         <div class="col-12 py-3 text-center">
-                            <img id="load_img" alt="loading">
+                            <img id="load_img" alt="loading" style="display: none;">
                             <button type="submit" class="btn contact_btn" id="send_btn">Send Message</button>
                             <!--                        <a href="javascript:void(0)" class="btn contact_btn">Send Message</a>-->
                         </div>

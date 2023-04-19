@@ -153,7 +153,7 @@ a:not([href]):hover {
 }
 
 .text-body[href]:hover {
-  color : #5e50ee !important;
+  color : #f5bc04 !important;
 }
 
 code {
