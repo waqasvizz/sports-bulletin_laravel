@@ -308,7 +308,7 @@ class Controller extends BaseController
                 ->subject($data['subject']);
         });
 
-        \Session::flash('message', 'Your form submitted successfully!');
+        \Session::flash('message', 'Thank you for contact with us admin will response your request shortly!');
         return back();
 
         // echo '<pre>';print_r($data);echo '</pre>';exit;
