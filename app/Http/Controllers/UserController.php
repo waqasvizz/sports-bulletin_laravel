@@ -504,7 +504,7 @@ class UserController extends Controller
             'email' => 'required|email|unique:users,email,'.$id.',id',
             'last_name' => 'required',
             'first_name' => 'required',
-            'user_role' => 'required'
+            // 'user_role' => 'required'
         );
         
         $messages = array(
@@ -520,11 +520,11 @@ class UserController extends Controller
 
             try{
                 $posted_data['update_id'] = $id;
-                $posted_data['role'] = $posted_data['user_role'];
 
                 $user = $this->UserObj->getUser(['id' => $id, 'detail' => true]);
 
-                if ($user) {
+                if ($user && isset($posted_data['user_role'])) {
+                    $posted_data['role'] = $posted_data['user_role'];
                     $pre_role = count($user->getRoleNames()) > 0 ? $user->getRoleNames()[0] : '';
                     $user->removeRole($pre_role);
                     $user->assignRole($posted_data['user_role']);
@@ -557,11 +557,11 @@ class UserController extends Controller
                         $posted_data['profile_image'] = $uploadAssetRes;
                         if(!$uploadAssetRes){
                             return back()->withErrors([
-                                'profile_image' => 'Something wrong with your icon image, please try again later!',
+                                'profile_image' => 'Something wrong with your profile image, please try again later!',
                             ])->withInput();
                         }
                         $imageData = array();
-                        $imageData['imagePath'] = $posted_data['profile_image'];
+                        $imageData['imagePath'] = $user->profile_image;
                         unlinkUploadedAssets($imageData);
                         
                     }else{

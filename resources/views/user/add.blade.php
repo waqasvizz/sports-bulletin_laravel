@@ -119,6 +119,7 @@
                                         </div>
                                     </div>
 
+                                    @if (Auth::user()->hasRole('Super Admin'))
                                     <div class="col-md-4 col-12">
                                         <div class="form-group">
                                             <label for="user_role">User Role</label>
@@ -126,11 +127,14 @@
                                                 <option value="">Choose an option </option>
                                                 @if (isset($data['roles']) && count($data['roles'])>0)
                                                     @foreach ($data['roles'] as $item)
+                                                    @php
+                                                    $pre_role = count($data->getRoleNames()) > 0 ? $data->getRoleNames()[0] : '';
+                                                    @endphp
 
                                                         @if ( $item['name'] == 'Super Admin' )
                                                             @continue
                                                         @endif
-                                                        <option {{ old('user_role') == $item['name'] || (isset($data->user_role) && $data->user_role==$item['name'])? 'selected': '' }} value="{{ $item['name'] }}">{{ $item['name'] }}</option>
+                                                        <option {{ old('user_role') == $item['name'] || ($pre_role==$item['name'])? 'selected': '' }} value="{{ $item['name'] }}">{{ $item['name'] }}</option>
                                                     @endforeach
                                                 @endif
                                             </select>
@@ -141,6 +145,7 @@
                                             @enderror
                                         </div>
                                     </div>
+                                    @endif
                                         
                                     <div class="col-12">
                                         <button type="submit" class="btn btn-primary mr-1 waves-effect waves-float waves-light">{{ isset($data->id)? 'Update':'Add' }}</button>
