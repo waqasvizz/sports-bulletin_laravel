@@ -16,7 +16,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="subject" content="Your window to latest news, analysis and features from Pakistan and the world">
-    <meta name="keywords" content="Sports, News, Pakistan">
+    {{-- <meta name="keywords" content="Sports, News, Pakistan"> --}}
+    <meta name="keywords" content="Sports, News, Pakistan, BASEBALL & SOFTBALL, CRICKET LGS, ICE HOCKEY, FOOTBALL, TABLE TENNIS, MARTIAL ARTS, SPORTS NEWS, SQUASH, KABADDI, BADMINTON, TENPIN BOWLING, ARTICLES, BILLARD & SNOOKER, PSB NEWS, OLYMPIC, ATHLETICS, BOXING, CLIMBING, WEIGHTLIFTING, GOLF, CYCLING, POLO, ARCHERY, BASKETBALL, CHESS, VOLLEYBALL, TENNIS, CRICKET, HOCKEY">
     <meta name="description" content="@yield('meta_description')">
     <meta name="robots" content="index, archive">
     {{-- <title>Home - Sport bulletin</title> --}}
