@@ -2,9 +2,15 @@
 <html lang="en" class="no-js">
 
 <head>
-    <meta name="google-site-verification" content="7FtPqv37iuqXeRunk8rbu1RxJTJD3rFnH6_fGNZYopk" />
-    <!-- <script data-ad-client="ca-pub-6768282844435410" async
-        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> -->
+    @if ($_SERVER['DOCUMENT_ROOT'] == '/var/www/vhosts/sports-bulletin.com/public_html')
+    
+        <!-- publishers.propellerads meta tag start -->
+        {{-- <meta name="propeller" content="debd68af98ba3e964e2bbb43f8f023d9"> --}}
+        <!-- publishers.propellerads meta tag end -->
+
+        <meta name="google-site-verification" content="7FtPqv37iuqXeRunk8rbu1RxJTJD3rFnH6_fGNZYopk" />
+        <script data-ad-client="ca-pub-6768282844435410" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    @endif
     <!-- Required meta tags -->
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <meta charset="utf-8">
@@ -33,8 +39,9 @@
     <!-- Modernizr JS -->
     <script src="{{ asset('web-assets/js/modernizr-3.5.0.min.js') }}"></script>
 
+    @if ($_SERVER['DOCUMENT_ROOT'] == '/var/www/vhosts/sports-bulletin.com/public_html')
     <!-- Global site tag (gtag.js) - Google Analytics -->
-    <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=UA-179040774-1"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-179040774-1"></script>
     <script>
     window.dataLayer = window.dataLayer || [];
 
@@ -45,7 +52,8 @@
     gtag('js', new Date());
 
     gtag('config', 'UA-179040774-1');
-    </script> -->
+    </script>
+    @endif
 
 </head>
 
