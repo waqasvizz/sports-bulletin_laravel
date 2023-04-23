@@ -59,10 +59,10 @@ Route::get('/clear-cache', function() {
 //     return '<h1>Dummy data added successfully</h1>';
 // });
 
-// Route::get('/storage-link', function() {
-//     Artisan::call("storage:link");
-//     return '<h1>storage link activated</h1>';
-// });
+Route::get('/storage-link', function() {
+    Artisan::call("storage:link");
+    return '<h1>storage link activated</h1>';
+});
     
 // Route::get('/queue-work', function() {
 //     Artisan::call("queue:work");
