@@ -6,8 +6,10 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0,minimal-ui">
-    <meta name="description" content="Vuexy admin is super flexible, powerful, clean &amp; modern responsive bootstrap 4 admin template with unlimited possibilities.">
-    <meta name="keywords" content="admin template, Vuexy admin template, dashboard template, flat admin template, responsive admin template, web app">
+    {{-- <meta name="description" content="Vuexy admin is super flexible, powerful, clean &amp; modern responsive bootstrap 4 admin template with unlimited possibilities.">
+    <meta name="keywords" content="admin template, Vuexy admin template, dashboard template, flat admin template, responsive admin template, web app"> --}}
+    <meta name="description" content="Checkout for the Latest and Top Sports bulletin News from Pakistan and around the world.">
+    <meta name="keywords" content="Sports, News, Pakistan, BASEBALL & SOFTBALL, CRICKET LGS, ICE HOCKEY, FOOTBALL, TABLE TENNIS, MARTIAL ARTS, SPORTS NEWS, SQUASH, KABADDI, BADMINTON, TENPIN BOWLING, ARTICLES, BILLARD & SNOOKER, PSB NEWS, OLYMPIC, ATHLETICS, BOXING, CLIMBING, WEIGHTLIFTING, GOLF, CYCLING, POLO, ARCHERY, BASKETBALL, CHESS, VOLLEYBALL, TENNIS, CRICKET, HOCKEY">
     <meta name="author" content="PIXINVENT">
     <title>{{ config('app.name') }} - @yield('title')</title>
     <link rel="apple-touch-icon" href="{{ asset('app-assets/images/ico/apple-icon-120.png') }}">
