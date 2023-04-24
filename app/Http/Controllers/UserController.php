@@ -24,6 +24,35 @@ class UserController extends Controller
     }
 
     public function testing() {
+		// news
+		$old_data = DB::connection('mysql2')->table('tbl_news')->paginate(200);
+		$count = 0;
+		foreach($old_data as $key => $value){
+		    echo '<br><pre>';print_r($value->id);'</pre>';
+		    $cat_detail = $this->SubCategorieObj->getSubCategories(['id' => $value->category_id, 'detail' => true]);
+		    $news_detail = $this->NewsObj->getNews(['id' => $value->id, 'detail' => true]);
+            if($cat_detail && !$news_detail){
+                echo ' (insert) ';
+                $data = array();
+                $data['id'] = $value->id;
+                $data['title'] = $value->title;
+                $data['categories_id'] = $cat_detail->category_id;
+                $data['sub_categories_id'] = $cat_detail->id;
+                $data['status'] = 'Published';
+                $data['news_date'] = $value->news_date;
+                $data['image_path'] = 'news_image/optimized/'.$value->image;
+                $data['news_description'] = $value->description;
+                $this->NewsObj->saveUpdateNews($data);
+            }else if($news_detail){
+                echo ' (update) ';
+                $data = array();
+                $data['update_id'] = $news_detail->id;
+                $data['views'] = $news_detail->views + 1;
+                $this->NewsObj->saveUpdateNews($data);
+            }
+		}
+
+
         echo '<pre>';print_r('ok');'</pre>';exit;
 		// category
         $old_data = DB::connection('mysql2')->table('tbl_main_category')->paginate(200);

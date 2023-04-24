@@ -61,6 +61,9 @@ class News extends Model
         if (isset($posted_data['news_slug'])) {
             $query = $query->where('news.news_slug', $posted_data['news_slug']);
         }
+        if (isset($posted_data['last_30_days'])) {
+            $query = $query->where('news.created_at', '>', now()->subDays(30)->endOfDay());
+        }
         if (isset($posted_data['category_slug'])) {
             $query = $query->where('categories.slug', $posted_data['category_slug']);
         }
@@ -140,6 +143,9 @@ class News extends Model
         }
         if (isset($posted_data['news_description'])) {
             $data->news_description = $posted_data['news_description'];
+        }
+        if (isset($posted_data['views'])) {
+            $data->views = $posted_data['views'];
         }
 
         $data->save();

@@ -4,6 +4,10 @@
 
 @php
     $popularNews = \App\Models\News::getNews([
+        // 'printsql' => true,
+        'last_30_days' => true,
+        'orderBy_name' => 'news.views',
+        'orderBy_value' => 'desc',
         'status' => 'Published',
         'paginate' => '10'
     ]);
@@ -36,33 +40,27 @@
 
 @endforeach
 
-
-<div class="fh5co_heading fh5co_heading_border_bottom pt-3 py-2 mb-4">Advertisement</div>
-
-
-
 @php
     $ownAdRecords = \App\Models\OwnAd::getOwnAd([
         'status' => 'Published',
         'paginate' => '10'
     ]);
 @endphp
-
-@foreach ($ownAdRecords as $key => $value)
-
-
-<div class="container">
-    <div class="row">
-        <div class="col-md-12 ads_sidebar_block">
-            <p class="text-center" style="margin: 0"><b>{{ $value->own_ad_title }}</b></p>
-            <a style="cursor: pointer" class="pop">
-                <img style="max-height: 200px;" class="pop"
-                    ads_detail="{{ $value->own_ad_description }}"
-                    ads_title="{{ $value->own_ad_title }}" src="{{ is_image_exist($value->own_ad_image) }}" alt="{{ $value->own_ad_title }}" width="100%">
-            </a>
-            <p class="ads_detail">{{ $value->own_ad_description }}</p>
+@if (isset($ownAdRecords) && count($ownAdRecords)>0)
+    <div class="fh5co_heading fh5co_heading_border_bottom pt-3 py-2 mb-4">Advertisement</div>
+    @foreach ($ownAdRecords as $key => $value)
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 ads_sidebar_block">
+                    <p class="text-center" style="margin: 0"><b>{{ $value->own_ad_title }}</b></p>
+                    <a style="cursor: pointer" class="pop">
+                        <img style="max-height: 200px;" class="pop"
+                            ads_detail="{{ $value->own_ad_description }}"
+                            ads_title="{{ $value->own_ad_title }}" src="{{ is_image_exist($value->own_ad_image) }}" alt="{{ $value->own_ad_title }}" width="100%">
+                    </a>
+                    <p class="ads_detail">{{ $value->own_ad_description }}</p>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
-
-@endforeach
+    @endforeach
+@endif

@@ -147,6 +147,14 @@ class Controller extends BaseController
         // $posted_data['printsql'] = true;
         $data['news_detail'] =  $this->NewsObj->getNews($posted_data);
 
+        if($data['news_detail']){
+            $views = $data['news_detail']->views + 1;
+            $this->NewsObj->saveUpdateNews([
+                'update_id' => $data['news_detail']->id,
+                'views' => $views
+            ]);
+        }
+
 
         
         $posted_data = array();
@@ -166,6 +174,13 @@ class Controller extends BaseController
             'detail' => true
         ]);
         if($data){
+            
+            $views = $data->views + 1;
+            $this->NewsObj->saveUpdateNews([
+                'update_id' => $data->id,
+                'views' => $views
+            ]);
+
             return redirect('news-detail/'.$data->news_slug);
         }else{
             abort(404);
