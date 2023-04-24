@@ -47,7 +47,7 @@ class UserController extends Controller
                 echo ' (update) ';
                 $data = array();
                 $data['update_id'] = $news_detail->id;
-                $data['views'] = $news_detail->views + 1;
+                $data['views'] = $value->views;
                 $this->NewsObj->saveUpdateNews($data);
             }
 		}
