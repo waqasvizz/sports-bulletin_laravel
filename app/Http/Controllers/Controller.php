@@ -175,11 +175,11 @@ class Controller extends BaseController
         ]);
         if($data){
             
-            $views = $data->views + 1;
-            $this->NewsObj->saveUpdateNews([
-                'update_id' => $data->id,
-                'views' => $views
-            ]);
+            // $views = $data->views + 1;
+            // $this->NewsObj->saveUpdateNews([
+            //     'update_id' => $data->id,
+            //     'views' => $views
+            // ]);
 
             return redirect('news-detail/'.$data->news_slug);
         }else{
