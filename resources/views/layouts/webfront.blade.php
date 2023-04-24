@@ -9,7 +9,8 @@
         <!-- publishers.propellerads meta tag end -->
 
         <meta name="google-site-verification" content="7FtPqv37iuqXeRunk8rbu1RxJTJD3rFnH6_fGNZYopk" />
-        <script data-ad-client="ca-pub-6768282844435410" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6768282844435410" crossorigin="anonymous"></script>
+        {{-- <script data-ad-client="ca-pub-6768282844435410" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> --}}
     @endif
     <!-- Required meta tags -->
     <meta name="csrf-token" content="{{ csrf_token() }}" />
