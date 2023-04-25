@@ -62,7 +62,7 @@ class SubCategorie extends Model
         if (isset($posted_data['orderBy_name']) && isset($posted_data['orderBy_value'])) {
             $query->orderBy($posted_data['orderBy_name'], $posted_data['orderBy_value']);
         } else {
-            $query->orderBy('id', 'DESC');
+            $query->orderBy('sub_categories.id', 'DESC');
         }
 
         if (isset($posted_data['paginate'])) {

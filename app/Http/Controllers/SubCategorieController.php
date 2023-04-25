@@ -281,6 +281,8 @@ class SubCategorieController extends Controller
     {
         $posted_data = array();
         $posted_data['category_id'] = $request->get('category');
+        $posted_data['orderBy_name'] = 'sub_categories.title';
+        $posted_data['orderBy_value'] = 'ASC';
         $data = $this->SubCategorieObj->getSubCategories($posted_data);
 
         $html = '<option value="">Choose an option</option>';

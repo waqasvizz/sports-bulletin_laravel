@@ -43,7 +43,10 @@ class NewsController extends Controller
 
     public function create()
     {
-        $data['categories'] = $this->CategorieObj::getCategories();
+        $data['categories'] = $this->CategorieObj::getCategories([
+            'orderBy_name' => 'categories.title',
+            'orderBy_value' => 'ASC'
+        ]);
         $data['news_status_const'] = \Config::get('constants.statusDraftPublished');
 
         return view('news.add', compact('data'));
@@ -140,7 +143,10 @@ class NewsController extends Controller
             'detail' => true
         ]);
         
-        $data['categories'] = $this->CategorieObj::getCategories();
+        $data['categories'] = $this->CategorieObj::getCategories([
+            'orderBy_name' => 'categories.title',
+            'orderBy_value' => 'ASC'
+        ]);
         $data['sub_categories'] = $this->SubCategorieObj::getSubCategories([
             'category_id' => $data['news_detail']->category_id,
         ]);

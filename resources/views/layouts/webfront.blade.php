@@ -63,7 +63,7 @@
 
     <div class="text-center top_nav">
         <div class="container">
-            <span style="background: green;"><a><i class="fa fa-clock-o"></i>&nbsp;&nbsp; Sunday, 27 Nov 2022</a></span>
+            <span style="background: green;"><a><i class="fa fa-clock-o"></i>&nbsp;&nbsp; {{ date('l, d M Y') }}</a></span>
             <span class="mobile_hide {{ Request::path() == 'about'? 'active':'' }}"><a href="{{ url('about' )}}">About Us</a></span>
             <span class="mobile_hide {{ Request::path() == 'privacy'? 'active':'' }}"> <a href="{{ url('privacy' )}}">Privacy policy</a></span>
             <span class="mobile_hide {{ Request::path() == 'terms'? 'active':'' }}"> <a href="{{ url('terms' )}}">TERMS AND CONDITIONS</a></span>

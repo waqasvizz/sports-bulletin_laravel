@@ -63,6 +63,9 @@ class News extends Model
         }
         if (isset($posted_data['last_30_days'])) {
             $query = $query->where('news.created_at', '>', now()->subDays(30)->endOfDay());
+            $query = $query->where('news.news_date', '>', now()->subDays(30)->endOfDay());
+
+            // echo '<pre>';print_r(now()->subDays(30)->endOfDay());echo '</pre>';
         }
         if (isset($posted_data['category_slug'])) {
             $query = $query->where('categories.slug', $posted_data['category_slug']);
