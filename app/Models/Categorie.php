@@ -26,7 +26,7 @@ class Categorie extends Model
         $this->attributes['slug'] = str_slug($value);
     }
 
-    public function getCategories($posted_data = array())
+    public static function getCategories($posted_data = array())
     {
         $query = Categorie::latest();
 

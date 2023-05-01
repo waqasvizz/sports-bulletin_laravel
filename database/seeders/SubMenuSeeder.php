@@ -251,7 +251,7 @@ class SubMenuSeeder extends Seeder
                         [
                             'menu_id' => 11,
                             'title' => 'Add',
-                            'url' => '/news/create',
+                            'url' => '/news_content/create',
                             'slug' => 'news-create',
                             'sort_order' => 1,
                             'status' => 'Published',
@@ -263,7 +263,7 @@ class SubMenuSeeder extends Seeder
                         [
                             'menu_id' => 11,
                             'title' => 'List',
-                            'url' => '/news',
+                            'url' => '/news_content',
                             'slug' => 'news-list',
                             'sort_order' => 2,
                             'status' => 'Published',

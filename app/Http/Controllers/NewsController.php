@@ -181,6 +181,7 @@ class NewsController extends Controller
         }
 
         $data = array();
+        $data['update_id'] = $requested_data['update_id'];
         $data['categories_id'] = $requested_data['category'];
         $data['sub_categories_id'] = $requested_data['sub_category'];
         $data['title'] = $requested_data['news_title'];
@@ -205,7 +206,7 @@ class NewsController extends Controller
                 $imageData['folderName'] = 'news_image';
                 
                 $uploadAssetRes = uploadAssets($imageData, $original = false, $optimized = true, $thumbnail = false);
-                $requested_data['image_path'] = $uploadAssetRes;
+                $data['image_path'] = $uploadAssetRes;
                 if(!$uploadAssetRes){
                     return back()->withErrors([
                         'news_image' => 'Something wrong with your image, please try again later!',
@@ -234,7 +235,7 @@ class NewsController extends Controller
         //     }
         // }
 
-        $update_rec = $this->NewsObj::saveUpdateNews($requested_data);
+        $update_rec = $this->NewsObj::saveUpdateNews($data);
 
         \Session::flash('message', 'News updated successfully!');
         return redirect('/news_content');

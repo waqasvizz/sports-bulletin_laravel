@@ -40,7 +40,7 @@ class News extends Model
     }
 
 
-    public function getNews($posted_data = array())
+    public static function getNews($posted_data = array())
     {
         $query = News::latest();
         $query = $query->with('category')->with('sub_category');

@@ -24,7 +24,7 @@ class Menu extends Model
         return $this->hasMany(SubMenu::class);
     }
 
-    public function getMenus($posted_data = array())
+    public static function getMenus($posted_data = array())
     {
         $query = Menu::latest();
 
