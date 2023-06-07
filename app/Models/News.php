@@ -59,7 +59,8 @@ class News extends Model
             $query = $query->where('news.status', 'like', '%' . $posted_data['status'] . '%');
         }
         if (isset($posted_data['news_slug'])) {
-            $query = $query->where('news.news_slug', $posted_data['news_slug']);
+            $query = $query->where('news.news_slug', 'like', '%' . $posted_data['news_slug'] . '%');
+            // $query = $query->where('news.news_slug', $posted_data['news_slug']);
         }
         if (isset($posted_data['last_30_days'])) {
             $query = $query->where('news.created_at', '>', now()->subDays(30)->endOfDay());

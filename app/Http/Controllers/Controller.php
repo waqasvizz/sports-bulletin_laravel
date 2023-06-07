@@ -153,18 +153,21 @@ class Controller extends BaseController
                 'update_id' => $data['news_detail']->id,
                 'views' => $views
             ]);
+            
+            $posted_data = array();
+            $posted_data['paginate'] = 6;
+            $posted_data['status'] = 'Published';
+            // $posted_data['news_slug'] = $slug;
+            // $posted_data['printsql'] = true;
+            $data['relevant'] =  $this->NewsObj->getNews($posted_data);
+            // echo '<pre>';print_r($data->ToArray());echo '</pre>';exit;
+            return view('news_detail', compact('data'));
         }
+        
+        return redirect('/');
 
 
         
-        $posted_data = array();
-        $posted_data['paginate'] = 6;
-        $posted_data['status'] = 'Published';
-        // $posted_data['news_slug'] = $slug;
-        // $posted_data['printsql'] = true;
-        $data['relevant'] =  $this->NewsObj->getNews($posted_data);
-        // echo '<pre>';print_r($data->ToArray());echo '</pre>';exit;
-        return view('news_detail', compact('data'));
     }
     
     public function single()
