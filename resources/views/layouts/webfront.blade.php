@@ -1,3 +1,7 @@
+<script>
+    const base_url = "{{ url('/') }}";
+    const asset_base_url = "{{ asset('/') }}";
+</script>
 <!DOCTYPE html>
 <html lang="en" class="no-js">
 
