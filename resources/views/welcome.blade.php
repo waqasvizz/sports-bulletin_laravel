@@ -22,7 +22,7 @@
                         <p><span style="background-color: {{ randomColor() }}"><a
                                     href="{{ url('/news') }}/{{ $value->category->slug }}">{{ $value->category->title }}
                                     - </a><a
-                                    href="{{ url('/news') }}/{{ $value->category->slug }}/{{ @$value->SubCategory->slug }}">{{ @$value }}</a></span>
+                                    href="{{ url('/news') }}/{{ $value->category->slug }}/{{ @$value->sub_category->slug }}">{{ @$value->sub_category->title }}</a></span>
                         </p>
                         <h1><a href="{{ url('/news-detail') }}/{{ $value->news_slug }}">{{ $value->title }}</a></h1>
                         <h5>{{ date('l, F d, Y', strtotime($value->news_date)) }}</h5>
@@ -129,7 +129,7 @@
                                         <div class="cat_div">
                                             <p style="margin-bottom: 10px;">
                                                 <!-- <a href="{{ url('/news') }}/{{ $value->category->slug }}">
-                                                    <b class="text-uppercase" style="background: {{ randomColor() }}">{{ $value->category->title }} - {{ $value->sub_category->slug }}</b>
+                                                    <b class="text-uppercase" style="background: {{ randomColor() }}">{{ $value->category->title }} - {{ @$value->sub_category->slug }}</b>
                                                 </a> -->
 
                                                 <b class="text-uppercase" style="background: {{ randomColor() }}">
@@ -137,7 +137,7 @@
                                                         href="{{ url('/news') }}/{{ $value->category->slug }}">{{ $value->category->title }}
                                                         - </a>
                                                     <a class="text-white"
-                                                        href="{{ url('/news') }}/{{ $value->category->slug }}/{{ $value->sub_category->slug }}">{{ $value->sub_category->title }}</a>
+                                                        href="{{ url('/news') }}/{{ $value->category->slug }}/{{ @$value->sub_category->slug }}">{{ @$value->sub_category->title }}</a>
                                                 </b>
 
 
