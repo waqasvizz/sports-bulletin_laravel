@@ -10,7 +10,7 @@
             <div class="row mx-0">
                 <div class="col-md-8 animate-box privacy" data-animate-effect="fadeInLeft">
                     <div class="fh5co_heading fh5co_heading_border_bottom py-2 mb-4">
-                        <b>{{ $data['news_detail']->category->title }} - {{ $data['news_detail']->sub_category->title }}</b>
+                        <b>{{ $data['news_detail']->category->title }} - {{ @$data['news_detail']->sub_category->title }}</b>
                         <span class="pull-right">{{ date("d M, Y", strtotime($data['news_detail']->news_date)) }}</span>
                     </div>
 

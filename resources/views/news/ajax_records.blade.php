@@ -41,7 +41,7 @@
                                 </div>
                             </td>
                             <td>{{ $item['category']['title'] }}</td>
-                            <td>{{ $item['sub_category']['title'] }}</td>
+                            <td>{{ @$item['sub_category']['title'] }}</td>
                             <td>{{ $item['title'] }}</td>
                             <td><span class="role-badge" style="background-color: {{ $color }}">{{ $item['status'] }}</span></td>
                             <td>{{ date('d, M Y', strtotime($item['news_date'])) }}</td>
