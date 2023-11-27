@@ -22,7 +22,7 @@
                         <p><span style="background-color: {{ randomColor() }}"><a
                                     href="{{ url('/news') }}/{{ $value->category->slug }}">{{ $value->category->title }}
                                     - </a><a
-                                    href="{{ url('/news') }}/{{ $value->category->slug }}/{{ $value->sub_category->slug }}">{{ $value->sub_category->title }}</a></span>
+                                    href="{{ url('/news') }}/{{ $value->category->slug }}/{{ @$value->sub_category->slug }}">{{ $value->sub_category->title }}</a></span>
                         </p>
                         <h1><a href="{{ url('/news-detail') }}/{{ $value->news_slug }}">{{ $value->title }}</a></h1>
                         <h5>{{ date('l, F d, Y', strtotime($value->news_date)) }}</h5>
