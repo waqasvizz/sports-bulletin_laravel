@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
+
 
 class OwnAd extends Model
 {
@@ -22,7 +24,7 @@ class OwnAd extends Model
     public function setOwnAdTitleAttribute($value)
     {
         $this->attributes['own_ad_title'] = $value;
-        $this->attributes['own_ad_slug'] = str_slug($value);
+        $this->attributes['own_ad_slug'] = Str::slug($value);
     }
 
     public static function getOwnAd($posted_data = array())

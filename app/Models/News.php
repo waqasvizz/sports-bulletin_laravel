@@ -4,6 +4,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
+
 use DB;
 
 class News extends Model
@@ -26,7 +28,7 @@ class News extends Model
     public function setTitleAttribute($value)
     {
         $this->attributes['title'] = $value;
-        $this->attributes['news_slug'] = str_slug($value);
+        $this->attributes['news_slug'] = Str::slug($value);
     }
 
     public function setNewsDescriptionAttribute($value)

@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
+
 
 class Blog extends Model
 {
@@ -22,7 +24,7 @@ class Blog extends Model
     public function setBlogTitleAttribute($value)
     {
         $this->attributes['blog_title'] = $value;
-        $this->attributes['blog_slug'] = str_slug($value);
+        $this->attributes['blog_slug'] = Str::slug($value);
     }
 
     public static function getBlog($posted_data = array())

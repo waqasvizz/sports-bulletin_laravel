@@ -13,7 +13,9 @@ use Illuminate\Database\Seeder;
 // use App\Models\User;
 // use Spatie\Permission\Models\Permission;
 // use Spatie\Permission\Models\Role;
+use Illuminate\Support\Str;
 use DB;
+
 use Exception;
 
 class CategorieSeeder extends Seeder
@@ -34,56 +36,56 @@ class CategorieSeeder extends Seeder
                     DB::table('categories')->insert([
                         [
                             'title' => 'HOCKEY',
-                            'slug' => str_slug('HOCKEY'),
+                            'slug' => Str::slug('HOCKEY'),
                             'sort_order' => 1,
                             'status' => 'Published',
                             'created_at' => now(),	
                             'updated_at' => now(),
                         ],[
                             'title' => 'CRICKET',
-                            'slug' => str_slug('CRICKET'),
+                            'slug' => Str::slug('CRICKET'),
                             'sort_order' => 2,
                             'status' => 'Published',
                             'created_at' => now(),	
                             'updated_at' => now(),
                         ],[
                             'title' => 'TENNIS',
-                            'slug' => str_slug('TENNIS'),
+                            'slug' => Str::slug('TENNIS'),
                             'sort_order' => 3,
                             'status' => 'Published',
                             'created_at' => now(),	
                             'updated_at' => now(),
                         ],[
                             'title' => 'VOLLEYBALL',
-                            'slug' => str_slug('VOLLEYBALL'),
+                            'slug' => Str::slug('VOLLEYBALL'),
                             'sort_order' => 4,
                             'status' => 'Published',
                             'created_at' => now(),	
                             'updated_at' => now(),
                         ],[
                             'title' => 'CHESS',
-                            'slug' => str_slug('CHESS'),
+                            'slug' => Str::slug('CHESS'),
                             'sort_order' => 5,
                             'status' => 'Published',
                             'created_at' => now(),	
                             'updated_at' => now(),
                         ],[
                             'title' => 'BASEBALL & BASKETBALL',
-                            'slug' => str_slug('BASEBALL & BASKETBALL'),
+                            'slug' => Str::slug('BASEBALL & BASKETBALL'),
                             'sort_order' => 6,
                             'status' => 'Published',
                             'created_at' => now(),	
                             'updated_at' => now(),
                         ],[
                             'title' => 'ARCHERY',
-                            'slug' => str_slug('ARCHERY'),
+                            'slug' => Str::slug('ARCHERY'),
                             'sort_order' => 7,
                             'status' => 'Published',
                             'created_at' => now(),	
                             'updated_at' => now(),
                         ],[
                             'title' => 'POLO',
-                            'slug' => str_slug('POLO'),
+                            'slug' => Str::slug('POLO'),
                             'sort_order' => 8,
                             'status' => 'Published',
                             'created_at' => now(),	

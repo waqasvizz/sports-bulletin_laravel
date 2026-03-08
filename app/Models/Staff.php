@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
+
 
 class Staff extends Model
 {
@@ -23,7 +25,7 @@ class Staff extends Model
     public function setStaffTitleAttribute($value)
     {
         $this->attributes['staff_title'] = $value;
-        $this->attributes['staff_slug'] = str_slug($value);
+        $this->attributes['staff_slug'] = Str::slug($value);
     }
 
     public static function getStaff($posted_data = array())

@@ -13,7 +13,9 @@ use Illuminate\Database\Seeder;
 // use App\Models\User;
 // use Spatie\Permission\Models\Permission;
 // use Spatie\Permission\Models\Role;
+use Illuminate\Support\Str;
 use DB;
+
 use Exception;
 
 class SubCategorieSeeder extends Seeder
@@ -30,7 +32,7 @@ class SubCategorieSeeder extends Seeder
                     DB::table('sub_categories')->insert([
                         [
                             'title' => 'Int News',
-                            'slug' => str_slug('Int News'),
+                            'slug' => Str::slug('Int News'),
                             'sort_order' => 1,
                             'category_id' => 8,
                             'status' => 'Published',
@@ -38,7 +40,7 @@ class SubCategorieSeeder extends Seeder
                             'updated_at' => now(),
                         ],[
                             'title' => 'Local News',
-                            'slug' => str_slug('Local News'),
+                            'slug' => Str::slug('Local News'),
                             'sort_order' => 2,
                             'category_id' => 8,
                             'status' => 'Published',
@@ -46,7 +48,7 @@ class SubCategorieSeeder extends Seeder
                             'updated_at' => now(),
                         ],[
                             'title' => 'National News',
-                            'slug' => str_slug('National News'),
+                            'slug' => Str::slug('National News'),
                             'sort_order' => 3,
                             'category_id' => 8,
                             'status' => 'Published',
@@ -54,7 +56,7 @@ class SubCategorieSeeder extends Seeder
                             'updated_at' => now(),
                         ],[
                             'title' => 'Blind',
-                            'slug' => str_slug('Blind'),
+                            'slug' => Str::slug('Blind'),
                             'sort_order' => 1,
                             'category_id' => 7,
                             'status' => 'Published',
@@ -62,7 +64,7 @@ class SubCategorieSeeder extends Seeder
                             'updated_at' => now(),
                         ],[
                             'title' => 'Int News',
-                            'slug' => str_slug('Int News'),
+                            'slug' => Str::slug('Int News'),
                             'sort_order' => 2,
                             'category_id' => 7,
                             'status' => 'Published',
@@ -70,7 +72,7 @@ class SubCategorieSeeder extends Seeder
                             'updated_at' => now(),
                         ],[
                             'title' => 'National News',
-                            'slug' => str_slug('National News'),
+                            'slug' => Str::slug('National News'),
                             'sort_order' => 3,
                             'category_id' => 7,
                             'status' => 'Published',

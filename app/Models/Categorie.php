@@ -12,6 +12,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
+
 use DB;
 
 class Categorie extends Model
@@ -23,7 +25,7 @@ class Categorie extends Model
     public function setTitleAttribute($value)
     {
         $this->attributes['title'] = $value;
-        $this->attributes['slug'] = str_slug($value);
+        $this->attributes['slug'] = Str::slug($value);
     }
 
     public static function getCategories($posted_data = array())
