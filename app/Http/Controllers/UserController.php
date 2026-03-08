@@ -150,12 +150,49 @@ class UserController extends Controller
         $previousEndDate = Carbon::createFromFormat('d/m/Y', $previousEndDate);
         $previousPeriod = Period::create($previousStartDate, $previousEndDate);
     
-        $data['analyticsData'] = Analytics::fetchTotalVisitorsAndPageViews($period)->ToArray();
-        $data['previousAnalyticsData'] = Analytics::fetchTotalVisitorsAndPageViews($previousPeriod)->ToArray();
-        $data['popular'] = Analytics::fetchMostVisitedPages($period, 2000)->ToArray();
-        $data['topReferrers'] = Analytics::fetchTopReferrers($period, 2000)->ToArray();
-        $data['userTypes'] = Analytics::fetchUserTypes($period)->ToArray();
-        $data['topBrowsers'] = Analytics::fetchTopBrowsers($period, 2000)->ToArray();
+        $data['analyticsData'] = Analytics::fetchTotalVisitorsAndPageViews($period)->map(function ($item) {
+            return [
+                'date' => $item['date'],
+                'visitors' => $item['activeUsers'],
+                'pageViews' => $item['screenPageViews'],
+            ];
+        })->toArray();
+
+        $data['previousAnalyticsData'] = Analytics::fetchTotalVisitorsAndPageViews($previousPeriod)->map(function ($item) {
+            return [
+                'date' => $item['date'],
+                'visitors' => $item['activeUsers'],
+                'pageViews' => $item['screenPageViews'],
+            ];
+        })->toArray();
+
+        $data['popular'] = Analytics::fetchMostVisitedPages($period, 2000)->map(function ($item) {
+            return [
+                'url' => $item['fullPageUrl'],
+                'pageViews' => $item['screenPageViews'],
+            ];
+        })->toArray();
+
+        $data['topReferrers'] = Analytics::fetchTopReferrers($period, 2000)->map(function ($item) {
+            return [
+                'url' => $item['pageReferrer'],
+                'pageViews' => $item['screenPageViews'],
+            ];
+        })->toArray();
+
+        $data['userTypes'] = Analytics::fetchUserTypes($period)->map(function ($item) {
+            return [
+                'type' => $item['newVsReturning'],
+                'sessions' => $item['activeUsers'],
+            ];
+        })->toArray();
+
+        $data['topBrowsers'] = Analytics::fetchTopBrowsers($period, 2000)->map(function ($item) {
+            return [
+                'browser' => $item['browser'],
+                'sessions' => $item['screenPageViews'],
+            ];
+        })->toArray();
         // echo '<pre>';print_r($data['previousAnalyticsData']);'</pre>';exit;
         $data['countries'] = Analytics::get(
             $period,
