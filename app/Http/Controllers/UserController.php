@@ -154,20 +154,24 @@ class UserController extends Controller
         $data['previousAnalyticsData'] = Analytics::fetchTotalVisitorsAndPageViews($previousPeriod)->ToArray();
         $data['popular'] = Analytics::fetchMostVisitedPages($period, 2000)->ToArray();
         $data['topReferrers'] = Analytics::fetchTopReferrers($period, 2000)->ToArray();
-        $data['userTypes'] = Analytics::fetchUserTypes($period, 2000)->ToArray();
+        $data['userTypes'] = Analytics::fetchUserTypes($period)->ToArray();
         $data['topBrowsers'] = Analytics::fetchTopBrowsers($period, 2000)->ToArray();
         // echo '<pre>';print_r($data['previousAnalyticsData']);'</pre>';exit;
-        $data['countries'] = Analytics::performQuery(
+        $data['countries'] = Analytics::get(
             $period,
-            'ga:sessions', // metrics
+            ['sessions', 'screenPageViews', 'activeUsers'],
+            ['country'],
+            2000,
             [
-                'metrics' => 'ga:sessions, ga:pageviews, ga:visitors',
-                'dimensions' => 'ga:country',
-                'sort' => '-ga:sessions',
-                'max-results' => 2000,
-            ],
-        );
-        $data['countries'] = $data['countries']->rows;
+                \Spatie\Analytics\OrderBy::dimension('sessions', true),
+            ]
+        )->map(function ($item) {
+            return [
+                $item['sessions'],
+                $item['screenPageViews'],
+                $item['activeUsers'],
+            ];
+        })->toArray();
     
     
         $data['requestData'] = $requestData;
@@ -412,7 +416,7 @@ class UserController extends Controller
 
                 \Session::flash('message', 'User Register Successfully!');
 
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 \Session::flash('error_message', $e->getMessage());
                 // dd("Error: ". $e->getMessage());
             }
@@ -575,7 +579,7 @@ class UserController extends Controller
                 \Session::flash('message', 'User Update Successfully!');
                 return redirect()->back();
 
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 \Session::flash('error_message', $e->getMessage());
                 // dd("Error: ". $e->getMessage());
             }
@@ -675,7 +679,7 @@ class UserController extends Controller
                 $this->UserObj->saveUpdateUser($posted_data);
                 \Session::flash('message', 'User Register Successfully!');
 
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 \Session::flash('error_message', $e->getMessage());
                 // dd("Error: ". $e->getMessage());
             }
