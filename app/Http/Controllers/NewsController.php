@@ -235,7 +235,7 @@ class NewsController extends Controller
         //     }
         // }
 
-        $update_rec = $this->NewsObj::saveUpdateNews($data);
+        $update_rec = $this->NewsObj->saveUpdateNews($data);
 
         \Session::flash('message', 'News updated successfully!');
         return redirect('/news_content');
