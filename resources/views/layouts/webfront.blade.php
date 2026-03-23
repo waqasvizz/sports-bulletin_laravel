@@ -6,7 +6,7 @@
 <html lang="en" class="no-js">
 
 <head>
-    @if ($_SERVER['DOCUMENT_ROOT'] == '/var/www/vhosts/sports-bulletin.com/public_html')
+    @if ($_SERVER['DOCUMENT_ROOT'] == '/home/u289994280/domains/sports-bulletin.com/public_html')
     
         <!-- publishers.propellerads meta tag start -->
         {{-- <meta name="propeller" content="debd68af98ba3e964e2bbb43f8f023d9"> --}}
@@ -45,7 +45,7 @@
     <!-- Modernizr JS -->
     <script src="{{ asset('web-assets/js/modernizr-3.5.0.min.js') }}"></script>
 
-    @if ($_SERVER['DOCUMENT_ROOT'] == '/var/www/vhosts/sports-bulletin.com/public_html')
+    @if ($_SERVER['DOCUMENT_ROOT'] == '/home/u289994280/domains/sports-bulletin.com/public_html')
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-179040774-1"></script>
     <script>
